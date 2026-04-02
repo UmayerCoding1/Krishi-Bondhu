@@ -3,6 +3,7 @@ import { Noto_Sans_Bengali } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Providers } from "@/provider/Providers";
+import { Footer } from "@/components/footer";
 
 
 const notoSansBengali = Noto_Sans_Bengali({
@@ -73,10 +74,11 @@ export default function RootLayout({
       className={`${notoSansBengali.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-display">
+      <body className="min-h-full  font-display">
         <Providers>
           <Navbar />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

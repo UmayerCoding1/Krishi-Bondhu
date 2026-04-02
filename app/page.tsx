@@ -1,5 +1,4 @@
 import { BenefitsSection } from '@/components/benefits-section'
-import { Footer } from '@/components/footer'
 import { Hero } from '@/components/hero'
 import PricingSection from '@/components/pricing-section'
 import { ProblemSection } from '@/components/problem-section'
@@ -17,7 +16,7 @@ export default function page() {
       <WorksSection />
       <BenefitsSection />
       <PricingSection />
-      <Footer />
+
 
 
     </div>
