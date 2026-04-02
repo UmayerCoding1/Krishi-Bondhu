@@ -37,12 +37,12 @@ export const WorksSection = () => {
 
 
 
-                <div className='flex items-center justify-evenly relative'>
+                <div className='flex flex-col md:flex-row items-center justify-evenly relative gap-12 md:gap-0'>
                     {workStep.map((step) => (
-                        <div key={step.index} className='z-10'>
+                        <div key={step.index} className='z-10 w-full md:w-auto'>
                             <div className='flex flex-col items-center gap-2 '>
-                                <div className={cn('w-20 h-20 rounded-full border-2 border-green-200 dark:border-green-800 dark:text-green-400 hover:border-green-500 dark:hover:border-green-500 transition-all duration-300 hover:scale-105 flex items-center justify-center text-green-800 shadow-md relative', step.index === 2 && 'bg-green-500 text-white dark:text-white border-white hover:border-white')}>
-                                    <p className={cn('text-2xl  font-bold')}> {step.index}</p>
+                                <div className={cn('w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-green-200 dark:border-green-800 dark:text-green-400 hover:border-green-500 dark:hover:border-green-500 transition-all duration-300 hover:scale-105 flex items-center justify-center text-green-800 shadow-md relative', step.index === 2 && 'bg-green-500 text-white dark:text-white border-white hover:border-white')}>
+                                    <p className={cn('text-2xl md:text-3xl font-bold')}> {step.index}</p>
 
 
                                     {step.icon}
@@ -50,14 +50,14 @@ export const WorksSection = () => {
 
 
                                 </div>
-                                <div className='flex flex-col items-center gap-2 mt-3 '>
-                                    <h2 className='text-2xl font-bold'>{step.title}</h2>
-                                    <p className='w-72 text-center text-[12px] text-neutral-500 dark:text-neutral-400'>{step.description}</p>
+                                <div className='flex flex-col items-center gap-2 mt-4 md:mt-3 '>
+                                    <h2 className='text-xl md:text-2xl font-bold'>{step.title}</h2>
+                                    <p className='w-full max-w-[280px] text-center text-xs md:text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed'>{step.description}</p>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <div className='hidden md:block absolute top-12 left-[22.5%] right-[22.5%] h-1 border-t-2 border-dashed border-gray-300 z-0 ' />
+                    <div className='hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 border-t-2 border-dashed border-green-200 dark:border-green-800/30 z-0' />
                 </div>
             </div>
         </Container>
