@@ -4,9 +4,9 @@ import React from 'react'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 
-export const AppButton = ({ children, className, buttonType = 'primary' }: { children: React.ReactNode, className?: string, buttonType?: "primary" | "secondary" | "outline" }) => {
+export const AppButton = ({ children, className, buttonType = 'primary', ...props }: { children: React.ReactNode, className?: string, buttonType?: "primary" | "secondary" | "outline", onClick?: () => void }) => {
     return (
-        <Button className={cn(
+        <Button {...props} className={cn(
             buttonType === 'primary' && 'bg-linear-to-r from-primary to-secondary text-white hover:bg-secondary/50 dark:hover:bg-secondary/80 flex items-center justify-center',
             buttonType === 'secondary' && 'bg-secondary  hover:bg-secondary/50 dark:hover:bg-secondary/80 flex items-center justify-center font-semibold',
             'h-[31px]',

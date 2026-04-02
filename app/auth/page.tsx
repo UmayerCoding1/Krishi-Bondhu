@@ -9,7 +9,7 @@ import { Check } from 'lucide-react'
 import React from 'react'
 
 export default function page() {
-    const [authType, setAuthType] = React.useState<'login' | 'register'>('register')
+    const [authType, setAuthType] = React.useState<'login' | 'register'>('login')
     return (
 
         <div className='max-w-6xl mx-auto h-screen p-10 '>

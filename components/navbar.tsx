@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Logo } from './logo';
 import ModeToggle from './theme-toggle';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { LogIn, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -15,6 +15,7 @@ import { motion } from 'motion/react';
 export const Navbar = () => {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
+    const route = useRouter();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -95,6 +96,7 @@ export const Navbar = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.6, duration: 0.5 }}
                             className='flex items-center gap-4 border-l border-border pl-4'
+                            onClick={() => route.push('/auth')}
                         >
                             <ModeToggle />
                             <AppButton className='text-lg'>
@@ -156,6 +158,7 @@ export const Navbar = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.4 }}
                                     className="mt-auto pt-6 border-t border-border/50"
+                                    onClick={() => route.push('/auth')}
                                 >
                                     <Button className="w-full rounded-full py-6 text-lg font-display font-medium shadow-md">
                                         শুরু করুন

@@ -5,8 +5,10 @@ import { AppButton } from './app-button'
 import { ArrowRight, Play } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react';
+import { useRouter } from 'next/navigation'
 
 export const Hero = () => {
+    const route = useRouter();
     return (
         <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -46,7 +48,7 @@ export const Hero = () => {
                     </p>
 
                     <div className='flex flex-wrap items-center gap-3 mt-4'>
-                        <AppButton className='text-lg flex items-center gap-2'>
+                        <AppButton onClick={() => route.push('/auth')} className='text-lg flex items-center gap-2'>
                             শুরু করুন <ArrowRight size={18} />
                         </AppButton>
                         <AppButton
