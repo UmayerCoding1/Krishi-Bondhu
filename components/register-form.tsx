@@ -36,8 +36,8 @@ export const RegisterForm = () => {
                     <Input value={registerData.name} onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })} type="text" placeholder="আপনার নাম" />
                 </div>
                 <div>
-                    <Label className='block text-sm font-bold text-gray-700 mb-2'>মোবাইল নম্বর</Label>
-                    <Input value={registerData.phone} onChange={(e) => setRegisterData({ ...registerData, phone: e.target.value })} type="text" placeholder="01XXXXXXXXX" />
+                    <Label className='block text-sm font-bold text-gray-700 mb-2'>আপনার ইমেল</Label>
+                    <Input value={registerData.phone} onChange={(e) => setRegisterData({ ...registerData, phone: e.target.value })} type="email" placeholder="[EMAIL_ADDRESS]" />
                 </div>
                 <div>
                     <Label className='block text-sm font-bold text-gray-700 mb-2'>পাসওয়ার্ড</Label>

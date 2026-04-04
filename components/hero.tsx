@@ -6,9 +6,12 @@ import { ArrowRight, Play } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
 
 export const Hero = () => {
+    const { user } = useAuth();
     const route = useRouter();
+    console.log('user', user)
     return (
         <motion.div
             initial={{ opacity: 0, y: -20 }}

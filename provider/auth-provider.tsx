@@ -1,0 +1,81 @@
+'use client'
+
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import { createContext, useEffect, useState } from "react"
+
+
+
+type User = {
+    _id: string
+    name: string
+    email: string
+    isVerified: boolean
+    accessToken: string
+
+}
+type AuthContextType = {
+    user: User | null
+    loading: boolean
+    isAuthenticated: boolean
+    logout: () => Promise<void>
+    refreshUser: () => Promise<void>
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+    const [user, setUser] = useState<User | null>(null)
+    const [loading, setLoading] = useState(true)
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const router = useRouter()
+
+    const getCurrentUser = async () => {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/me`, { withCredentials: true })
+            setUser(response.data.data)
+            setIsAuthenticated(true)
+        } catch (error) {
+            console.log(error);
+            setIsAuthenticated(false);
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getCurrentUser()
+    }, [])
+
+
+
+
+    const logout = async () => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`, { withCredentials: true })
+            console.log(response.data);
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setUser(null)
+            setIsAuthenticated(false)
+            setLoading(false)
+            router.push('/')
+        }
+    }
+
+
+    const refreshUser = async () => {
+        setLoading(true)
+        setIsAuthenticated(false)
+        setUser(null)
+        setLoading(false)
+    }
+
+    return (
+        <AuthContext.Provider value={{ user, loading, isAuthenticated, logout, refreshUser }}>
+            {children}
+        </AuthContext.Provider>
+    )
+}

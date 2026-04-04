@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Providers } from "@/provider/Providers";
 import { Footer } from "@/components/footer";
+import { AuthProvider } from "@/provider/auth-provider";
 
 
 const notoSansBengali = Noto_Sans_Bengali({
@@ -75,11 +76,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full  font-display">
-        <Providers>
-          <Navbar />
-          {children}
-          <Footer />
-        </Providers>
+        <AuthProvider>
+
+          <Providers>
+
+            {children}
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );
