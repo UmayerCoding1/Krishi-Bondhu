@@ -11,6 +11,7 @@ import { WorksSection } from './works-section';
 
 export const HomePage = () => {
     const { user } = useAuth();
+    console.log(user)
     return (
         <div className=''>
 

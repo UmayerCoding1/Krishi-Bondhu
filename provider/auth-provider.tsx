@@ -6,13 +6,12 @@ import { createContext, useEffect, useState } from "react"
 
 
 
-type User = {
+export type User = {
     _id: string
     name: string
     email: string
+    avatar: string
     isVerified: boolean
-    accessToken: string
-
 }
 type AuthContextType = {
     user: User | null
@@ -46,7 +45,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         getCurrentUser()
-    }, [])
+    }, [router])
 
 
 
