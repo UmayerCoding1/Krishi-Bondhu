@@ -8,6 +8,7 @@ import { ProblemSection } from './problem-section';
 import { Servies } from './servies';
 import { SolutionSection } from './solution-section';
 import { WorksSection } from './works-section';
+import { Overview } from './dashboard/overview';
 
 export const HomePage = () => {
     const { user } = useAuth();
@@ -16,7 +17,8 @@ export const HomePage = () => {
         <div className=''>
 
             {user ? <>
-                dashboard</> : <>
+                <Overview />
+            </> : <>
                 <Hero />
                 <ProblemSection />
                 <SolutionSection />
