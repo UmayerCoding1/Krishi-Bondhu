@@ -1,7 +1,7 @@
 'use client'
 
 import { Logo } from '../logo'
-import { Bell, ChevronDown, Command, Search, Menu, LogOut, Settings, User as UserIcon } from 'lucide-react';
+import { Bell, ChevronDown, Command, Search, Menu, LogOut, Settings, User as UserIcon, RefreshCcw } from 'lucide-react';
 import { User } from '@/provider/auth-provider';
 import { useAuth } from '@/hooks/useAuth';
 import Image from 'next/image';
@@ -10,11 +10,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 import ModeToggle from '../theme-toggle';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 
-export const DashboardNavbar = () => {
+export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) => {
     const { user } = useAuth();
     const [isFocused, setIsFocused] = useState(false);
-
+    const route = useRouter();
     if (!user) return null;
 
     return (
@@ -32,7 +33,8 @@ export const DashboardNavbar = () => {
             <div className='md:hidden px-4'>
                 <motion.button
                     whileTap={{ scale: 0.9 }}
-                    className='p-2 hover:bg-neutral-100 rounded-lg transition-colors'
+                    onClick={onMenuClick}
+                    className='p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors'
                 >
                     <Menu size={20} />
                 </motion.button>
@@ -67,6 +69,7 @@ export const DashboardNavbar = () => {
                 </button>
 
                 <div className='flex items-center gap-3 md:gap-5'>
+                    <RefreshCcw size={18} onClick={() => route.refresh()} className='cursor-pointer hover:text-primary transition-colors' />
                     <ModeToggle />
                     {/* Notifications */}
                     <motion.div

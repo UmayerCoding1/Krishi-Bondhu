@@ -11,8 +11,10 @@ import { ChartSvg } from '../button/chart-svg';
 import { BootSvg } from '../button/boot-svg';
 import { motion, AnimatePresence } from 'motion/react';
 
-export const DashboardSidebar = () => {
+export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClose?: () => void }) => {
     const [activeLink, setActiveLink] = useState('/');
+    const pathName = usePathname();
+
     const navLinks = [
         {
             title: 'ওভারভিউ',
@@ -76,26 +78,30 @@ export const DashboardSidebar = () => {
             )
         }
     ];
-    const pathName = usePathname();
-
 
     useEffect(() => {
         setActiveLink(pathName);
     }, [pathName]);
-    return (
+
+    const SidebarContent = (
         <motion.div
             initial="hidden"
             animate="show"
+            exit="hidden"
             variants={{
-                hidden: { opacity: 0 },
+                hidden: { x: -264, opacity: 0 },
                 show: {
+                    x: 0,
                     opacity: 1,
                     transition: {
-                        staggerChildren: 0.1
+                        staggerChildren: 0.1,
+                        type: 'spring',
+                        damping: 25,
+                        stiffness: 200
                     }
                 }
             }}
-            className='w-64 h-[calc(100vh-4rem)] border-r shadow-md dark:bg-neutral-800 border-neutral-200 dark:border-neutral-600 overflow-y-auto'
+            className='w-64 h-[calc(100vh-4rem)] border-r shadow-md dark:bg-neutral-800 border-neutral-200 dark:border-neutral-600 overflow-y-auto bg-white '
         >
             <div className="py-4">
                 {
@@ -112,12 +118,16 @@ export const DashboardSidebar = () => {
                             >
                                 <Link
                                     href={link.href}
+                                    onClick={() => {
+                                        if (window.innerWidth < 768 && onClose) {
+                                            onClose();
+                                        }
+                                    }}
                                     className={cn(
                                         'flex items-center gap-3 py-2.5 px-4 rounded-xl transition-colors duration-200 group relative',
                                         isActive ? 'text-primary' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200'
                                     )}
                                 >
-                                    {/* Active background indicator */}
                                     {isActive && (
                                         <motion.div
                                             layoutId="active-pill"
@@ -131,7 +141,6 @@ export const DashboardSidebar = () => {
                                         />
                                     )}
 
-                                    {/* Active side indicator */}
                                     {isActive && (
                                         <motion.div
                                             layoutId="active-bar"
@@ -157,7 +166,6 @@ export const DashboardSidebar = () => {
                                         {link.title}
                                     </span>
 
-                                    {/* Hover effect for non-active items */}
                                     {!isActive && (
                                         <motion.div
                                             className="absolute inset-0 bg-neutral-100 dark:bg-neutral-700/50 rounded-xl opacity-0 group-hover:opacity-100 -z-10"
@@ -172,5 +180,34 @@ export const DashboardSidebar = () => {
                 }
             </div>
         </motion.div>
+    );
+
+    return (
+        <>
+            {/* Desktop Sidebar */}
+            <div className='hidden md:block sticky top-16'>
+                {SidebarContent}
+            </div>
+
+            {/* Mobile Sidebar Overlay */}
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={onClose}
+                            className='fixed inset-0 bg-black/40 backdrop-blur-sm z-50 md:hidden'
+                        />
+                        {/* Drawer */}
+                        <div className='fixed inset-y-0 left-0 z-50 md:hidden pt-16'>
+                            {SidebarContent}
+                        </div>
+                    </>
+                )}
+            </AnimatePresence>
+        </>
     )
 }
