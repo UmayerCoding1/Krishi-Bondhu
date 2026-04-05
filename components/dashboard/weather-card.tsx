@@ -9,9 +9,10 @@ interface WeatherCardProps {
     weatherData: { temp: number; rain: string; wind: number } | null;
     fullWeekWeatherData: { day: string; temp: number; weather: string }[] | null;
     locationName: { area: string; city: string } | null;
+    setWeatherStatus: (status: string) => void;
 }
 
-export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName }: WeatherCardProps) => {
+export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, setWeatherStatus }: WeatherCardProps) => {
     const { user } = useAuth();
     const now = new Date();
     const day = now.toLocaleDateString('bn-BD', { weekday: 'long' });
@@ -40,6 +41,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName }: 
         const translateText = async () => {
             const translated = await handleTranslate(weatherData?.rain || '')
             setTranslatedText(translated || '')
+            setWeatherStatus(weatherData?.rain || '')
         }
         translateText()
     }, [weatherData?.rain])

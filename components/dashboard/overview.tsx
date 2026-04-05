@@ -22,6 +22,7 @@ export const Overview = () => {
     const [locationName, setLocationName] = useState<{ area: string; city: string } | null>(null);
     const [alert, setAlert] = useState<{ type: string; message: string } | null>(null);
     const [isAlertDismissed, setIsAlertDismissed] = useState(false);
+    const [weatherStatus, setWeatherStatus] = useState('');
     const route = useRouter();
 
     useEffect(() => {
@@ -73,9 +74,45 @@ export const Overview = () => {
             }
         }
         fetchFullWeekWeatherData();
-    }, [location])
+    }, [location]);
 
-    console.log('alert', alert)
+
+    const handleWeatherStatusMatchImage = (status: string) => {
+        console.log('status', status)
+        if (status === 'rain') {
+            return '/assets/rain-bg.png';
+        } else if (status === 'clear') {
+            return '/assets/Clear-bg.png';
+        } else if (status === 'clouds') {
+            return '/assets/card-bg.png';
+        } else if (status === 'haze') {
+            return '/assets/haze-bg.png';
+        } else if (status === 'mist') {
+            return '/assets/mist.bg.png';
+        }
+        //  else if (weatherStatus === 'Fog') { 
+        //     return '/assets/fog.jpg';
+        // } else if (weatherStatus === 'Drizzle') {
+        //     return '/assets/drizzle.jpg';
+        // } else if (weatherStatus === 'Thunderstorm') {
+        //     return '/assets/thunderstorm.jpg';
+        // } else if (weatherStatus === 'Snow') {
+        //     return '/assets/snow.jpg';
+        // } else if (weatherStatus === 'Sand') {
+        //     return '/assets/sand.jpg';
+        // } else if (weatherStatus === 'Ash') {
+        //     return '/assets/ash.jpg';
+        // } else if (weatherStatus === 'Squall') {
+        //     return '/assets/squall.jpg';
+        // } else if (weatherStatus === 'Tornado') {
+        //     return '/assets/tornado.jpg';
+        // }
+        else {
+            return '/assets/card-bg.png';
+        }
+    }
+
+
     if (!location) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
@@ -122,7 +159,7 @@ export const Overview = () => {
                 {/* Hero Section: Weather & Greetings */}
                 <div className='w-full relative rounded-3xl min-h-64 overflow-hidden shadow-2xl border border-white/20'>
                     <Image
-                        src="/assets/card-bg.png"
+                        src={handleWeatherStatusMatchImage(weatherStatus.toLowerCase())}
                         alt="weather-background"
                         width={2000}
                         height={2000}
@@ -133,6 +170,8 @@ export const Overview = () => {
                             weatherData={weatherData}
                             fullWeekWeatherData={fullWeekWeatherData}
                             locationName={locationName}
+                            // weatherStatus={weatherStatus}
+                            setWeatherStatus={setWeatherStatus}
                         />
                     </div>
                 </div>
