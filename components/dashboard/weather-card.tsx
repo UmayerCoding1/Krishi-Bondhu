@@ -10,9 +10,10 @@ interface WeatherCardProps {
     fullWeekWeatherData: { day: string; temp: number; weather: string }[] | null;
     locationName: { area: string; city: string } | null;
     setWeatherStatus: (status: string) => void;
+    weatherStatus: string;
 }
 
-export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, setWeatherStatus }: WeatherCardProps) => {
+export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, setWeatherStatus, weatherStatus }: WeatherCardProps) => {
     const { user } = useAuth();
     const now = new Date();
     const day = now.toLocaleDateString('bn-BD', { weekday: 'long' });
@@ -35,16 +36,34 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
     };
 
 
-    const [translatedText, setTranslatedText] = useState('');
+
+
+
+    const [translatedArea, setTranslatedArea] = useState('');
+    const [translatedCity, setTranslatedCity] = useState('');
 
     useEffect(() => {
-        const translateText = async () => {
-            const translated = await handleTranslate(weatherData?.rain || '')
-            setTranslatedText(translated || '')
-            setWeatherStatus(weatherData?.rain || '')
-        }
-        translateText()
-    }, [weatherData?.rain])
+        const translate = async () => {
+            const area = await handleTranslate(locationName?.area || 'খুঁজছি...');
+            const city = await handleTranslate(locationName?.city || '');
+
+            setTranslatedArea(area || 'খুঁজছি...');
+            setTranslatedCity(city || '');
+        };
+
+        translate();
+    }, [locationName]);
+
+    useEffect(() => {
+        if (!weatherData) return;
+
+        const translate = async () => {
+            const translated = await handleTranslate(weatherData.rain || '');
+            setWeatherStatus(translated || '');
+        };
+
+        translate();
+    }, [weatherData]);
 
     return (
         <div className="w-full h-full flex flex-col justify-between gap-6">
@@ -87,7 +106,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
                     </div>
                     <div>
                         <p className="text-[10px] text-neutral-400 uppercase">অবস্থান</p>
-                        <p className="text-sm font-medium truncate">{locationName?.area || 'খুঁজছি...'}, {locationName?.city || ''}</p>
+                        <p className="text-sm font-medium truncate">{translatedArea}, {translatedCity}</p>
                     </div>
                 </div>
 
@@ -108,7 +127,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
                     <div>
                         <p className="text-[10px] text-neutral-400 uppercase">আবহাওয়া</p>
                         {/* <p className="text-sm font-medium">{weatherData ? handleTranslate(weatherData.rain) : '--'}</p> */}
-                        <p className="text-sm font-medium">{weatherData ? translatedText : '--'}</p>
+                        <p className="text-sm font-medium">{weatherStatus}</p>
                     </div>
                 </div>
             </div>

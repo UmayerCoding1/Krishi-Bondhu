@@ -4,6 +4,7 @@ const handleTranslate = async (text: string) => {
   if (!text) return;
   try {
     // Direct frontend-to-API call
+    console.log(text)
     const translated = await translate(text, { to: 'bn' });
     return translated;
   } catch (error) {

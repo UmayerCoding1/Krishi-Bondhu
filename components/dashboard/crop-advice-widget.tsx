@@ -3,6 +3,8 @@ import React from 'react';
 import { SummaryCard } from './summary-card';
 import { Leaf, Sprout, Droplets } from 'lucide-react';
 import { motion } from 'motion/react';
+import { cn } from '@/lib/utils';
+
 
 export const CropAdviceWidget = () => {
     const recommendations = [
@@ -15,34 +17,43 @@ export const CropAdviceWidget = () => {
         <SummaryCard 
             title="ফসলের পরামর্শ" 
             icon={Leaf}
-            iconColor="text-green-500"
-            bgColor="bg-green-500/10"
+            iconColor="text-emerald-500"
+            bgColor="bg-emerald-500/10"
         >
-            <div className="space-y-4">
+            <div className="space-y-3 relative z-10">
                 {recommendations.map((item, index) => (
                     <motion.div 
                         key={index} 
-                        initial={{ x: -10, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="flex items-center gap-4 p-3 rounded-xl border border-neutral-100 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+                        initial={{ x: 20, opacity: 0 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 + 0.4 }}
+                        className="group/item flex items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-emerald-500/30 transition-all duration-300"
                     >
-                        <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center text-green-600">
+                        <div className={cn(
+                            "w-12 h-12 rounded-xl flex items-center justify-center text-emerald-600 transition-transform duration-500 group-hover/item:scale-110 group-hover/item:rotate-6",
+                            item.status === 'অতি জরুরি' ? "bg-red-500/10 text-red-500" : "bg-emerald-500/10 text-emerald-500"
+                        )}>
                             {item.icon}
                         </div>
                         <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                                <p className="text-sm font-bold text-neutral-800 dark:text-neutral-200">{item.name}</p>
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-600 font-bold uppercase">{item.status}</span>
+                            <div className="flex items-center justify-between mb-1">
+                                <p className="text-sm font-black text-neutral-800 dark:text-neutral-100">{item.name}</p>
+                                <span className={cn(
+                                    "text-[9px] px-2 py-0.5 rounded-full font-black uppercase tracking-tighter",
+                                    item.status === 'অতি জরুরি' ? "bg-red-500/10 text-red-500" : "bg-emerald-500/10 text-emerald-500"
+                                )}>
+                                    {item.status}
+                                </span>
                             </div>
-                            <p className="text-[10px] text-neutral-500 uppercase tracking-widest">{item.task}</p>
+                            <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">{item.task}</p>
                         </div>
                     </motion.div>
                 ))}
             </div>
-            <button className="w-full mt-4 py-2 bg-green-500/10 hover:bg-green-500/20 text-green-600 text-xs font-bold rounded-xl transition-colors">
+            <button className="w-full mt-6 py-4 bg-emerald-600/10 hover:bg-emerald-600 text-emerald-600 hover:text-white text-sm font-black rounded-[1.5rem] transition-all duration-500 shadow-lg shadow-emerald-600/5 active:scale-95">
                 আরো পরামর্শ দেখুন
             </button>
         </SummaryCard>
+
     );
 };

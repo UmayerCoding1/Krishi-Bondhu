@@ -79,15 +79,15 @@ export const Overview = () => {
 
     const handleWeatherStatusMatchImage = (status: string) => {
         console.log('status', status)
-        if (status === 'rain') {
+        if (status === 'বৃষ্টি') {
             return '/assets/rain-bg.png';
-        } else if (status === 'clear') {
+        } else if (status === 'পরিষ্কার') {
             return '/assets/Clear-bg.png';
-        } else if (status === 'clouds') {
+        } else if (status === 'মেঘলা') {
             return '/assets/card-bg.png';
-        } else if (status === 'haze') {
+        } else if (status === 'হালকা কুয়াশা') {
             return '/assets/haze-bg.png';
-        } else if (status === 'mist') {
+        } else if (status === 'কুয়াশা') {
             return '/assets/mist.bg.png';
         }
         //  else if (weatherStatus === 'Fog') { 
@@ -170,7 +170,7 @@ export const Overview = () => {
                             weatherData={weatherData}
                             fullWeekWeatherData={fullWeekWeatherData}
                             locationName={locationName}
-                            // weatherStatus={weatherStatus}
+                            weatherStatus={weatherStatus}
                             setWeatherStatus={setWeatherStatus}
                         />
                     </div>
