@@ -28,6 +28,15 @@ export const getWeatherData = async (latitude: number, longitude: number) => {
     return data;
 };
 
+export const getSunriseSunset = async (latitude: number, longitude: number) => {
+    const data = await getWeatherData(latitude, longitude);
+    return {
+        sunrise: data.sys.sunrise,
+        sunset: data.sys.sunset
+    };
+};
+
+
 export const getCityName = async (latitude: number, longitude: number) => {
     const response = await fetch(
         `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}`
@@ -38,7 +47,7 @@ export const getCityName = async (latitude: number, longitude: number) => {
     if (!data || data.length === 0) {
         return "Unknown Location";
     }
-    console.log(data)
+    console.log(data);
     return {
         area: data[0].name,
         city: data[0].state,

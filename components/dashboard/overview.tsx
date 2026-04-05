@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 
 export const Overview = () => {
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
-    const [weatherData, setWeatherData] = useState<{ temp: number; rain: string; wind: number } | null>(null);
+    const [weatherData, setWeatherData] = useState<{ temp: number; rain: string; wind: number; sunrise: number; sunset: number } | null>(null);
     const [fullWeekWeatherData, setFullWeekWeatherData] = useState<{ day: string; temp: number; weather: string }[] | null>(null);
     const [locationName, setLocationName] = useState<{ area: string; city: string } | null>(null);
     const [alert, setAlert] = useState<{ type: string; message: string } | null>(null);
@@ -54,11 +54,14 @@ export const Overview = () => {
                 const temp = weatherData.main.temp - 273.15; // Convert Kelvin to Celsius
                 const rain = weatherData.weather[0].main;
                 const wind = weatherData.wind.speed;
-                setWeatherData({ temp, rain, wind })
+                const sunrise = weatherData.sys.sunrise;
+                const sunset = weatherData.sys.sunset;
+                setWeatherData({ temp, rain, wind, sunrise, sunset })
             } catch (err) {
                 console.error(err);
             }
         };
+
 
         fetchWeatherData();
     }, [location]);

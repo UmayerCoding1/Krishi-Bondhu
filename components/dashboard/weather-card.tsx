@@ -1,12 +1,12 @@
 import { useAuth } from '@/hooks/useAuth'
 import React, { useEffect, useState } from 'react'
-import { Cloud, CloudRain, Sun, Wind, MapPin, Thermometer, Calendar } from 'lucide-react';
+import { Cloud, CloudRain, Sun, Wind, MapPin, Thermometer, Calendar, Sunrise, Sunset } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import handleTranslate from '@/lib/convertTextInBangla';
 
 interface WeatherCardProps {
-    weatherData: { temp: number; rain: string; wind: number } | null;
+    weatherData: { temp: number; rain: string; wind: number; sunrise: number; sunset: number } | null;
     fullWeekWeatherData: { day: string; temp: number; weather: string }[] | null;
     locationName: { area: string; city: string } | null;
     setWeatherStatus: (status: string) => void;
@@ -28,16 +28,18 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
         return 'রাত';
     }
 
+    const formatTimeBn = (unixTimestamp: number | undefined) => {
+        if (!unixTimestamp) return '--:--';
+        const date = new Date(unixTimestamp * 1000);
+        return date.toLocaleTimeString('bn-BD', { hour: 'numeric', minute: '2-digit', hour12: true });
+    };
+
     const getWeatherIcon = (description: string) => {
         const desc = description.toLowerCase();
         if (desc.includes('rain')) return <CloudRain className="text-blue-400" size={24} />;
         if (desc.includes('cloud')) return <Cloud className="text-gray-400" size={24} />;
         return <Sun className="text-yellow-400" size={24} />;
     };
-
-
-
-
 
     const [translatedArea, setTranslatedArea] = useState('');
     const [translatedCity, setTranslatedCity] = useState('');
@@ -99,7 +101,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
             </div>
 
             {/* Middle Section: Location & Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div className="flex items-center gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
                     <div className="p-2 bg-primary/20 rounded-lg">
                         <MapPin size={20} className="text-primary" />
@@ -126,8 +128,27 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
                     </div>
                     <div>
                         <p className="text-[10px] text-neutral-400 uppercase">আবহাওয়া</p>
-                        {/* <p className="text-sm font-medium">{weatherData ? handleTranslate(weatherData.rain) : '--'}</p> */}
                         <p className="text-sm font-medium">{weatherStatus}</p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
+                    <div className="p-2 bg-orange-500/20 rounded-lg">
+                        <Sunrise size={20} className="text-orange-400" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] text-neutral-400 uppercase">সূর্যোদয়</p>
+                        <p className="text-sm font-medium">{formatTimeBn(weatherData?.sunrise)}</p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
+                    <div className="p-2 bg-purple-500/20 rounded-lg">
+                        <Sunset size={20} className="text-purple-400" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] text-neutral-400 uppercase">সূর্যাস্ত</p>
+                        <p className="text-sm font-medium">{formatTimeBn(weatherData?.sunset)}</p>
                     </div>
                 </div>
             </div>
@@ -160,3 +181,4 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
         </div>
     )
 }
+
