@@ -8,6 +8,8 @@ import Image from 'next/image';
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
+import ModeToggle from '../theme-toggle';
+import { useTheme } from 'next-themes';
 
 export const DashboardNavbar = () => {
     const { user } = useAuth();
@@ -16,10 +18,10 @@ export const DashboardNavbar = () => {
     if (!user) return null;
 
     return (
-        <motion.div 
+        <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className='w-full h-16 border-b flex items-center sticky top-0 z-50 backdrop-blur-md bg-white/70'
+            className='w-full h-16 border-b flex items-center sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-neutral-800'
         >
             {/* Left: Logo Section (Desktop only) */}
             <div className='hidden md:flex w-64 border-r h-full items-center justify-center'>
@@ -39,20 +41,20 @@ export const DashboardNavbar = () => {
             {/* Right: Search & Actions */}
             <div className='flex-1 flex items-center justify-between px-4 py-2 gap-4'>
                 {/* Search Bar */}
-                <motion.div 
-                    animate={{ 
+                <motion.div
+                    animate={{
                         width: isFocused ? '40%' : '33%',
                         borderColor: isFocused ? 'var(--primary)' : '#e5e7eb'
                     }}
-                    className='hidden sm:flex items-center gap-2 border rounded-xl h-10 px-3 transition-shadow duration-300 bg-white/50'
+                    className='hidden sm:flex items-center gap-2 border focus-within:border-[1.5px] rounded-xl h-10 px-3 transition-shadow duration-300 bg-white/50 dark:bg-neutral-800'
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                 >
                     <Search size={14} className='text-neutral-400' />
-                    <input 
-                        className='flex-1 h-full bg-transparent border-none outline-none text-sm placeholder:text-neutral-400' 
-                        type="text" 
-                        placeholder="Search dashboard..." 
+                    <input
+                        className='flex-1 h-full bg-transparent border-none outline-none text-sm placeholder:text-neutral-400'
+                        type="text"
+                        placeholder="Search dashboard..."
                     />
                     <div className='hidden lg:flex items-center gap-1 bg-neutral-100 px-1.5 rounded-md py-0.5 border border-neutral-200 text-[10px] text-neutral-500 font-mono'>
                         <Command size={10} /> <span>K</span>
@@ -65,8 +67,9 @@ export const DashboardNavbar = () => {
                 </button>
 
                 <div className='flex items-center gap-3 md:gap-5'>
+                    <ModeToggle />
                     {/* Notifications */}
-                    <motion.div 
+                    <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className='p-2.5 rounded-xl bg-white border border-neutral-200 shadow-sm cursor-pointer relative'
@@ -74,9 +77,9 @@ export const DashboardNavbar = () => {
                         <Bell size={18} className='text-neutral-600' />
                         <span className='absolute top-2 right-2 w-2 h-2 rounded-full bg-linear-to-tr from-emerald-500 to-green-600 border-2 border-white'></span>
                     </motion.div>
-                    
+
                     <div className='hidden md:block border-l border-neutral-200 h-8' />
-                    
+
                     <Profile user={user} />
                 </div>
             </div>
@@ -87,6 +90,12 @@ export const DashboardNavbar = () => {
 const Profile = ({ user }: { user: User }) => {
     const [isOpen, setIsOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
+    const { theme } = useTheme()
+
+    const hoverBg =
+        theme === 'dark'
+            ? 'rgba(0, 0, 0, 0.5)'   // dark hover
+            : 'rgba(245, 245, 245, 1)' // light hover
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -101,9 +110,9 @@ const Profile = ({ user }: { user: User }) => {
     return (
         <div ref={profileMenuRef} className='relative'>
             <motion.div
-                whileHover={{ backgroundColor: 'rgba(245, 245, 245, 1)' }}
+                whileHover={{ backgroundColor: hoverBg }}
                 onClick={() => setIsOpen(!isOpen)}
-                className='flex items-center gap-3 p-1.5 pr-3 rounded-xl cursor-pointer transition-colors duration-200 border border-transparent hover:border-neutral-200'
+                className='flex items-center gap-3 p-1.5 pr-3 rounded-xl cursor-pointer transition-colors duration-200'
             >
                 <div className='relative'>
                     <Image
@@ -115,7 +124,7 @@ const Profile = ({ user }: { user: User }) => {
                     />
                     <div className='absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-white rounded-full'></div>
                 </div>
-                
+
                 <div className='hidden sm:block text-left'>
                     <h3 className='text-sm font-semibold leading-tight'>{user.name}</h3>
                     <p className='text-[10px] text-neutral-500 truncate max-w-[120px]'>{user.email}</p>
@@ -142,16 +151,16 @@ const Profile = ({ user }: { user: User }) => {
                             <div className='px-3 py-2.5 mb-1'>
                                 <p className='text-xs font-medium text-neutral-400 uppercase tracking-wider'>Account</p>
                             </div>
-                            
+
                             <DropdownItem icon={<UserIcon size={16} />} label="Profile" />
                             <DropdownItem icon={<Settings size={16} />} label="Settings" />
-                            
+
                             <div className='h-px bg-neutral-100 my-1' />
-                            
-                            <DropdownItem 
-                                icon={<LogOut size={16} />} 
-                                label="Logout" 
-                                className="text-red-500 hover:bg-red-50 hover:text-red-600" 
+
+                            <DropdownItem
+                                icon={<LogOut size={16} />}
+                                label="Logout"
+                                className="text-red-500 hover:bg-red-50 hover:text-red-600"
                             />
                         </div>
                     </motion.div>
@@ -172,4 +181,4 @@ const DropdownItem = ({ icon, label, className }: { icon: React.ReactNode, label
         <span className='text-neutral-400'>{icon}</span>
         <span className='font-medium'>{label}</span>
     </motion.div>
-);
+);
