@@ -48,6 +48,7 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 
   --background-image-primary-gradient: linear-gradient(135deg, #35D464 0%, #11803C 100%);
+  --dashboard-height: calc(100vh - 4rem);
 }
 
 :root {
@@ -60,7 +61,6 @@
   --primary: #35D464;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: #11803C;
-
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
@@ -84,6 +84,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --dashboard-height: calc(100vh - 4rem);
 }
 
 .dark {
@@ -118,6 +119,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --dashboard-height: calc(100vh - 4rem);
 }
 
 @layer base {

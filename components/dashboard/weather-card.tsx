@@ -61,6 +61,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
 
         const translate = async () => {
             const translated = await handleTranslate(weatherData.rain || '');
+            console.log(translated)
             setWeatherStatus(translated || '');
         };
 

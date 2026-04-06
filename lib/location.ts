@@ -97,7 +97,7 @@ export const weatherAlert = async (latitude: number, longitude: number) => {
     const description = data.weather[0].description.toLowerCase();
     const tempCelsius = data.main.temp - 273.15;
     const windSpeedKmH = data.wind.speed * 3.6;
-
+    console.log(mainWeather, description, tempCelsius, windSpeedKmH)
     if (mainWeather === 'Thunderstorm') {
         return { type: 'danger', message: 'বজ্রবৃষ্টির সতর্কতা! নিরাপদ স্থানে থাকুন এবং মাঠে থাকা থেকে বিরত থাকুন।' };
     }

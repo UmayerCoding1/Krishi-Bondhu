@@ -1,7 +1,8 @@
-import React from 'react'
-
+import { CropAdvicePage } from '@/components/dashboard/crop-advice'
 export default function page() {
     return (
-        <div>page</div>
+        <div>
+            <CropAdvicePage />
+        </div>
     )
 }
