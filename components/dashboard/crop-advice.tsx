@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '../container';
 import { DashboardContainer } from './dashboard-container';
-import { Banknote, CalendarDays, LoaderPinwheel, MapPin } from 'lucide-react';
+import { Banknote, CalendarDays, Frown, LoaderPinwheel, MapPin } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
@@ -47,43 +47,8 @@ export const CropAdvicePage = () => {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/crop`, { location, season, soil: soilType }, { withCredentials: true });
             console.log(response.data);
             if (response.data.success) {
-                const cleanString = response.data.data
-                    .replace(/```json/g, '')
-                    .replace(/```/g, '')
-                    .trim()
-
-                const dataArray = JSON.parse(cleanString);
-
-                console.log(dataArray)
-                const cropsWithImages = await Promise.all(
-                    dataArray.map(async (crop: any) => {
-                        try {
-                            const cropNameInEnglish = await translateTextBanglaToEnglish(crop['Crop name English']);
-                            console.log(cropNameInEnglish)
-                            const unsplashRes = await axios.get(
-                                `https://api.unsplash.com/search/photos?query=${cropNameInEnglish}&client_id=${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}`,
-                                {
-                                    params: {
-                                        query: cropNameInEnglish,
-                                        orientation: 'landscape',
-                                    },
-                                    headers: {
-                                        Authorization: `Client-ID ${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}`
-                                    }
-                                }
-                            )
-                            const imageUrl = unsplashRes.data.results[2].urls?.full || ''
-                            return { ...crop, image: imageUrl }
-                        } catch (error) {
-                            console.error('Error fetching image for', crop['Crop name'], error)
-                            return { ...crop, image: '' } // fallback empty string
-                        }
-                    })
-                )
-                setCropAdvice(cropsWithImages)
-                const maxRating = Math.max(...cropsWithImages.map((c: any) => c.Rating))
-                const bestCrop = cropsWithImages.find((c: any) => c.Rating === maxRating)
-                setBestCrop(bestCrop)
+                setBestCrop(response.data.data.bestCrop);
+                setCropAdvice(response.data.data.cropsWithImages);
                 setLoading(false);
                 toast.success('Crop advice form submitted successfully', { position: 'top-right' });
             }
@@ -174,7 +139,12 @@ export const CropAdvicePage = () => {
                                 <SkeletonCard className='h-2' />
                                 <SkeletonCard className='h-2' />
                             </div>
-                        </div> : <CropDetails bestCrop={bestCrop} cropAdvice={cropAdvice} loading={loading} />}
+                        </div> : <>
+                            {bestCrop ? <CropDetails bestCrop={bestCrop} cropAdvice={cropAdvice} loading={loading} /> : <div className='w-full h-full bg-neutral-100 rounded-2xl flex items-center justify-center flex-col'>
+                                <Frown className='text-muted-foreground w-10 h-10' />
+                                <p className='text-muted-foreground'>কোনো ফসল পাওয়া যায়নি</p>
+                            </div>}
+                        </>}
                     </div>
 
                     <div className=' w-full col-span-8 lg:mt-10'>
@@ -186,9 +156,12 @@ export const CropAdvicePage = () => {
                                 </div>
                             ))}
                         </> : <>
-                            {cropAdvice && <div className='flex flex-col  gap-2'>
+                            {cropAdvice ? <div className='flex flex-col  gap-2'>
                                 <h1 className='text-xl font-semibold tracking-tight'>অন্যান্য সুপারিশ</h1>
                                 <p className='text-sm text-muted-foreground tracking-tight'>আপনার এলাকার জন্য অন্যান্য ফসলের সুপারিশ</p>
+                            </div> : <div className='w-full h-[200px] bg-neutral-100 rounded-2xl flex items-center justify-center flex-col'>
+                                <Frown className='text-muted-foreground w-10 h-10' />
+                                <p className='text-muted-foreground'>কোনো ফসল পাওয়া যায়নি</p>
                             </div>}
 
                             <div className='flex flex-col gap-4 mt-5'>
