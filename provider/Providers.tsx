@@ -8,6 +8,7 @@ import { Footer } from '@/components/footer'
 import { useAuth } from '@/hooks/useAuth'
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
 import { DashboardSidebar } from '@/components/dashboard/dashboard-sidbar'
+import { Toaster } from 'sonner'
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
@@ -33,7 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 </div>
             </main> : children}
             {user ? null : <Footer />}
-
+            <Toaster />
         </ThemeProvider>
     )
 }
