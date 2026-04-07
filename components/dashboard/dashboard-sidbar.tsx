@@ -41,7 +41,7 @@ export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClos
             )
         },
         {
-            title: 'রোগ সনাক্তকরণ',
+            title: 'রোগ শনাক্তকরণ',
             href: '/dashboard/disease-detection',
             icon: (
                 <DiseaseSvg

@@ -64,7 +64,7 @@ export const CropAdvicePage = () => {
 
 
     console.log(bestCrop);
-    console.log(cropAdvice);
+    console.log('cropAdvice', cropAdvice);
     return (
 
         <DashboardContainer className='bg-secondary/3 min-h-(--dashboard-height) overflow-x-visible font-display'>
@@ -143,7 +143,7 @@ export const CropAdvicePage = () => {
                                 <SkeletonCard className='h-2' />
                             </div>
                         </div> : <>
-                            {bestCrop ? <CropDetails bestCrop={bestCrop} cropAdvice={cropAdvice} loading={loading} /> : <div className='w-full h-full bg-neutral-100 rounded-2xl flex items-center justify-center flex-col'>
+                            {bestCrop ? <CropDetails bestCrop={bestCrop} cropAdvice={cropAdvice} loading={loading} /> : <div className='w-full h-full bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center flex-col'>
                                 <Frown className='text-muted-foreground w-10 h-10' />
                                 <p className='text-muted-foreground'>কোনো ফসল পাওয়া যায়নি</p>
                             </div>}
@@ -159,10 +159,10 @@ export const CropAdvicePage = () => {
                                 </div>
                             ))}
                         </> : <>
-                            {cropAdvice ? <div className='flex flex-col  gap-2'>
+                            {cropAdvice && cropAdvice.length > 0 ? <div className='flex flex-col  gap-2'>
                                 <h1 className='text-xl font-semibold tracking-tight'>অন্যান্য সুপারিশ</h1>
                                 <p className='text-sm text-muted-foreground tracking-tight'>আপনার এলাকার জন্য অন্যান্য ফসলের সুপারিশ</p>
-                            </div> : <div className='w-full h-[200px] bg-neutral-100 rounded-2xl flex items-center justify-center flex-col'>
+                            </div> : <div className='w-full h-[200px] bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center flex-col'>
                                 <Frown className='text-muted-foreground w-10 h-10' />
                                 <p className='text-muted-foreground'>কোনো ফসল পাওয়া যায়নি</p>
                             </div>}

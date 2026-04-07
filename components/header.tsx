@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 export const Header = ({ children, className, textPosition = 'left' }: { children: React.ReactNode, className?: string, textPosition?: 'center' | 'left' | 'right' }) => {
     return (
 
-        <div className={cn(className, 'w-full flex flex-col items-center justify-center h-16 my-10', textPosition === 'left' ? 'items-start' : textPosition === 'right' ? 'items-end' : 'items-center')}>
+        <div className={cn('w-full flex flex-col items-center justify-center h-16 my-10', textPosition === 'left' ? 'items-start' : textPosition === 'right' ? 'items-end' : 'items-center', className)}>
             {children}
         </div>
 
@@ -25,7 +25,7 @@ export const HeaderTitle = ({ children, className }: { children: React.ReactNode
 
 export const HeaderDescription = ({ children, className }: { children: React.ReactNode, className?: string }) => {
     return (
-        <p className={cn(className, 'text-sm text-neutral-500 dark:text-neutral-400')}>
+        <p className={cn('text-sm text-neutral-500 dark:text-neutral-400', className)}>
             {children}
         </p>
     )
