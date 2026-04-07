@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import ModeToggle from '../theme-toggle';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
+import RefrashBtn from './refrash-btn';
 
 export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) => {
     const { user } = useAuth();
@@ -69,7 +70,7 @@ export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) =
                 </button>
 
                 <div className='flex items-center gap-3 md:gap-5'>
-                    <RefreshCcw size={18} onClick={() => route.refresh()} className='cursor-pointer hover:text-primary transition-colors' />
+                    <RefrashBtn />
                     <ModeToggle />
                     {/* Notifications */}
                     <motion.div
