@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { SkeletonCard } from '../skeleton-card';
 import { div } from 'motion/react-client';
 import Image from 'next/image';
+import { useCropStore } from '@/store/useCropStore';
 
 export const CropAdvicePage = () => {
     const soilTypesBangladesh = [
@@ -29,17 +30,18 @@ export const CropAdvicePage = () => {
         "লবণাক্ত মাটি (Saline Soil)"
     ];
 
-
+    const { storeBestCrop, storeCropAdvice, storeLoading } = useCropStore();
     const [location, setLocation] = useState('');
     const [season, setSeason] = useState('');
     const [soilType, setSoilType] = useState('');
-    const [cropAdvice, setCropAdvice] = useState<any>(null);
-    const [bestCrop, setBestCrop] = useState<any>(null);
-    const [loading, setLoading] = useState(false);
+    const [cropAdvice, setCropAdvice] = useState<any>(storeCropAdvice);
+    const [bestCrop, setBestCrop] = useState<any>(storeBestCrop);
+    const [loading, setLoading] = useState(storeLoading);
 
     const handleCropAdviceFrom = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true);
+        const { setStoreCropData, setStoreLoading } = useCropStore.getState();
+        setStoreLoading(true);
         console.log('crop advice form submitted', { location, season, soilType });
 
         try {
@@ -47,9 +49,10 @@ export const CropAdvicePage = () => {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/crop`, { location, season, soil: soilType }, { withCredentials: true });
             console.log(response.data);
             if (response.data.success) {
+                setStoreCropData(response.data.data);
                 setBestCrop(response.data.data.bestCrop);
                 setCropAdvice(response.data.data.cropsWithImages);
-                setLoading(false);
+                setStoreLoading(false);
                 toast.success('Crop advice form submitted successfully', { position: 'top-right' });
             }
         } catch (error) {
