@@ -1,7 +1,6 @@
 'use client'
 
 import { getCityName, getFullWeekWeather, getLocation, getWeatherData, weatherAlert } from '@/lib/location';
-import { RefreshCcw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { DashboardContainer } from './dashboard-container';
@@ -12,8 +11,11 @@ import { MarketPriceWidget } from './market-price-widget';
 import { CropAdviceWidget } from './crop-advice-widget';
 import { SummaryCard } from './summary-card';
 import { ScanSearch, MessageSquare, AlertTriangle, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, Variants } from 'motion/react';
 import { cn } from '@/lib/utils';
+
+const CACHE_KEY_PREFIX = 'kb_weather_';
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes in milliseconds
 
 export const Overview = () => {
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
@@ -25,18 +27,54 @@ export const Overview = () => {
     const [weatherStatus, setWeatherStatus] = useState('');
     const route = useRouter();
 
+    const getCache = (key: string) => {
+        const cached = localStorage.getItem(`${CACHE_KEY_PREFIX}${key}`);
+        if (!cached) return null;
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp > CACHE_TTL) {
+            localStorage.removeItem(`${CACHE_KEY_PREFIX}${key}`);
+            return null;
+        }
+        return data;
+    };
+
+    const setCache = (key: string, data: any) => {
+        localStorage.setItem(`${CACHE_KEY_PREFIX}${key}`, JSON.stringify({
+            data,
+            timestamp: Date.now()
+        }));
+    };
+
     useEffect(() => {
         const fetchLocation = async () => {
             try {
-                const { latitude, longitude } = await getLocation();
-                setLocation({ latitude, longitude });
-                const cityInfo = await getCityName(latitude, longitude);
-                if (typeof cityInfo !== 'string') {
-                    setLocationName({ area: cityInfo.area, city: cityInfo.city });
+                // Check cache for location and city info
+                const cachedLocation = getCache('location');
+                const cachedCityInfo = getCache('city_info');
+                const cachedAlert = getCache('alert');
+
+                if (cachedLocation && cachedCityInfo) {
+                    setLocation(cachedLocation);
+                    setLocationName(cachedCityInfo);
+                    if (cachedAlert) setAlert(cachedAlert);
+                    return;
                 }
-                const activeAlert = await weatherAlert(latitude, longitude);
+
+                const loc = await getLocation();
+                setLocation(loc);
+                setCache('location', loc);
+
+                const cityInfo = await getCityName(loc.latitude, loc.longitude);
+                if (typeof cityInfo !== 'string') {
+                    const info = { area: cityInfo.area, city: cityInfo.city };
+                    setLocationName(info);
+                    setCache('city_info', info);
+                }
+
+                const activeAlert = await weatherAlert(loc.latitude, loc.longitude);
                 if (activeAlert) {
                     setAlert(activeAlert);
+                    setCache('alert', activeAlert);
                 }
             } catch (err) {
                 console.error(err);
@@ -50,18 +88,26 @@ export const Overview = () => {
         const fetchWeatherData = async () => {
             if (!location) return;
             try {
-                const weatherData = await getWeatherData(location.latitude, location.longitude);
-                const temp = weatherData.main.temp - 273.15; // Convert Kelvin to Celsius
-                const rain = weatherData.weather[0].main;
-                const wind = weatherData.wind.speed;
-                const sunrise = weatherData.sys.sunrise;
-                const sunset = weatherData.sys.sunset;
-                setWeatherData({ temp, rain, wind, sunrise, sunset })
+                const cached = getCache('current_weather');
+                if (cached) {
+                    setWeatherData(cached);
+                    return;
+                }
+
+                const wData = await getWeatherData(location.latitude, location.longitude);
+                const data = {
+                    temp: wData.main.temp - 273.15,
+                    rain: wData.weather[0].main,
+                    wind: wData.wind.speed,
+                    sunrise: wData.sys.sunrise,
+                    sunset: wData.sys.sunset
+                };
+                setWeatherData(data);
+                setCache('current_weather', data);
             } catch (err) {
                 console.error(err);
             }
         };
-
 
         fetchWeatherData();
     }, [location]);
@@ -70,8 +116,15 @@ export const Overview = () => {
         const fetchFullWeekWeatherData = async () => {
             if (!location) return;
             try {
-                const weatherData = await getFullWeekWeather(location.latitude, location.longitude);
-                setFullWeekWeatherData(weatherData)
+                const cached = getCache('forecast');
+                if (cached) {
+                    setFullWeekWeatherData(cached);
+                    return;
+                }
+
+                const data = await getFullWeekWeather(location.latitude, location.longitude);
+                setFullWeekWeatherData(data);
+                setCache('forecast', data);
             } catch (err) {
                 console.error(err);
             }
@@ -79,42 +132,14 @@ export const Overview = () => {
         fetchFullWeekWeatherData();
     }, [location]);
 
-
     const handleWeatherStatusMatchImage = (status: string) => {
-        console.log('status', status)
-        if (status === 'বৃষ্টি') {
-            return '/assets/rain-bg.png';
-        } else if (status === 'পরিষ্কার') {
-            return '/assets/Clear-bg.png';
-        } else if (status === 'মেঘলা') {
-            return '/assets/card-bg.png';
-        } else if (status === 'হালকা কুয়াশা') {
-            return '/assets/haze-bg.png';
-        } else if (status === 'কুয়াশা') {
-            return '/assets/mist.bg.png';
-        }
-        //  else if (weatherStatus === 'Fog') { 
-        //     return '/assets/fog.jpg';
-        // } else if (weatherStatus === 'Drizzle') {
-        //     return '/assets/drizzle.jpg';
-        // } else if (weatherStatus === 'Thunderstorm') {
-        //     return '/assets/thunderstorm.jpg';
-        // } else if (weatherStatus === 'Snow') {
-        //     return '/assets/snow.jpg';
-        // } else if (weatherStatus === 'Sand') {
-        //     return '/assets/sand.jpg';
-        // } else if (weatherStatus === 'Ash') {
-        //     return '/assets/ash.jpg';
-        // } else if (weatherStatus === 'Squall') {
-        //     return '/assets/squall.jpg';
-        // } else if (weatherStatus === 'Tornado') {
-        //     return '/assets/tornado.jpg';
-        // }
-        else {
-            return '/assets/card-bg.png';
-        }
+        if (status === 'বৃষ্টি') return '/assets/rain-bg.png';
+        if (status === 'পরিষ্কার') return '/assets/Clear-bg.png';
+        if (status === 'মেঘলা') return '/assets/card-bg.png';
+        if (status === 'হালকা কুয়াশা') return '/assets/haze-bg.png';
+        if (status === 'কুয়াশা') return '/assets/mist.bg.png';
+        return '/assets/card-bg.png';
     }
-
 
     if (!location) {
         return (
@@ -124,18 +149,41 @@ export const Overview = () => {
         );
     }
 
-    console.log(alert)
+    const containerVariants: Variants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants: Variants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
     return (
         <DashboardContainer>
-            <div className="flex flex-col gap-6 p-1">
+            <motion.div 
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-8 p-1"
+            >
                 <AnimatePresence>
                     {alert && !isAlertDismissed && (
                         <motion.div
-                            initial={{ height: 0, opacity: 0, marginBottom: 0 }}
-                            animate={{ height: 'auto', opacity: 1, marginBottom: 24 }}
+                            variants={itemVariants}
                             exit={{ height: 0, opacity: 0, marginBottom: 0 }}
                             className={cn(
-                                "relative overflow-hidden rounded-2xl p-4 flex items-center gap-4 border shadow-lg",
+                                "relative overflow-hidden rounded-2xl p-4 flex items-center gap-4 border shadow-lg z-50",
                                 alert.type === 'danger'
                                     ? "bg-red-500/10 border-red-500/20 text-red-600 dark:bg-red-500/20"
                                     : "bg-orange-500/10 border-orange-500/20 text-orange-600 dark:bg-orange-500/20"
@@ -161,15 +209,18 @@ export const Overview = () => {
                 </AnimatePresence>
 
                 {/* Hero Section: Weather & Greetings */}
-                <div className='w-full relative rounded-3xl min-h-64 overflow-hidden shadow-2xl border border-white/20'>
+                <motion.div 
+                    variants={itemVariants}
+                    className='w-full relative rounded-[2.5rem] min-h-64 overflow-hidden shadow-2xl border border-white/20 dark:border-white/5 bg-neutral-900'
+                >
                     <Image
                         src={handleWeatherStatusMatchImage(weatherStatus.toLowerCase())}
                         alt="weather-background"
                         width={2000}
                         height={2000}
-                        className='absolute top-0 left-0 w-full h-full object-cover blur-[2px] brightness-75 transition-transform duration-700 hover:scale-105'
+                        className='absolute top-0 left-0 w-full h-full object-cover blur-[1px] brightness-75 transition-transform duration-1000 group-hover:scale-105'
                     />
-                    <div className='relative z-10 p-6 md:p-8 w-full h-full text-white bg-black/10'>
+                    <div className='relative z-10 p-8 md:p-10 w-full h-full text-white bg-linear-to-br from-black/40 via-transparent to-black/20'>
                         <WeatherCard
                             weatherData={weatherData}
                             fullWeekWeatherData={fullWeekWeatherData}
@@ -178,32 +229,37 @@ export const Overview = () => {
                             setWeatherStatus={setWeatherStatus}
                         />
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Dashboard Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                     {/* Market Prices */}
-                    <MarketPriceWidget />
+                    <motion.div variants={itemVariants}>
+                        <MarketPriceWidget />
+                    </motion.div>
 
                     {/* Crop Advice */}
-                    <CropAdviceWidget />
+                    <motion.div variants={itemVariants}>
+                        <CropAdviceWidget />
+                    </motion.div>
 
                     {/* Quick Access & AI Chatbot */}
-                    <div className="flex flex-col gap-6">
+                    <motion.div variants={itemVariants} className="flex flex-col gap-8">
                         <SummaryCard
                             title="রোগ শনাক্তকরণ"
                             icon={ScanSearch}
                             iconColor="text-orange-500"
-                            bgColor="bg-orange-500/10"
+                            bgColor="bg-orange-500/20 backdrop-blur-md"
                         >
-                            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
-                                AI প্রযুক্তির মাধ্যমে আপনার ফসলের রোগ দ্রুত শনাক্ত করুন।
+                            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
+                                AI প্রযুক্তির মাধ্যমে আপনার ফসলের রোগ দ্রুত শনাক্ত করুন এবং তাৎক্ষণিক সমাধান পান।
                             </p>
                             <button
                                 onClick={() => route.push('/dashboard/disease-detection')}
-                                className="w-full py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-lg shadow-orange-600/20 transition-all active:scale-95"
+                                className="group/btn relative w-full py-4 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-2xl shadow-xl shadow-orange-600/30 transition-all active:scale-95 overflow-hidden"
                             >
-                                ছবি আপলোড করুন
+                                <span className="relative z-10">ছবি আপলোড করুন</span>
+                                <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
                             </button>
                         </SummaryCard>
 
@@ -211,21 +267,22 @@ export const Overview = () => {
                             title="এআই চ্যাটবট"
                             icon={MessageSquare}
                             iconColor="text-purple-500"
-                            bgColor="bg-purple-500/10"
+                            bgColor="bg-purple-500/20 backdrop-blur-md"
                         >
-                            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
-                                আপনার কৃষি জিজ্ঞাসার উত্তর পান ২৪/৭।
+                            <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
+                                আপনার কৃষি জিজ্ঞাসার উত্তর পান ২৪/৭। আমাদের বট আপনাকে সাহায্য করতে সর্বদা প্রস্তুত।
                             </p>
                             <button
                                 onClick={() => route.push('/dashboard/ai-chatbot')}
-                                className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl shadow-lg shadow-purple-600/20 transition-all active:scale-95"
+                                className="group/btn relative w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-black rounded-2xl shadow-xl shadow-purple-600/30 transition-all active:scale-95 overflow-hidden"
                             >
-                                চ্যাট শুরু করুন
+                                <span className="relative z-10">চ্যাট শুরু করুন</span>
+                                <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
                             </button>
                         </SummaryCard>
-                    </div>
+                    </motion.div>
                 </div>
-            </div>
+            </motion.div>
         </DashboardContainer>
     );
 };

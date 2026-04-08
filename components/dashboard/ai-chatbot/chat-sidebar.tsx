@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'motion/react'
 
 export const ChatSidebar = () => {
-    const { sessions, activeSessionId, createNewChat, setActiveSession, deleteSession, togglePin } = useChatStore();
+    const { sessions, activeSessionId, createNewChat, setActiveSession, deleteSession, togglePin, setMobileSidebarOpen } = useChatStore();
 
     const sortedSessions = [...sessions].sort((a, b) => {
         if (a.isPinned && !b.isPinned) return -1;
@@ -16,12 +16,22 @@ export const ChatSidebar = () => {
         return (b.lastUpdated || 0) - (a.lastUpdated || 0);
     });
 
+    const handleNewChat = () => {
+        createNewChat();
+        setMobileSidebarOpen(false);
+    }
+
+    const handleSelectSession = (id: string) => {
+        setActiveSession(id);
+        setMobileSidebarOpen(false);
+    }
+
     return (
         <div className="w-full md:w-64 flex flex-col h-full bg-neutral-50/50 dark:bg-neutral-900/50 border-r border-neutral-200 dark:border-neutral-800">
             {/* New Chat Button */}
             <div className="p-4">
                 <Button 
-                    onClick={() => createNewChat()}
+                    onClick={handleNewChat}
                     className="w-full justify-start gap-2 bg-primary hover:bg-primary/90 text-white shadow-sm"
                 >
                     <Plus className="w-4 h-4" />
@@ -48,7 +58,7 @@ export const ChatSidebar = () => {
                             className="group relative"
                         >
                             <button
-                                onClick={() => setActiveSession(session.id)}
+                                onClick={() => handleSelectSession(session.id)}
                                 className={cn(
                                     "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 flex items-center gap-3",
                                     activeSessionId === session.id 

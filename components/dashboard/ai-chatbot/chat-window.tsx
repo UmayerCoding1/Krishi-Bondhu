@@ -8,7 +8,7 @@ import { Bot, Sparkles, MessageCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
 export const ChatWindow = () => {
-    const { sessions, activeSessionId, addMessage, createNewChat } = useChatStore();
+    const { sessions, activeSessionId, addMessage, createNewChat, setMobileSidebarOpen } = useChatStore();
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -23,7 +23,7 @@ export const ChatWindow = () => {
 
     const handleSendMessage = async (content: string) => {
         let currentSessionId = activeSessionId;
-        
+
         // If no active session, create one
         if (!currentSessionId) {
             currentSessionId = createNewChat();
@@ -31,22 +31,39 @@ export const ChatWindow = () => {
 
         // Add user message
         addMessage(currentSessionId, { role: 'user', content });
-        
+
         // Simulate AI response
         setIsLoading(true);
         setTimeout(() => {
-            addMessage(currentSessionId!, { 
-                role: 'assistant', 
-                content: `ধন্যবাদ আপনার প্রশ্নের জন্য। আমি আপনার সব প্রশ্নের সঠিক উত্তর দিতে এখন ট্রেনিং নিচ্ছি। তবে আপনি চাইলে আমাকে আপনার চাষাবাদ সম্পর্কিত যেকোনো প্রশ্ন করতে পারেন।` 
+            addMessage(currentSessionId!, {
+                role: 'assistant',
+                content: `ধন্যবাদ আপনার প্রশ্নের জন্য। আমি আপনার সব প্রশ্নের সঠিক উত্তর দিতে এখন ট্রেনিং নিচ্ছি। তবে আপনি চাইলে আমাকে আপনার চাষাবাদ সম্পর্কিত যেকোনো প্রশ্ন করতে পারেন।`
             });
             setIsLoading(false);
         }, 1500);
     }
 
     return (
-        <div className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-neutral-950">
+        <div className="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-neutral-950 relative">
+            {/* Mobile Header Toggle */}
+            <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-md relative z-30">
+                <button
+                    onClick={() => setMobileSidebarOpen(true)}
+                    className="p-2 -ml-2 hover:bg-neutral-100 dark:hover:bg-neutral-900 rounded-xl transition-colors"
+                >
+                    <MessageCircle className="w-6 h-6 text-neutral-600 dark:text-neutral-400" />
+                </button>
+                <div className="flex flex-col items-center">
+                    <p className="text-xs font-black text-primary uppercase tracking-widest">কৃষি বন্ধু</p>
+                    <p className="text-[10px] text-neutral-400 font-bold truncate max-w-[150px]">
+                        {activeSession?.title || 'নতুন চ্যাট'}
+                    </p>
+                </div>
+                <div className="w-10" /> {/* Spacer */}
+            </div>
+
             {/* Message Area */}
-            <div 
+            <div
                 ref={scrollRef}
                 className="flex-1 overflow-y-auto scroll-smooth pb-32"
             >
@@ -99,7 +116,7 @@ export const ChatWindow = () => {
                         {activeSession.messages.map((msg) => (
                             <ChatMessage key={msg.id} message={msg} />
                         ))}
-                        
+
                         {isLoading && (
                             <motion.div
                                 initial={{ opacity: 0 }}

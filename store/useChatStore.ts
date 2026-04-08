@@ -27,6 +27,8 @@ type ChatStore = {
     deleteSession: (id: string) => void;
     clearMessages: (id: string) => void;
     togglePin: (id: string) => void;
+    isMobileSidebarOpen: boolean;
+    setMobileSidebarOpen: (open: boolean) => void;
 };
 
 export const useChatStore = create<ChatStore>()(
@@ -34,6 +36,9 @@ export const useChatStore = create<ChatStore>()(
         (set, get) => ({
             sessions: [],
             activeSessionId: null,
+            isMobileSidebarOpen: false,
+
+            setMobileSidebarOpen: (open) => set({ isMobileSidebarOpen: open }),
 
             addMessage: (sessionId, message) => {
                 const newMessage: Message = {

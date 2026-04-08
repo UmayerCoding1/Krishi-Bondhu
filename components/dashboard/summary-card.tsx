@@ -16,33 +16,42 @@ interface SummaryCardProps {
 export const SummaryCard = ({ title, icon: Icon, children, className, iconColor, bgColor }: SummaryCardProps) => {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            whileHover={{ y: -6, scale: 1.01 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            variants={{
+                hidden: { opacity: 0, y: 20, scale: 0.95 },
+                visible: { opacity: 1, y: 0, scale: 1 }
+            }}
+            initial="hidden"
+            animate="visible"
+            whileHover={{ y: -8, scale: 1.02 }}
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
             className={cn(
-                'glass p-6 rounded-[2rem] border border-white/20 dark:border-white/5 shadow-2xl relative overflow-hidden group transition-all duration-500',
+                'glass p-7 rounded-[2.5rem] border border-white/40 dark:border-white/10 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.3)] relative overflow-hidden group transition-all duration-500 bg-white/40 dark:bg-neutral-900/40 backdrop-blur-xl',
                 className
             )}
         >
-            {/* Subtle glow effect on hover */}
-            <div className="absolute inset-0 bg-linear-to-br from-white/10 to-transparent dark:from-white/5 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            {/* Shimmer Effect */}
+            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-linear-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
 
+            {/* Glowing Corner */}
+            <div className={cn(
+                "absolute -top-10 -right-10 w-24 h-24 blur-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-700",
+                bgColor || 'bg-primary/40'
+            )} />
             
-            <div className="flex items-center gap-4 mb-6 relative z-10">
+            <div className="flex items-center gap-5 mb-8 relative z-10">
                 <div className={cn(
-                    'w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3',
-                    bgColor || 'bg-primary/20'
+                    'w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6',
+                    bgColor || 'bg-primary/20 backdrop-blur-md'
                 )}>
-                    <Icon className={cn('w-6 h-6', iconColor || 'text-primary')} />
+                    <Icon className={cn('w-7 h-7', iconColor || 'text-primary')} />
                 </div>
-                <div>
-                    <h3 className='font-black text-lg text-neutral-900 dark:text-neutral-100 leading-tight'>{title}</h3>
-                    <div className="w-8 h-1 bg-primary/30 rounded-full mt-1 group-hover:w-12 transition-all duration-500" />
+                <div className="space-y-1">
+                    <h3 className='font-black text-xl text-neutral-900 dark:text-neutral-100 tracking-tight leading-none'>{title}</h3>
+                    <div className="w-6 h-1 bg-primary/40 rounded-full transition-all duration-500 group-hover:w-16" />
                 </div>
             </div>
 
-            <div className="relative z-10">
+            <div className="relative z-10 text-neutral-700 dark:text-neutral-300">
                 {children}
             </div>
         </motion.div>

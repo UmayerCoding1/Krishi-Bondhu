@@ -39,7 +39,7 @@ export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
 
     return (
         <div className="w-full max-w-4xl mx-auto p-4 md:p-6">
-            <div className="relative glass rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/20">
+            <div className="relative glass rounded-2xl  border-neutral-200 dark:border-neutral-800 shadow-xl overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-primary/20">
                 <textarea
                     ref={textareaRef}
                     rows={1}
@@ -47,9 +47,9 @@ export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="আপনার প্রশ্ন এখানে লিখুন..."
-                    className="w-full bg-transparent border-none focus:ring-0 resize-none py-4 px-6 pr-16 text-sm md:text-base leading-relaxed text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
+                    className="w-full bg-transparent border outline-none border-transparent  resize-none py-4 px-6 pr-16 text-sm md:text-base leading-relaxed text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 scrollbar-hide"
                 />
-                
+
                 <div className="absolute right-3 bottom-2.5">
                     <Button
                         size="icon"
@@ -57,8 +57,8 @@ export const ChatInput = ({ onSend, isLoading }: ChatInputProps) => {
                         disabled={!input.trim() || isLoading}
                         className={cn(
                             "rounded-xl transition-all duration-300",
-                            input.trim() 
-                                ? "bg-primary text-white shadow-lg shadow-primary/20 scale-100" 
+                            input.trim()
+                                ? "bg-primary text-white shadow-lg shadow-primary/20 scale-100"
                                 : "bg-neutral-100 dark:bg-neutral-800 text-neutral-400 scale-90"
                         )}
                     >
