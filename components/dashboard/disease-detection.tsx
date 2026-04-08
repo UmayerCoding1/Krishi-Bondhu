@@ -1,12 +1,13 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Header, HeaderDescription, HeaderTitle } from '../header'
-import { Camera, FileUp, X } from 'lucide-react'
+import { Camera, CircleCheck, FileUp, Funnel, X } from 'lucide-react'
 import { AppButton } from '../app-button'
 import { Button } from '../ui/button'
 
 export const DiseaseDetectionPage = () => {
-    const [image, setImage] = React.useState<string | null>(null);
+    const [image, setImage] = useState<string | null>(null);
+    const [showDiseaseResult, setShowDiseaseResult] = useState(false);
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -18,6 +19,8 @@ export const DiseaseDetectionPage = () => {
             reader.readAsDataURL(file);
         }
     };
+
+    console.log(showDiseaseResult)
     return (
         <div className='w-full h-full flex flex-col gap-5'>
             <div className='flex items-center justify-between'>
@@ -34,36 +37,85 @@ export const DiseaseDetectionPage = () => {
                 </div>
             </div>
 
-            <div className=' w-full flex-1  flex items-center justify-center  rounded-xl border border-neutral-300 dark:border-neutral-600'>
-                <div className='border  border-neutral-300 dark:border-neutral-600 p-3 bg-white dark:bg-neutral-800 shadow-md rounded-lg w-[400px] relative h-[400px] flex flex-col group'>
+            <div className=' w-full min-h-screen  flex gap-5 items-center justify-center  rounded-xl border border-neutral-300 dark:border-neutral-600'>
+                <div className='border  border-neutral-300 dark:border-neutral-600 p-3 bg-white dark:bg-neutral-800 shadow-md rounded-lg w-[400px] relative min-h-[400px] flex flex-col group'>
                     <div className='flex items-center gap-2 my-2'>
                         <FileUp size={13} />
                         <p className='text-xl font-medium mt-0.5'>ছবি আপলোড করুন</p>
                     </div>
-                    <Camera size={40} className='absolute right-3 top-8 text-neutral-500 dark:text-neutral-400 z-10  ' />
-                    <label htmlFor='crop-image' className='bg-[#F7FAF5] dark:bg-neutral-700 w-full h-full flex-1  flex flex-col gap-3 items-center justify-center border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-2xl z-20 hover:z-0'>
-                        {image ? <div className='w-full h-[70%] '>
+                    <Camera size={40} strokeWidth={1.5} className='absolute right-3 top-8 text-neutral-500 dark:text-neutral-400 z-10  ' />
+                    <label htmlFor='crop-image' className='bg-[#F7FAF5] dark:bg-neutral-700 w-full h-full flex-1  flex flex-col gap-3 items-center justify-center border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-2xl z-20 hover:z-0 relative'>
+                        {image ? <div className='w-full h-[70%] p-10 '>
                             <img
                                 src={image}
                                 alt=""
                                 className="w-full h-full object-cover rounded-2xl"
                             />
-                            <Button variant={'destructive'} className='absolute right-3 top-3' onClick={() => setImage(null)}><X /></Button>
+                            <Button variant={'destructive'} className='absolute right-3 top-3' onClick={() => { setImage(null); setShowDiseaseResult(false) }}><X /></Button>
+                            <AppButton onClick={() => setShowDiseaseResult(true)} className='w-full mt-5'>শনাক্ত করুন</AppButton>
                         </div> : <div className='w-full h-full flex items-center justify-center flex-col gap-3'>
                             <div className='w-16 h-16 p-3 rounded-full bg-[#3d7c12a7] flex items-center justify-center'>
                                 <Camera className='text-[#224a07] dark:text-white group-hover:scale-105 transition-all duration-200' />
 
                             </div>
                             <p className='text-sm text-neutral-500 dark:text-neutral-300'>অথবা আপনার ফাইল থেকে নির্বাচন করুন</p>
-                            <AppButton>
+                            <AppButton onClick={() => document.getElementById('crop-image')?.click()}>
                                 ফাইল নির্বাচন করুন
                             </AppButton>
                         </div>}
                         <input type="file" onChange={handleImageUpload} accept="image/*" name="" id="crop-image" className='hidden' />
                     </label>
                 </div>
+
+                {showDiseaseResult && <div className='border  border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 shadow-md rounded-lg w-[400px] relative min-h-[400px] h-[400px] flex flex-col group overflow-hidden'>
+                    <DiseaseResult />
+                </div>}
             </div>
         </div>
     )
 }
-// ছবি আপলোড করুন
+
+
+const DiseaseResult = () => {
+    return (
+        <div className='bg-[#2D5A27] w-full h-full p-4 text-[#9DD090] flex flex-col gap-10'>
+
+            <div className='flex items-center justify-between w-full'>
+                <div>
+                    <h2 className='text-lg text-[#9DD090] font-medium tracking-tight'>শনাক্তকৃত ফলাফল</h2>
+                    <h1 className='text-4xl font-semibold text-[#9DD090]'>পাতায় ঝলসানো রোগ</h1>
+                </div>
+                <div className='bg-[#5A7D55] p-3 rounded-lg flex flex-col items-center'>
+                    <p className='text-4xl font-semibold text-[#9DD090]'>৯৮%</p>
+                    <p className='text-lg text-[#9DD090] font-medium tracking-tight'>নির্ভুলতা</p>
+                </div>
+            </div>
+
+            <div className=' mt-5 bg-[#5A7D55] p-3 rounded-lg'>
+                <div className='flex items-center gap-3'>
+                    <div className='bg-[#a1ef8d6c] p-3 rounded-lg text-[#9DD090] '>
+                        <div><Funnel className='fill-[#96f080] border-none text-[#96f080] rotate-180' /></div>
+                    </div>
+                    <div>
+                        <p className='text-sm'>প্রস্তাবিত সমাধান</p>
+                        <h2 className='text-2xl font-semibold'> ছত্রাকনাশক প্রয়োগ</h2>
+                    </div>
+                </div>
+
+                <div className='mt-5'>
+                    {[
+                        'ম্যানকোজেব বা কপার অক্সিক্লোরাইড ২ গ্রাম/লিটার পানিতে মিশিয়ে স্প্রে করুন।',
+                        'আক্রান্ত পাতাগুলো দ্রুত সরিয়ে ফেলুন এবং পুড়িয়ে ফেলুন।'
+                    ].map((s, i) => {
+                        return (
+                            <div key={i} className='my-3 flex items-start gap-2'>
+                                <CircleCheck />
+                                <p>{s}</p>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+        </div>
+    )
+}
