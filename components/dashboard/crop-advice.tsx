@@ -12,7 +12,6 @@ import { AiSvg } from '../button/ai-svg';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { translateTextBanglaToEnglish } from '@/lib/convertTextInBangla';
-import { CropAdviceSkletone } from './crop-advice-skletone';
 import { cn } from '@/lib/utils';
 import { SkeletonCard } from '../skeleton-card';
 import { div } from 'motion/react-client';
