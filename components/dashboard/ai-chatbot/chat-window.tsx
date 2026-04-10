@@ -4,13 +4,28 @@ import React, { useRef, useEffect } from 'react'
 import { ChatMessage } from './chat-message'
 import { ChatInput } from './chat-input'
 import { useChatStore } from '@/store/useChatStore'
-import { Bot, Sparkles, MessageCircle } from 'lucide-react'
+import { useAuth } from '@/hooks/useAuth'
+import { Bot, Sparkles, MessageCircle, AlertCircle, RefreshCcw } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 
 export const ChatWindow = () => {
-    const { sessions, activeSessionId, addMessage, createNewChat, setMobileSidebarOpen } = useChatStore();
+    const {
+        sessions,
+        activeSessionId,
+        addMessage,
+        createNewChat,
+        setMobileSidebarOpen,
+        streamAI,
+        sendMessage,
+        fetchChatHistory,
+        isLoading: storeLoading,
+        error: storeError
+    } = useChatStore();
+    const { user } = useAuth();
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isInternalLoading, setIsInternalLoading] = React.useState(false);
+
+    const isLoading = storeLoading || isInternalLoading;
 
     const activeSession = sessions.find(s => s.id === activeSessionId);
 
@@ -21,7 +36,20 @@ export const ChatWindow = () => {
         }
     }, [activeSession?.messages, isLoading]);
 
+    // Fetch history on session change
+    useEffect(() => {
+        if (activeSessionId) {
+            const currentSession = sessions.find(s => s.id === activeSessionId);
+            // Only fetch if history is empty (and it's not a brand new local session)
+            if (currentSession && currentSession.messages.length === 0) {
+                fetchChatHistory(activeSessionId);
+            }
+        }
+    }, [activeSessionId]);
+
     const handleSendMessage = async (content: string) => {
+        if (!user) return;
+
         let currentSessionId = activeSessionId;
 
         // If no active session, create one
@@ -29,18 +57,15 @@ export const ChatWindow = () => {
             currentSessionId = createNewChat();
         }
 
-        // Add user message
+        // Add user message optimistically
         addMessage(currentSessionId, { role: 'user', content });
 
-        // Simulate AI response
-        setIsLoading(true);
-        setTimeout(() => {
-            addMessage(currentSessionId!, {
-                role: 'assistant',
-                content: `ধন্যবাদ আপনার প্রশ্নের জন্য। আমি আপনার সব প্রশ্নের সঠিক উত্তর দিতে এখন ট্রেনিং নিচ্ছি। তবে আপনি চাইলে আমাকে আপনার চাষাবাদ সম্পর্কিত যেকোনো প্রশ্ন করতে পারেন।`
-            });
-            setIsLoading(false);
-        }, 1500);
+        // Call streaming AI
+        try {
+            await sendMessage(user._id, currentSessionId, content);
+        } catch (err) {
+            console.error("Failed to stream AI response:", err);
+        }
     }
 
     return (
@@ -61,6 +86,17 @@ export const ChatWindow = () => {
                 </div>
                 <div className="w-10" /> {/* Spacer */}
             </div>
+
+            {/* Error handling */}
+            {storeError && (
+                <div className="absolute top-16 left-1/2 -translate-x-1/2 z-50 bg-red-100 border border-red-200 text-red-700 px-4 py-2 rounded-lg flex items-center gap-2 shadow-lg animate-in fade-in slide-in-from-top-4">
+                    <AlertCircle className="w-4 h-4" />
+                    <span className="text-sm font-medium">{storeError}</span>
+                    <button onClick={() => activeSessionId && fetchChatHistory(activeSessionId)} className="ml-2 hover:bg-red-200 rounded p-1">
+                        <RefreshCcw className="w-3 h-3" />
+                    </button>
+                </div>
+            )}
 
             {/* Message Area */}
             <div

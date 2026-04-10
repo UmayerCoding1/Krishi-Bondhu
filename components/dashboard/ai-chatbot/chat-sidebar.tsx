@@ -6,10 +6,18 @@ import { Button } from '@/components/ui/button'
 import { useChatStore } from '@/store/useChatStore'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'motion/react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 export const ChatSidebar = () => {
-    const { sessions, activeSessionId, createNewChat, setActiveSession, deleteSession, togglePin, setMobileSidebarOpen } = useChatStore();
+    const { sessions, activeSessionId, createNewChat, setActiveSession, deleteSession, togglePin, setMobileSidebarOpen, fetchSessions } = useChatStore();
+    const route = useRouter();
 
+    React.useEffect(() => {
+        fetchSessions();
+    }, []);
+
+    console.log(sessions)
     const sortedSessions = [...sessions].sort((a, b) => {
         if (a.isPinned && !b.isPinned) return -1;
         if (!a.isPinned && b.isPinned) return 1;
@@ -17,20 +25,22 @@ export const ChatSidebar = () => {
     });
 
     const handleNewChat = () => {
-        createNewChat();
+        const newId = createNewChat();
         setMobileSidebarOpen(false);
+        route.push(`/dashboard/ai-chatbot?session=${newId}`);
     }
 
     const handleSelectSession = (id: string) => {
         setActiveSession(id);
         setMobileSidebarOpen(false);
+        route.push(`/dashboard/ai-chatbot?session=${id}`);
     }
 
     return (
         <div className="w-full md:w-64 flex flex-col h-full bg-neutral-50/50 dark:bg-neutral-900/50 border-r border-neutral-200 dark:border-neutral-800">
             {/* New Chat Button */}
             <div className="p-4">
-                <Button 
+                <Button
                     onClick={handleNewChat}
                     className="w-full justify-start gap-2 bg-primary hover:bg-primary/90 text-white shadow-sm"
                 >
@@ -61,8 +71,8 @@ export const ChatSidebar = () => {
                                 onClick={() => handleSelectSession(session.id)}
                                 className={cn(
                                     "w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 flex items-center gap-3",
-                                    activeSessionId === session.id 
-                                        ? "bg-primary/10 text-primary font-medium" 
+                                    activeSessionId === session.id
+                                        ? "bg-primary/10 text-primary font-medium"
                                         : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800",
                                     session.isPinned && activeSessionId !== session.id && "bg-neutral-100/50 dark:bg-neutral-800/30"
                                 )}
@@ -79,12 +89,13 @@ export const ChatSidebar = () => {
                                     )}
                                 </div>
                                 <span className="truncate flex-1">{session.title}</span>
-                                
+
                                 <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            togglePin(session.id);
+                                            // togglePin(session.id);
+                                            toast.info('Pin feature coming soon!', { duration: 1500, position: 'bottom-center' })
                                         }}
                                         className="p-1 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded transition-colors"
                                         title={session.isPinned ? "পিন থেকে সরিয়ে নিন" : "পিন করুন"}
