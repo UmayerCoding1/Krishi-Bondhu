@@ -28,8 +28,8 @@ export const Navbar = () => {
     const navlist = [
         { title: 'সুবিধাসমূহ', href: '/features' },
         { title: 'মূল্য তালিকা', href: '/pricing' },
-        { title: 'আমাদের সম্পর্কে', href: '/about' },
-        { title: 'যোগাযোগ', href: '/contact' }
+        // { title: 'আমাদের সম্পর্কে', href: '/about' },
+        // { title: 'যোগাযোগ', href: '/contact' }
     ];
 
     return (
@@ -38,7 +38,7 @@ export const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
-                'sticky top-0 z-50 w-full transition-all duration-300 border-b border-transparent',
+                'sticky top-0 z-50 w-full transition-all duration-300 border-b  border-transparent dark:border-mauve-300',
                 isScrolled ? 'bg-background/80 backdrop-blur-md border-border shadow-sm' : 'bg-white dark:bg-black'
             )}
         >
@@ -96,11 +96,11 @@ export const Navbar = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.6, duration: 0.5 }}
                             className='flex items-center gap-4 border-l border-border pl-4'
-                            onClick={() => route.push('/auth')}
+
                         >
                             <ModeToggle />
-                            <AppButton className='text-lg'>
-                                <LogIn />
+                            <AppButton className='text-md' onClick={() => route.push('/auth')}>
+                                <LogIn size={15} />
                                 শুরু করুন
                             </AppButton>
                         </motion.div>

@@ -141,3 +141,8 @@
     @apply bg-background/40 backdrop-blur-md border border-white/10 dark:border-white/5 shadow-xl;
   }
 }
+
+.glass-panel {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.7);
+}
