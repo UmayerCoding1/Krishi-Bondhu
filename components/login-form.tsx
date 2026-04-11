@@ -6,18 +6,25 @@ import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { AppButton } from './app-button';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
 export const LoginForm = () => {
     const [loginData, setLoginData] = useState({
         email: '',
         password: '',
     });
-
+    const route = useRouter();
+    const { setUser } = useAuth();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, loginData, { withCredentials: true });
             console.log(response.data);
+            if (response.data.data) {
+                setUser(response.data.data);
+                route.push('/');
+            }
         } catch (error) {
             console.log(error);
         }
