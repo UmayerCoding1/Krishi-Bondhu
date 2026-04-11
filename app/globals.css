@@ -49,6 +49,50 @@
 
   --background-image-primary-gradient: linear-gradient(135deg, #35D464 0%, #11803C 100%);
   --dashboard-height: calc(100vh - 4rem);
+
+  /* Pricing page – Material Design color tokens */
+  --color-p-primary: #006e2a;
+  --color-p-on-primary: #ffffff;
+  --color-p-primary-container: #00c853;
+  --color-p-on-primary-container: #004c1b;
+  --color-p-primary-fixed: #69ff87;
+  --color-p-primary-fixed-dim: #3ce36a;
+  --color-p-on-primary-fixed: #002108;
+  --color-p-on-primary-fixed-variant: #00531e;
+  --color-p-secondary: #1b6d24;
+  --color-p-on-secondary: #ffffff;
+  --color-p-secondary-container: #a0f399;
+  --color-p-on-secondary-container: #217128;
+  --color-p-secondary-fixed: #a3f69c;
+  --color-p-secondary-fixed-dim: #88d982;
+  --color-p-on-secondary-fixed: #002204;
+  --color-p-on-secondary-fixed-variant: #005312;
+  --color-p-tertiary: #825500;
+  --color-p-on-tertiary: #ffffff;
+  --color-p-tertiary-container: #eb9d00;
+  --color-p-on-tertiary-container: #5b3a00;
+  --color-p-tertiary-fixed: #ffddb3;
+  --color-p-tertiary-fixed-dim: #ffb950;
+  --color-p-on-tertiary-fixed: #291800;
+  --color-p-on-tertiary-fixed-variant: #624000;
+  --color-p-error: #ba1a1a;
+  --color-p-on-error: #ffffff;
+  --color-p-error-container: #ffdad6;
+  --color-p-on-error-container: #93000a;
+  --color-p-surface: #f8faf8;
+  --color-p-on-surface: #191c1b;
+  --color-p-surface-variant: #e1e3e1;
+  --color-p-on-surface-variant: #3c4a3c;
+  --color-p-surface-container-lowest: #ffffff;
+  --color-p-surface-container-low: #f2f4f2;
+  --color-p-surface-container: #eceeec;
+  --color-p-surface-container-high: #e6e9e7;
+  --color-p-surface-container-highest: #e1e3e1;
+  --color-p-outline: #6c7b6a;
+  --color-p-outline-variant: #bbcbb8;
+  --color-p-inverse-surface: #2e3130;
+  --color-p-inverse-on-surface: #eff1ef;
+  --color-p-inverse-primary: #3ce36a;
 }
 
 :root {

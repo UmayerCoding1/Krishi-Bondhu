@@ -38,7 +38,7 @@ export const FeaturesPage = () => {
                             className="lg:w-1/2 relative"
                         >
                             <div className="absolute -top-10 -left-10 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl"></div>
-                            <img className="rounded-xl shadow-2xl relative z-10 w-full object-cover aspect-4/3" data-alt="South Asian farmer smiling while looking at a smartphone screen in a lush rice field during golden hour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB2BE4ONmXNygQBfjOvQcFqyNYCDX1iMExncczfL6IiupxPr95LID03Sy5f81AO6A3HQNsgyTZFisklHzcK74-ZFlTTc8CC8mxm-psKSLdkvhRXyRClrVdXILeB23f0PdIN_62DK1X0s7qbv9wVEMgD7ss4EDsEGGFXEOiIOMmdAz7p6joeCa-qMxGzpoyrKv2cNLjyt6E_6SnbUrko4jtOcJNjlm4ZSljBYp_OkZWjHOZoyjZrXa0n3pUNBwVINJYt8zhSPf6Rv8" />
+                            <img className="rounded-xl shadow-2xl relative z-10 w-full object-cover aspect-4/3" data-alt="South Asian farmer smiling while looking at a smartphone screen in a lush rice field during golden hour" src="/assets/fermar-m.jpeg" />
                             <motion.div
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 whileInView={{ scale: 1, opacity: 1 }}
