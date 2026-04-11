@@ -1,15 +1,17 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { DashboardContainer } from '@/components/dashboard/dashboard-container'
 import { ChatSidebar } from '@/components/dashboard/ai-chatbot/chat-sidebar'
 import { ChatWindow } from '@/components/dashboard/ai-chatbot/chat-window'
 import { motion, AnimatePresence } from 'motion/react'
 import { useChatStore } from '@/store/useChatStore'
+import { AiAlert } from '@/components/dashboard/ai-alert'
 
 export default function AiChatbotPage() {
     const { isMobileSidebarOpen, setMobileSidebarOpen } = useChatStore();
-
+    const isShowAiAlert = sessionStorage.getItem('isShowAiChatbotAlert');
+    const [isShowSiteInfo, setIsShowSiteInfo] = useState(isShowAiAlert ? false : true);
     return (
         <DashboardContainer className="p-0 sm:p-0 h-[calc(100vh-4rem)]">
             <div className="flex h-full w-full overflow-hidden relative">
@@ -47,6 +49,11 @@ export default function AiChatbotPage() {
                     <ChatWindow />
                 </div>
             </div>
+            <AnimatePresence>
+                {isShowSiteInfo && (
+                    <AiAlert setIsShowSiteInfo={setIsShowSiteInfo} sessionName='isShowAiChatbotAlert' />
+                )}
+            </AnimatePresence>
         </DashboardContainer>
     )
 }

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Container } from '../container';
 import { DashboardContainer } from './dashboard-container';
-import { Banknote, CalendarDays, Frown, LoaderPinwheel, MapPin } from 'lucide-react';
+import { Banknote, CalendarDays, FlaskConical, Frown, LoaderPinwheel, MapPin, X, Zap } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
@@ -17,6 +18,7 @@ import { SkeletonCard } from '../skeleton-card';
 import { div } from 'motion/react-client';
 import Image from 'next/image';
 import { useCropStore } from '@/store/useCropStore';
+import { AiAlert } from './ai-alert';
 
 export const CropAdvicePage = () => {
     const soilTypesBangladesh = [
@@ -36,6 +38,12 @@ export const CropAdvicePage = () => {
     const [cropAdvice, setCropAdvice] = useState<any>(storeCropAdvice);
     const [bestCrop, setBestCrop] = useState<any>(storeBestCrop);
     const [loading, setLoading] = useState(storeLoading);
+
+
+    const isShowAiAlert = sessionStorage.getItem('isShowCropAdviceAlert');
+    const [isShowSiteInfo, setIsShowSiteInfo] = useState(isShowAiAlert ? false : true);
+
+
 
     const handleCropAdviceFrom = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -62,8 +70,7 @@ export const CropAdvicePage = () => {
     }
 
 
-    console.log(bestCrop);
-    console.log('cropAdvice', cropAdvice);
+    console.log('letter show', isShowSiteInfo)
     return (
 
         <DashboardContainer className='bg-secondary/3 min-h-(--dashboard-height) overflow-x-visible font-display'>
@@ -190,6 +197,12 @@ export const CropAdvicePage = () => {
                         </>}
                     </div>
                 </div>
+
+                <AnimatePresence>
+                    {isShowSiteInfo && (
+                        <AiAlert setIsShowSiteInfo={setIsShowSiteInfo} sessionName='isShowCropAdviceAlert' />
+                    )}
+                </AnimatePresence>
             </Container>
         </DashboardContainer >
     )

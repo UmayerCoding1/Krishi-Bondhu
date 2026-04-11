@@ -7,11 +7,16 @@ import { Button } from '../ui/button'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useDiseaseStore } from '@/store/useDiseaseStore'
+import { AnimatePresence } from 'motion/react'
+import { AiAlert } from './ai-alert'
 
 export const DiseaseDetectionPage = () => {
     const { diseaseResult, imagePreview, showDiseaseResult, setDiseaseData, clearDiseaseData, lastUpdated } = useDiseaseStore();
     const [image, setImage] = useState<File | null>(null);
 
+
+    const isShowAiAlert = sessionStorage.getItem('isShowDiseaseDetectionAlert');
+    const [isShowSiteInfo, setIsShowSiteInfo] = useState(isShowAiAlert ? false : true);
     // Initial check for expiration and image preview sync
     useEffect(() => {
         if (lastUpdated) {
@@ -143,6 +148,11 @@ export const DiseaseDetectionPage = () => {
                     <DiseaseResult diseaseResult={diseaseResult} />
                 </div>}
             </div>
+            <AnimatePresence>
+                {isShowSiteInfo && (
+                    <AiAlert setIsShowSiteInfo={setIsShowSiteInfo} sessionName='isShowDiseaseDetectionAlert' />
+                )}
+            </AnimatePresence>
         </div>
     )
 }
@@ -192,6 +202,7 @@ const DiseaseResult = ({ diseaseResult }: { diseaseResult: any }) => {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }

@@ -52,16 +52,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     const logout = async () => {
+        console.log("logout");
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`, { withCredentials: true })
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`, {}, { withCredentials: true })
             console.log(response.data);
+            if (response.data.statusCode === 200) {
+                setUser(null)
+                setIsAuthenticated(false)
+                setLoading(false)
+                router.push('/')
+            }
         } catch (err) {
             console.error(err)
         } finally {
-            setUser(null)
-            setIsAuthenticated(false)
-            setLoading(false)
-            router.push('/')
+
         }
     }
 

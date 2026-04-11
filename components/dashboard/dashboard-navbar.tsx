@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import RefrashBtn from './refrash-btn';
 
 export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const [isFocused, setIsFocused] = useState(false);
     const route = useRouter();
     if (!user) return null;
@@ -84,14 +84,14 @@ export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) =
 
                     <div className='hidden md:block border-l border-neutral-200 h-8' />
 
-                    <Profile user={user} />
+                    <Profile user={user} logout={logout} />
                 </div>
             </div>
         </motion.div>
     )
 };
 
-const Profile = ({ user }: { user: User }) => {
+const Profile = ({ user, logout }: { user: User, logout: () => void }) => {
     const [isOpen, setIsOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme()
@@ -165,6 +165,9 @@ const Profile = ({ user }: { user: User }) => {
                                 icon={<LogOut size={16} />}
                                 label="Logout"
                                 className="text-red-500 hover:bg-red-50 hover:text-red-600"
+                                onClick={() => {
+                                    logout()
+                                }}
                             />
                         </div>
                     </motion.div>
@@ -174,9 +177,10 @@ const Profile = ({ user }: { user: User }) => {
     );
 };
 
-const DropdownItem = ({ icon, label, className }: { icon: React.ReactNode, label: string, className?: string }) => (
+const DropdownItem = ({ icon, label, className, onClick }: { icon: React.ReactNode, label: string, className?: string, onClick?: () => void }) => (
     <motion.div
         whileHover={{ x: 4 }}
+        onClick={onClick}
         className={cn(
             'flex items-center gap-3 px-3 py-2 text-sm text-neutral-600 hover:bg-neutral-50 rounded-xl cursor-pointer transition-colors',
             className

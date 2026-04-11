@@ -9,8 +9,13 @@ export const Logo = ({ className }: { className?: string }) => {
 
 
     return (
-        <div>
-            {theme === 'dark' ? <Image src="/assets/dark-logo.png" className={cn(' object-cover', className)} alt="Logo" width={100} height={100} /> : <Image src="/assets/light-logo.png" className={cn('object-cover', className)} alt="Logo" width={100} height={100} />}
+        <div className="relative w-32 h-10">
+            <Image
+                src={theme === 'dark' ? "/assets/dark-logo.png" : "/assets/light-logo.png"}
+                alt="Logo"
+                fill
+                className="object-contain"
+            />
         </div>
     )
 }
