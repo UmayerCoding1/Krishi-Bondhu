@@ -7,21 +7,40 @@ import { Input } from './ui/input';
 import { Checkbox } from './ui/checkbox';
 import Link from 'next/link';
 import { AppButton } from './app-button';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 export const RegisterForm = () => {
     const [registerData, setRegisterData] = useState({
         name: '',
-        phone: '',
+        email: '',
         password: '',
     });
     const [checked, setChecked] = useState(false);
+    const route = useRouter();
 
     const onCheckedChange = (checked: boolean) => {
         setChecked(checked);
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log({ ...registerData, checked });
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(registerData),
+            });
+            const data = await res.json();
+            if (data.statusCode === 201) {
+                toast.success(data.message);
+                localStorage.setItem('verify_email', registerData.email);
+                route.push('/verify');
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <motion.div
@@ -37,7 +56,7 @@ export const RegisterForm = () => {
                 </div>
                 <div>
                     <Label className='block text-sm font-bold text-gray-700 mb-2'>আপনার ইমেল</Label>
-                    <Input value={registerData.phone} onChange={(e) => setRegisterData({ ...registerData, phone: e.target.value })} type="email" placeholder="[EMAIL_ADDRESS]" />
+                    <Input value={registerData.email} onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })} type="email" placeholder="[EMAIL_ADDRESS]" />
                 </div>
                 <div>
                     <Label className='block text-sm font-bold text-gray-700 mb-2'>পাসওয়ার্ড</Label>

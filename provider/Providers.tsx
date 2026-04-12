@@ -9,10 +9,16 @@ import { useAuth } from '@/hooks/useAuth'
 import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
 import { DashboardSidebar } from '@/components/dashboard/dashboard-sidbar'
 import { Toaster } from 'sonner'
+import { usePathname } from 'next/navigation'
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
+    const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const isVerifyPage = pathname === '/verify';
+    const showHeaderFooter = !user && !isVerifyPage;
+
     return (
         <ThemeProvider
             attribute="class"
@@ -21,7 +27,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             disableTransitionOnChange
         >
 
-            {user ? null : <Navbar />}
+            {showHeaderFooter && <Navbar />}
             {user ? <main>
                 <div>
                     <DashboardNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
@@ -33,7 +39,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     </div>
                 </div>
             </main> : children}
-            {user ? null : <Footer />}
+            {showHeaderFooter && <Footer />}
             <Toaster />
         </ThemeProvider>
     )
