@@ -1,12 +1,18 @@
 'use client';
 import React from 'react'
+import { usePathname } from 'next/navigation'
 import { Logo } from './logo'
 import Link from 'next/link'
 import { motion } from 'motion/react'
 import { Mail, Phone, MapPin } from 'lucide-react'
 
 export const Footer = () => {
+    const pathname = usePathname();
     const currentYear = new Date().getFullYear();
+
+    if (pathname.startsWith('/dashboard') || pathname === '/auth' || pathname.startsWith('/verify')) {
+        return null;
+    }
 
     const footerSections = [
         {

@@ -162,16 +162,17 @@ export const Overview = () => {
 
     const itemVariants: Variants = {
         hidden: { opacity: 0, y: 30 },
-        visible: { 
-            opacity: 1, 
+        visible: {
+            opacity: 1,
             y: 0,
             transition: { duration: 0.6, ease: "easeOut" }
         }
     };
 
+    // console.log(we)
     return (
         <DashboardContainer>
-            <motion.div 
+            <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -209,7 +210,7 @@ export const Overview = () => {
                 </AnimatePresence>
 
                 {/* Hero Section: Weather & Greetings */}
-                <motion.div 
+                <motion.div
                     variants={itemVariants}
                     className='w-full relative rounded-[2.5rem] min-h-64 overflow-hidden shadow-2xl border border-white/20 dark:border-white/5 bg-neutral-900'
                 >

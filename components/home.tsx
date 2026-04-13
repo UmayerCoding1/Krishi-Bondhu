@@ -12,23 +12,21 @@ import { Overview } from './dashboard/overview';
 
 export const HomePage = () => {
     const { user } = useAuth();
-    console.log(user)
     return (
         <div className=''>
-
-            {user ? <>
+            {user ? (
                 <Overview />
-            </> : <>
-                <Hero />
-                <ProblemSection />
-                <SolutionSection />
-                <Servies />
-                <WorksSection />
-                <BenefitsSection />
-                <PricingSection />
-            </>}
-
-
+            ) : (
+                <>
+                    <Hero />
+                    <ProblemSection />
+                    <SolutionSection />
+                    <Servies />
+                    <WorksSection />
+                    <BenefitsSection />
+                    <PricingSection />
+                </>
+            )}
         </div>
     )
 }

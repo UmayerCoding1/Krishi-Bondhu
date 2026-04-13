@@ -5,17 +5,23 @@ import { Logo } from './logo';
 import ModeToggle from './theme-toggle';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LogIn, Menu } from 'lucide-react';
+import { LogIn, Menu, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { AppButton } from './app-button';
 import { motion } from 'motion/react';
+import { useAuth } from '@/hooks/useAuth';
 
 export const Navbar = () => {
+    const { user } = useAuth();
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const route = useRouter();
+
+    if (pathname.startsWith('/dashboard') || pathname === '/auth' || pathname.startsWith('/verify')) {
+        return null;
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -99,10 +105,17 @@ export const Navbar = () => {
 
                         >
                             <ModeToggle />
-                            <AppButton className='text-md' onClick={() => route.push('/auth')}>
-                                <LogIn size={15} />
-                                শুরু করুন
-                            </AppButton>
+                            {user ? (
+                                <AppButton className='text-md' onClick={() => route.push('/dashboard/user')}>
+                                    <LayoutDashboard size={15} />
+                                    ড্যাশবোর্ড
+                                </AppButton>
+                            ) : (
+                                <AppButton className='text-md' onClick={() => route.push('/auth')}>
+                                    <LogIn size={15} />
+                                    শুরু করুন
+                                </AppButton>
+                            )}
                         </motion.div>
                     </div>
 
@@ -158,10 +171,10 @@ export const Navbar = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.4 }}
                                     className="mt-auto pt-6 border-t border-border/50"
-                                    onClick={() => route.push('/auth')}
+                                    onClick={() => route.push(user ? '/dashboard/user' : '/auth')}
                                 >
                                     <Button className="w-full rounded-full py-6 text-lg font-display font-medium shadow-md">
-                                        শুরু করুন
+                                        {user ? 'ড্যাশবোর্ড' : 'শুরু করুন'}
                                     </Button>
                                 </motion.div>
                             </SheetContent>

@@ -81,6 +81,7 @@ export default function RootLayout({
           <Providers>
 
             {children}
+
           </Providers>
         </AuthProvider>
       </body>

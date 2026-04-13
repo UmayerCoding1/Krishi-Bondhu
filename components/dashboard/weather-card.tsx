@@ -99,7 +99,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
                             {weatherData ? Math.round(weatherData.temp) : '--'}
                             <span className="text-2xl md:text-3xl ml-1">°C</span>
                             <motion.div
-                                animate={{ 
+                                animate={{
                                     scale: [1, 1.1, 1],
                                     filter: ['brightness(1)', 'brightness(1.5)', 'brightness(1)']
                                 }}
@@ -122,7 +122,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
                     { label: 'সূর্যোদয়', value: formatTimeBn(weatherData?.sunrise), icon: Sunrise, color: 'orange-400' },
                     { label: 'সূর্যাস্ত', value: formatTimeBn(weatherData?.sunset), icon: Sunset, color: 'purple-400' }
                 ].map((item, idx) => (
-                    <motion.div 
+                    <motion.div
                         key={idx}
                         whileHover={{ y: -4, scale: 1.02 }}
                         className="flex items-center gap-4 bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 hover:border-white/30 transition-all duration-300"

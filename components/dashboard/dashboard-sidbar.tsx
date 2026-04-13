@@ -30,24 +30,24 @@ export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClos
         },
         {
             title: 'ফসল পরামর্শ',
-            href: '/dashboard/crop-advice',
+            href: '/crop-advice',
             icon: (
                 <CropSvg
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/dashboard/crop-advice' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/crop-advice' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )
         },
         {
             title: 'রোগ শনাক্তকরণ',
-            href: '/dashboard/disease-detection',
+            href: '/disease-detection',
             icon: (
                 <DiseaseSvg
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/dashboard/disease-detection' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/disease-detection' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )
@@ -55,24 +55,24 @@ export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClos
 
         {
             title: 'বাজার দর',
-            href: '/dashboard/market-price',
+            href: '/market-price',
             icon: (
                 <ChartSvg
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/dashboard/market-price' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/market-price' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )
         },
         {
             title: 'এআই চ্যাটবট',
-            href: '/dashboard/ai-chatbot',
+            href: '/ai-chatbot',
             icon: (
                 <BootSvg
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/dashboard/ai-chatbot' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/ai-chatbot' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )

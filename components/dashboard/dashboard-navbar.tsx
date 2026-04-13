@@ -119,13 +119,13 @@ const Profile = ({ user, logout }: { user: User, logout: () => void }) => {
                 className='flex items-center gap-3 p-1.5 pr-3 rounded-xl cursor-pointer transition-colors duration-200'
             >
                 <div className='relative'>
-                    <Image
+                    {user.avatar ? <Image
                         src={user.avatar}
                         alt={user.name}
                         width={36}
                         height={36}
                         className='rounded-lg w-9 h-9 object-cover border border-neutral-100 shadow-sm'
-                    />
+                    /> : <UserIcon />}
                     <div className='absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-white rounded-full'></div>
                 </div>
 
