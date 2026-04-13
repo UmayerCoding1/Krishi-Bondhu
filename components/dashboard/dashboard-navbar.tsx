@@ -91,7 +91,7 @@ export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) =
     )
 };
 
-const Profile = ({ user, logout }: { user: User, logout: () => void }) => {
+export const Profile = ({ user, logout }: { user: User, logout: () => void }) => {
     const [isOpen, setIsOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme()

@@ -11,6 +11,7 @@ import { DashboardSidebar } from '@/components/dashboard/dashboard-sidbar'
 import { Toaster } from 'sonner'
 import { usePathname } from 'next/navigation'
 import { AdminSidebar } from '@/components/admin-dashboard/admin-sidebar'
+import { AdminNavbar } from '@/components/admin-dashboard/admin-navbar'
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
@@ -31,7 +32,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
             {showHeaderFooter && <Navbar />}
             {user ? <main>
                 <div>
-                    <DashboardNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+                    {user?.role === 'admin' && <AdminNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />}
+                    {user?.role === 'user' && <DashboardNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />}
                     <div className='flex'>
                         {user?.role === 'admin' && <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />}
                         {user?.role === 'user' && <DashboardSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />}

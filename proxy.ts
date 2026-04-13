@@ -32,13 +32,11 @@ export function proxy(req: NextRequest) {
     if (token) {
         decode = jwtDecode<MyTokenPayload>(token as string);
     }
-
     // role base access controll
     // admin route 
     if (
-        pathname.startsWith('/dashboard/admin') || decode?.role === 'admin'
+        pathname.startsWith('/dashboard/admin') && decode?.role === 'admin'
     ) {
-        console.log('first')
         return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
 
