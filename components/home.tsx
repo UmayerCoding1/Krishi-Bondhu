@@ -9,9 +9,12 @@ import { Servies } from './servies';
 import { SolutionSection } from './solution-section';
 import { WorksSection } from './works-section';
 import { Overview } from './dashboard/overview';
+import { Loader2 } from 'lucide-react';
 
 export const HomePage = () => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
+
+
     return (
         <div className=''>
             {user ? (

@@ -19,9 +19,7 @@ export const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const route = useRouter();
 
-    if (pathname.startsWith('/dashboard') || pathname === '/auth' || pathname.startsWith('/verify')) {
-        return null;
-    }
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -30,6 +28,10 @@ export const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    if (pathname.startsWith('/dashboard') || pathname === '/auth' || pathname.startsWith('/verify')) {
+        return null;
+    }
 
     const navlist = [
         { title: 'সুবিধাসমূহ', href: '/features' },

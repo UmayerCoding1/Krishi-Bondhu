@@ -12,14 +12,20 @@ import { Toaster } from 'sonner'
 import { usePathname } from 'next/navigation'
 import { AdminSidebar } from '@/components/admin-dashboard/admin-sidebar'
 import { AdminNavbar } from '@/components/admin-dashboard/admin-navbar'
+import { Loader2 } from 'lucide-react'
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const isVerifyPage = pathname === '/verify';
     const showHeaderFooter = !user && !isVerifyPage;
+    if (loading) {
+        return <div className='flex items-center justify-center h-screen'>
+            <Loader2 className='animate-spin' />
+        </div>
+    }
 
     return (
         <ThemeProvider

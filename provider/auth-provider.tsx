@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             console.log(error);
             setIsAuthenticated(false);
             setUser(null);
+            setLoading(false);
         } finally {
             setLoading(false);
         }
