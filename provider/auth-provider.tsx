@@ -11,6 +11,7 @@ export type User = {
     name: string
     email: string
     avatar: string
+    role: 'admin' | 'user'
     isVerified: boolean
 }
 type AuthContextType = {

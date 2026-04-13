@@ -10,6 +10,7 @@ import { DashboardNavbar } from '@/components/dashboard/dashboard-navbar'
 import { DashboardSidebar } from '@/components/dashboard/dashboard-sidbar'
 import { Toaster } from 'sonner'
 import { usePathname } from 'next/navigation'
+import { AdminSidebar } from '@/components/admin-dashboard/admin-sidebar'
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const { user } = useAuth();
@@ -32,7 +33,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 <div>
                     <DashboardNavbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
                     <div className='flex'>
-                        <DashboardSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+                        {user?.role === 'admin' && <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />}
+                        {user?.role === 'user' && <DashboardSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />}
                         <div className='flex-1 h-[calc(100vh-4rem)] overflow-y-auto scrollbar-hide'>
                             {children}
                         </div>

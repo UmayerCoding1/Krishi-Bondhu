@@ -1,20 +1,20 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import { Sidebar } from '../sidebar';
-import { DashboardSvg } from '../button/dashboard-svg';
+import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
+import { DashboardSvg } from '../button/dashboard-svg';
 import { CropSvg } from '../button/crop-svg';
 import { DiseaseSvg } from '../button/disease-svg';
 import { ChartSvg } from '../button/chart-svg';
 import { BootSvg } from '../button/boot-svg';
+import { cn } from '@/lib/utils';
+import { Sidebar } from '../sidebar';
+import { FolderCog, Users } from 'lucide-react';
 
-export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClose?: () => void }) => {
+export const AdminSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClose?: () => void }) => {
     const [activeLink, setActiveLink] = useState('/');
     const pathName = usePathname();
     const TopNavLinks = [
         {
-            title: 'ওভারভিউ',
+            title: 'Overview',
             href: '/',
             icon: (
                 <DashboardSvg
@@ -26,50 +26,50 @@ export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClos
             )
         },
         {
-            title: 'ফসল পরামর্শ',
-            href: '/crop-advice',
+            title: 'User Management',
+            href: '/dashboard/admin/user-management',
             icon: (
-                <CropSvg
+                <Users
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/crop-advice' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/dashboard/admin/user-management' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )
         },
         {
-            title: 'রোগ শনাক্তকরণ',
-            href: '/disease-detection',
+            title: 'AI Analysis',
+            href: '/dashboard/admin/ai-analysis',
             icon: (
-                <DiseaseSvg
+                <CropSvg
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/disease-detection' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/dashboard/admin/ai-analysis' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )
         },
 
         {
-            title: 'বাজার দর',
-            href: '/market-price',
+            title: 'Market Data',
+            href: '/dashboard/admin/market-data',
             icon: (
                 <ChartSvg
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/market-price' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/dashboard/admin/market-data' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )
         },
         {
-            title: 'এআই চ্যাটবট',
-            href: '/ai-chatbot',
+            title: 'System Report',
+            href: '/dashboard/admin/system-report',
             icon: (
-                <BootSvg
+                <FolderCog
                     className={cn(
                         'w-5 h-5',
-                        activeLink === '/ai-chatbot' ? 'fill-primary' : 'text-gray-500'
+                        activeLink === '/dashboard/admin/system-report' ? 'fill-primary' : 'text-gray-500'
                     )}
                 />
             )

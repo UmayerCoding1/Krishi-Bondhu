@@ -15,7 +15,9 @@ export const HomePage = () => {
     return (
         <div className=''>
             {user ? (
-                <Overview />
+                <>
+                    {user?.role === 'admin' ? <>admin</> : <Overview />}
+                </>
             ) : (
                 <>
                     <Hero />
