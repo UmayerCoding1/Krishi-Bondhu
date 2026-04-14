@@ -58,7 +58,7 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
 
     useEffect(() => {
         if (!weatherData) return;
-
+        console.log('wwwww', weatherData.rain)
         const translate = async () => {
             const translated = await handleTranslate(weatherData.rain || '');
             console.log(translated)
@@ -67,6 +67,8 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
 
         translate();
     }, [weatherData]);
+
+    console.log(weatherStatus)
 
     return (
         <div className="w-full h-full flex flex-col justify-between gap-8 group">

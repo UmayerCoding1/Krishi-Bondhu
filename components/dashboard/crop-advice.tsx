@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Container } from '../container';
 import { DashboardContainer } from './dashboard-container';
-import { Banknote, CalendarDays, FlaskConical, Frown, LoaderPinwheel, MapPin, X, Zap } from 'lucide-react';
+import { Banknote, CalendarDays, FlaskConical, Frown, Loader2, LoaderPinwheel, MapPin, X, Zap } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
@@ -38,6 +38,7 @@ export const CropAdvicePage = () => {
     const [cropAdvice, setCropAdvice] = useState<any>(storeCropAdvice);
     const [bestCrop, setBestCrop] = useState<any>(storeBestCrop);
     const [loading, setLoading] = useState(storeLoading);
+    const [sendRequest, setSendRequest] = useState(false);
 
 
     const isShowAiAlert = sessionStorage.getItem('isShowCropAdviceAlert');
@@ -49,6 +50,7 @@ export const CropAdvicePage = () => {
         e.preventDefault();
         const { setStoreCropData, setStoreLoading } = useCropStore.getState();
         setStoreLoading(true);
+        setSendRequest(true);
         console.log('crop advice form submitted', { location, season, soilType });
 
         try {
@@ -60,11 +62,13 @@ export const CropAdvicePage = () => {
                 setBestCrop(response.data.data.bestCrop);
                 setCropAdvice(response.data.data.cropsWithImages);
                 setStoreLoading(false);
+                setSendRequest(false);
                 toast.success('Crop advice form submitted successfully', { position: 'top-right' });
             }
         } catch (error) {
             console.log(error);
             setLoading(false);
+            setSendRequest(false);
             toast.error('Something went wrong');
         }
     }
@@ -126,8 +130,9 @@ export const CropAdvicePage = () => {
                                         </Select>
                                     </div>
                                 </div>
+
                                 <AppButton className='h-14' type='submit'>
-                                    <AiSvg className='w-10 h-10' />
+                                    {sendRequest ? <Loader2 className='w-10 h-10 animate-spin' /> : <AiSvg className='w-10 h-10' />}
                                     এআই পরামর্শ দেখুন
                                 </AppButton>
                             </form>

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { Header, HeaderDescription, HeaderTitle } from '../header'
-import { Camera, CircleCheck, FileUp, Funnel, X } from 'lucide-react'
+import { Camera, CircleCheck, FileUp, Funnel, Loader2, X } from 'lucide-react'
 import { AppButton } from '../app-button'
 import { Button } from '../ui/button'
 import axios from 'axios'
@@ -13,6 +13,7 @@ import { AiAlert } from './ai-alert'
 export const DiseaseDetectionPage = () => {
     const { diseaseResult, imagePreview, showDiseaseResult, setDiseaseData, clearDiseaseData, lastUpdated } = useDiseaseStore();
     const [image, setImage] = useState<File | null>(null);
+    const [isLoading, setLoading] = useState(false);
 
 
     const isShowAiAlert = sessionStorage.getItem('isShowDiseaseDetectionAlert');
@@ -56,7 +57,7 @@ export const DiseaseDetectionPage = () => {
     const handleDiseaseResult = async () => {
         try {
             if (!image) return;
-
+            setLoading(true);
             const formData = new FormData();
             formData.append('disease_crop', image);
 
@@ -85,14 +86,17 @@ export const DiseaseDetectionPage = () => {
                     }
 
                     setDiseaseData(parsedData, localPreview || "");
+                    setLoading(false);
                     toast.success(result.data.message || "রোগ শনাক্ত করা হয়েছে");
                 } catch (parseError) {
                     console.error("JSON parse error:", parseError);
+                    setLoading(false);
                     toast.error("ডাটা parse করতে সমস্যা হয়েছে");
                 }
             }
         } catch (error) {
             console.log(error);
+            setLoading(false);
             toast.error("রোগ শনাক্ত করা যায়নি");
         }
     };
@@ -129,7 +133,7 @@ export const DiseaseDetectionPage = () => {
                                 className="w-full h-full object-cover rounded-2xl"
                             />
                             <Button variant={'destructive'} className='absolute right-3 top-3' onClick={() => { setImage(null); setLocalPreview(null); clearDiseaseData() }}><X /></Button>
-                            <AppButton onClick={() => handleDiseaseResult()} className='w-full mt-5'>শনাক্ত করুন</AppButton>
+                            {isLoading ? <AppButton className='w-full mt-5 py-6 disabled:cursor-not-allowed' ><Loader2 className='w-8 h-8 animate-spin' /></AppButton> : <AppButton onClick={() => handleDiseaseResult()} className='w-full mt-5'>শনাক্ত করুন</AppButton>}
                         </div> : <div className='w-full h-full flex items-center justify-center flex-col gap-3'>
                             <div className='w-16 h-16 p-3 rounded-full bg-[#3d7c12a7] flex items-center justify-center'>
                                 <Camera className='text-[#224a07] dark:text-white group-hover:scale-105 transition-all duration-200' />

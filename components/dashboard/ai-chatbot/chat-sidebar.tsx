@@ -27,13 +27,13 @@ export const ChatSidebar = () => {
     const handleNewChat = () => {
         const newId = createNewChat();
         setMobileSidebarOpen(false);
-        route.push(`/dashboard/ai-chatbot?session=${newId}`);
+        route.push(`/ai-chatbot?session=${newId}`);
     }
 
     const handleSelectSession = (id: string) => {
         setActiveSession(id);
         setMobileSidebarOpen(false);
-        route.push(`/dashboard/ai-chatbot?session=${id}`);
+        route.push(`/ai-chatbot?session=${id}`);
     }
 
     return (
