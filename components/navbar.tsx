@@ -148,7 +148,7 @@ export const Navbar = () => {
                                         const isActive = pathname === item.href;
                                         return (
                                             <motion.li
-                                                key={item.title}
+                                                key={index}
                                                 initial={{ opacity: 0, x: 20 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: 0.1 * index + 0.1 }}

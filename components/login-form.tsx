@@ -19,7 +19,11 @@ export const LoginForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, loginData, { withCredentials: true });
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,  // ✅ env variable
+                loginData,
+                { withCredentials: true }
+            );
             console.log(response.data);
             if (response.data.data) {
                 setUser(response.data.data);
