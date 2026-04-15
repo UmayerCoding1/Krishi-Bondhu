@@ -8,6 +8,7 @@ import { AppButton } from './app-button';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import { toast } from 'sonner';
 
 export const LoginForm = () => {
     const [loginData, setLoginData] = useState({
@@ -15,22 +16,26 @@ export const LoginForm = () => {
         password: '',
     });
     const route = useRouter();
-    const { setUser } = useAuth();
+    const { loginUser } = useAuth();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,  // ✅ env variable
+                `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
                 loginData,
                 { withCredentials: true }
             );
             console.log(response.data);
             if (response.data.data) {
-                setUser(response.data.data);
+                loginUser(response.data.data);
+                await new Promise(resolve => setTimeout(resolve, 1000))
                 route.push('/');
+                // route.refresh();
+                toast.success(response.data.message, { duration: 1500 })
             }
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
+            toast.error(error.response.data.message, { duration: 1500 })
         }
     }
     return (

@@ -17,7 +17,7 @@ export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) =
     const { user, logout } = useAuth();
     const [isFocused, setIsFocused] = useState(false);
     const route = useRouter();
-    if (!user) return null;
+
 
     return (
         <motion.div
@@ -84,7 +84,7 @@ export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) =
 
                     <div className='hidden md:block border-l border-neutral-200 h-8' />
 
-                    <Profile user={user} logout={logout} />
+                    {user && <Profile user={user} logout={logout} />}
                 </div>
             </div>
         </motion.div>

@@ -21,6 +21,7 @@ type AuthContextType = {
     logout: () => Promise<void>
     refreshUser: () => Promise<void>
     setUser: (user: User | null) => void
+    loginUser: (user: User) => void
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -48,10 +49,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         getCurrentUser()
-    }, [router])
+    }, [])
 
 
+    const loginUser = (userData: User) => {
+        console.log('context', userData)
+        setUser(userData)
+        setIsAuthenticated(true)
+        setLoading(false)
 
+    }
 
     const logout = async () => {
         console.log("logout");
@@ -80,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, loading, isAuthenticated, logout, refreshUser, setUser }}>
+        <AuthContext.Provider value={{ user, loading, isAuthenticated, logout, refreshUser, setUser, loginUser }}>
             {children}
         </AuthContext.Provider>
     )
