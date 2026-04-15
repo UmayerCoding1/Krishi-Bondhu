@@ -28,9 +28,8 @@ export const LoginForm = () => {
             console.log(response.data);
             if (response.data.data) {
                 loginUser(response.data.data);
-                await new Promise(resolve => setTimeout(resolve, 1000))
+                localStorage.setItem('page_reload', JSON.stringify(true));
                 route.push('/');
-                // route.refresh();
                 toast.success(response.data.message, { duration: 1500 })
             }
         } catch (error: any) {
