@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation';
-import { DashboardSvg } from '../button/dashboard-svg';
-import { CropSvg } from '../button/crop-svg';
-import { DiseaseSvg } from '../button/disease-svg';
-import { ChartSvg } from '../button/chart-svg';
-import { BootSvg } from '../button/boot-svg';
+import { DashboardSvg } from '../icons/dashboard-svg';
+import { CropSvg } from '../icons/crop-svg';
+import { DiseaseSvg } from '../icons/disease-svg';
+import { ChartSvg } from '../icons/chart-svg';
+import { BootSvg } from '../icons/boot-svg';
 import { cn } from '@/lib/utils';
 import { Sidebar } from '../sidebar';
 import { FolderCog, Users } from 'lucide-react';

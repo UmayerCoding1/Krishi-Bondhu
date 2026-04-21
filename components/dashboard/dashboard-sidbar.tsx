@@ -1,13 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { Sidebar } from '../sidebar';
-import { DashboardSvg } from '../button/dashboard-svg';
+import { DashboardSvg } from '../icons/dashboard-svg';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { CropSvg } from '../button/crop-svg';
-import { DiseaseSvg } from '../button/disease-svg';
-import { ChartSvg } from '../button/chart-svg';
-import { BootSvg } from '../button/boot-svg';
+import { CropSvg } from '../icons/crop-svg';
+import { DiseaseSvg } from '../icons/disease-svg';
+import { ChartSvg } from '../icons/chart-svg';
+import { BootSvg } from '../icons/boot-svg';
 
 export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClose?: () => void }) => {
     const [activeLink, setActiveLink] = useState('/');

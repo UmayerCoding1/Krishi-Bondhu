@@ -5,11 +5,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react';
-import { DashboardSvg } from './button/dashboard-svg';
-import { CropSvg } from './button/crop-svg';
-import { DiseaseSvg } from './button/disease-svg';
-import { ChartSvg } from './button/chart-svg';
-import { BootSvg } from './button/boot-svg';
+import { DashboardSvg } from './icons/dashboard-svg';
+import { CropSvg } from './icons/crop-svg';
+import { DiseaseSvg } from './icons/disease-svg';
+import { ChartSvg } from './icons/chart-svg';
+import { BootSvg } from './icons/boot-svg';
 
 export const Sidebar = ({ isOpen, onClose, activeLink, TopNavLinks }: { isOpen?: boolean, onClose?: () => void, activeLink: string, TopNavLinks: { title: string, href: string, icon: React.ReactNode }[] }) => {
 

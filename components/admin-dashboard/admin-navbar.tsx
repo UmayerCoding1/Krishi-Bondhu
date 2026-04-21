@@ -8,7 +8,7 @@ import RefrashBtn from '../dashboard/refrash-btn'
 import ModeToggle from '../theme-toggle'
 import { Profile } from '../dashboard/dashboard-navbar'
 import { useAuth } from '@/hooks/useAuth'
-import { AiSvg } from '../button/ai-svg'
+import { AiSvg } from '../icons/ai-svg'
 import { CustomBreadcrumb } from '../custom-breadcrumb'
 export const AdminNavbar = ({ onMenuClick }: { onMenuClick: () => void }) => {
     const { user, logout } = useAuth();

@@ -9,7 +9,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
 import { AppButton } from '../app-button';
-import { AiSvg } from '../button/ai-svg';
+import { AiSvg } from '../icons/ai-svg';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { translateTextBanglaToEnglish } from '@/lib/convertTextInBangla';

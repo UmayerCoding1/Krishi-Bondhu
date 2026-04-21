@@ -134,9 +134,10 @@ export default function Overview() {
     }, [location]);
 
     const handleWeatherStatusMatchImage = (status: string) => {
+        console.log(status)
         if (status === 'বৃষ্টি') return '/assets/rain-bg.png';
         if (status === 'পরিষ্কার') return '/assets/Clear-bg.png';
-        if (status === 'মেঘলা') return '/assets/card-bg.png';
+        if (status === 'মেঘলা' || 'মেঘ') return '/assets/card-bg.png';
         if (status === 'হালকা কুয়াশা') return '/assets/haze-bg.png';
         if (status === 'কুয়াশা') return '/assets/mist.bg.png';
         return '/assets/card-bg.png';
@@ -213,7 +214,7 @@ export default function Overview() {
                 {/* Hero Section: Weather & Greetings */}
                 <motion.div
                     variants={itemVariants}
-                    className='w-full relative rounded-[2.5rem] h-[calc(100vh-49px)] overflow-hidden shadow-2xl border border-white/20 dark:border-white/5 bg-neutral-900'
+                    className='w-full relative rounded-[2.5rem] min-h-[calc(100vh-49px)] overflow-hidden shadow-2xl border border-white/20 dark:border-white/5 bg-neutral-900'
                 >
                     <Image
                         src={handleWeatherStatusMatchImage(weatherStatus.toLowerCase())}
