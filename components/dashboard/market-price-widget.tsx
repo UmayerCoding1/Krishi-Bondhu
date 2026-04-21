@@ -15,16 +15,16 @@ export const MarketPriceWidget = () => {
     ];
 
     return (
-        <SummaryCard 
-            title="বর্তমান বাজার দর" 
+        <SummaryCard
+            title="বর্তমান বাজার দর"
             icon={ChartNoAxesColumn}
             iconColor="text-blue-500"
             bgColor="bg-blue-500/10"
         >
             <div className="space-y-3 relative z-10">
                 {prices.map((item, index) => (
-                    <motion.div 
-                        key={index} 
+                    <motion.div
+                        key={index}
                         initial={{ x: -20, opacity: 0 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 + 0.3 }}
@@ -43,9 +43,9 @@ export const MarketPriceWidget = () => {
                             </div>
                             <div className={cn(
                                 "p-2 rounded-xl transition-transform duration-500 group-hover/item:scale-110",
-                                item.status === 'up' ? "bg-red-500/10 text-red-500" : 
-                                item.status === 'down' ? "bg-green-500/10 text-green-500" : 
-                                "bg-neutral-500/10 text-neutral-500"
+                                item.status === 'up' ? "bg-red-500/10 text-red-500" :
+                                    item.status === 'down' ? "bg-green-500/10 text-green-500" :
+                                        "bg-neutral-500/10 text-neutral-500"
                             )}>
                                 {item.status === 'up' && <TrendingUp size={18} />}
                                 {item.status === 'down' && <TrendingDown size={18} />}

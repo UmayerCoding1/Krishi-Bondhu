@@ -4,6 +4,7 @@ import { Cloud, CloudRain, Sun, Wind, MapPin, Thermometer, Calendar, Sunrise, Su
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import handleTranslate from '@/lib/convertTextInBangla';
+import GlassCard from '../glass-card';
 
 interface WeatherCardProps {
     weatherData: { temp: number; rain: string; wind: number; sunrise: number; sunset: number } | null;
@@ -82,37 +83,17 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
                     <h2 className='text-4xl md:text-5xl font-black mb-3 tracking-tight'>
                         শুভ {defineDayOrNight()}, <span className="text-primary-foreground/90">{user?.name}</span>
                     </h2>
-                    <div className="flex items-center gap-3 text-white/70 text-sm font-medium">
-                        <div className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
+                    <GlassCard textColor='secondary'>
+
+                        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full ">
                             <Calendar size={14} className="text-primary-foreground" />
                             <span>{day}, {date}</span>
                         </div>
-                    </div>
+
+                    </GlassCard>
                 </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex items-center gap-5 bg-white/10 backdrop-blur-xl rounded-[2rem] p-6 border border-white/20 shadow-2xl group-hover:bg-white/15 transition-colors duration-500"
-                >
-                    <div className="text-right">
-                        <div className="text-5xl md:text-6xl font-black flex items-center justify-end tracking-tighter">
-                            {weatherData ? Math.round(weatherData.temp) : '--'}
-                            <span className="text-2xl md:text-3xl ml-1">°C</span>
-                            <motion.div
-                                animate={{
-                                    scale: [1, 1.1, 1],
-                                    filter: ['brightness(1)', 'brightness(1.5)', 'brightness(1)']
-                                }}
-                                transition={{ duration: 3, repeat: Infinity }}
-                            >
-                                <Thermometer className="ml-2 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,0.5)]" size={32} />
-                            </motion.div>
-                        </div>
-                        <p className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-black mt-1">সবশেষ আপডেট</p>
-                    </div>
-                </motion.div>
+
             </div>
 
             {/* Middle Section: Location & Stats */}

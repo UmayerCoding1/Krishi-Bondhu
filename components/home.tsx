@@ -8,11 +8,11 @@ import { ProblemSection } from './problem-section';
 import { Servies } from './servies';
 import { SolutionSection } from './solution-section';
 import { WorksSection } from './works-section';
-import { Overview } from './dashboard/overview';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
 import { AdminOverview } from './admin-dashboard/admin-overview';
+import Overview from './dashboard/overview';
 
 export const HomePage = () => {
     const { user, loading } = useAuth();
@@ -67,7 +67,7 @@ export const HomePage = () => {
 
 
 const AlertModal = ({ handleReload }: { handleReload: () => void }) => {
-    return <div className='fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 overflow-hidden'>
+    return <div className='fixed inset-0 bg-black/60 backdrop-blur-sm z-100 flex items-center justify-center p-4 overflow-hidden'>
         <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}

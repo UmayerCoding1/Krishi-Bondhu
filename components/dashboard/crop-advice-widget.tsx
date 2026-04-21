@@ -14,16 +14,16 @@ export const CropAdviceWidget = () => {
     ];
 
     return (
-        <SummaryCard 
-            title="ফসলের পরামর্শ" 
+        <SummaryCard
+            title="ফসলের পরামর্শ"
             icon={Leaf}
             iconColor="text-emerald-500"
             bgColor="bg-emerald-500/10"
         >
             <div className="space-y-3 relative z-10">
                 {recommendations.map((item, index) => (
-                    <motion.div 
-                        key={index} 
+                    <motion.div
+                        key={index}
                         initial={{ x: 20, opacity: 0 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 + 0.4 }}

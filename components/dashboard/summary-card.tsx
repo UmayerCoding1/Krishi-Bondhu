@@ -37,7 +37,7 @@ export const SummaryCard = ({ title, icon: Icon, children, className, iconColor,
                 "absolute -top-10 -right-10 w-24 h-24 blur-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-700",
                 bgColor || 'bg-primary/40'
             )} />
-            
+
             <div className="flex items-center gap-5 mb-8 relative z-10">
                 <div className={cn(
                     'w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-6',

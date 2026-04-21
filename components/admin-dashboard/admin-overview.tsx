@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, Variants } from 'motion/react'
-import { 
-    Users, 
-    FileText, 
-    Activity, 
-    Database, 
-    Calendar, 
-    ChevronRight, 
-    ArrowUpRight, 
+import {
+    Users,
+    FileText,
+    Activity,
+    Database,
+    Calendar,
+    ChevronRight,
+    ArrowUpRight,
     ArrowDownRight,
     Search,
     Bell,
@@ -225,13 +225,13 @@ export const AdminOverview = () => {
                             </div>
                         </SummaryCard>
 
-                        <div className="bg-gradient-to-br from-neutral-900 to-black p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden group">
+                        <div className="bg-linear-to-br from-neutral-900 to-black p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden group">
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
                                 <Shield className="w-32 h-32" />
                             </div>
                             <h3 className="text-xl font-black mb-2 relative z-10">System Status</h3>
                             <p className="text-neutral-400 text-sm mb-6 relative z-10 font-medium">Security and health analysis metrics.</p>
-                            
+
                             <div className="space-y-4 relative z-10">
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-neutral-500">
@@ -258,4 +258,4 @@ export const AdminOverview = () => {
             </motion.div>
         </DashboardContainer>
     )
-}
+}

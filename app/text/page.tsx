@@ -18,7 +18,7 @@ import { SummaryCard } from '@/components/dashboard/summary-card';
 const CACHE_KEY_PREFIX = 'kb_weather_';
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes in milliseconds
 
-export default function Overview() {
+export default function Page() {
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
     const [weatherData, setWeatherData] = useState<{ temp: number; rain: string; wind: number; sunrise: number; sunset: number } | null>(null);
     const [fullWeekWeatherData, setFullWeekWeatherData] = useState<{ day: string; temp: number; weather: string }[] | null>(null);
@@ -213,7 +213,7 @@ export default function Overview() {
                 {/* Hero Section: Weather & Greetings */}
                 <motion.div
                     variants={itemVariants}
-                    className='w-full relative rounded-[2.5rem] h-[calc(100vh-49px)] overflow-hidden shadow-2xl border border-white/20 dark:border-white/5 bg-neutral-900'
+                    className='w-full relative rounded-[2.5rem] min-h-64 overflow-hidden shadow-2xl border border-white/20 dark:border-white/5 bg-neutral-900'
                 >
                     <Image
                         src={handleWeatherStatusMatchImage(weatherStatus.toLowerCase())}
