@@ -11,7 +11,7 @@ import { DiseaseSvg } from './icons/disease-svg';
 import { ChartSvg } from './icons/chart-svg';
 import { BootSvg } from './icons/boot-svg';
 
-export const Sidebar = ({ isOpen, onClose, activeLink, TopNavLinks }: { isOpen?: boolean, onClose?: () => void, activeLink: string, TopNavLinks: { title: string, href: string, icon: React.ReactNode }[] }) => {
+export const Sidebar = ({ isOpen, onClose, activeLink, TopNavLinks, BottomNavLinks }: { isOpen?: boolean, onClose?: () => void, activeLink: string, TopNavLinks: { title: string, href: string, icon: React.ReactNode }[], BottomNavLinks: { title: string, href: string, icon: React.ReactNode }[] }) => {
 
 
 
@@ -36,11 +36,93 @@ export const Sidebar = ({ isOpen, onClose, activeLink, TopNavLinks }: { isOpen?:
                     }
                 }
             }}
-            className='w-64 h-[calc(100vh-4rem)] border-r shadow-md dark:bg-neutral-800 border-neutral-200 dark:border-neutral-600 overflow-y-auto bg-white '
+            className='w-64 h-[calc(100vh-4rem)] border-r shadow-md dark:bg-neutral-800 border-neutral-200 dark:border-neutral-600 overflow-y-auto bg-white 
+            flex flex-col justify-between
+            '
         >
+            {/* top link */}
             <div className="py-4">
                 {
                     TopNavLinks.map((link, index) => {
+                        const isActive = activeLink === link.href;
+                        return (
+                            <motion.div
+                                key={index}
+                                variants={{
+                                    hidden: { opacity: 0, x: -20 },
+                                    show: { opacity: 1, x: 0 }
+                                }}
+                                className="relative px-3 mb-1"
+                            >
+                                <Link
+                                    href={link.href}
+                                    onClick={() => {
+                                        if (window.innerWidth < 768 && onClose) {
+                                            onClose();
+                                        }
+                                    }}
+                                    className={cn(
+                                        'flex items-center gap-3 py-2.5 px-4 rounded-xl transition-colors duration-200 group relative',
+                                        isActive ? 'text-primary' : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200'
+                                    )}
+                                >
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="active-pill"
+                                            className="absolute inset-0 bg-primary/10 dark:bg-primary/20 rounded-xl"
+                                            initial={false}
+                                            transition={{
+                                                type: 'spring',
+                                                stiffness: 350,
+                                                damping: 30
+                                            }}
+                                        />
+                                    )}
+
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="active-bar"
+                                            className="absolute left-0 top-2 bottom-2 w-1 bg-primary rounded-full"
+                                            initial={false}
+                                            transition={{
+                                                type: 'spring',
+                                                stiffness: 350,
+                                                damping: 30
+                                            }}
+                                        />
+                                    )}
+
+                                    <motion.div
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="relative z-10"
+                                    >
+                                        {link.icon}
+                                    </motion.div>
+
+                                    <span className="text-sm font-medium relative z-10">
+                                        {link.title}
+                                    </span>
+
+                                    {!isActive && (
+                                        <motion.div
+                                            className="absolute inset-0 bg-neutral-100 dark:bg-neutral-700/50 rounded-xl opacity-0 group-hover:opacity-100 -z-10"
+                                            initial={false}
+                                            transition={{ duration: 0.2 }}
+                                        />
+                                    )}
+                                </Link>
+                            </motion.div>
+                        );
+                    })
+                }
+            </div>
+
+
+            {/* bottom link */}
+            <div className="py-4">
+                {
+                    BottomNavLinks.map((link, index) => {
                         const isActive = activeLink === link.href;
                         return (
                             <motion.div

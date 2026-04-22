@@ -17,7 +17,7 @@ import { SummaryCard } from '@/components/dashboard/summary-card';
 import { Button } from '../ui/button';
 
 const CACHE_KEY_PREFIX = 'kb_weather_';
-const CACHE_TTL = 30 * 60 * 1000; // 30 minutes in milliseconds
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default function Overview() {
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);

@@ -18,7 +18,9 @@ export function proxy(req: NextRequest) {
         (
             pathname.startsWith('/dashboard') ||
             pathname.startsWith('/crop-advice') ||
-            pathname.startsWith('/ai-chatbot')
+            pathname.startsWith('/ai-chatbot') ||
+            pathname.startsWith('/profile') ||
+            pathname.startsWith('/settings')
         )
     ) {
         return NextResponse.redirect(new URL('/', req.url));
@@ -52,7 +54,9 @@ export const config = {
         '/auth/:path*',
         '/verify/:path*',
         '/crop-advice/:path*',
-        '/ai-chatbot/:path*'
+        '/ai-chatbot/:path*',
+        '/profile/:path*',
+        '/settings/:path*'
     ],
 };
 

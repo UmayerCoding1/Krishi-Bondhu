@@ -8,6 +8,7 @@ import { CropSvg } from '../icons/crop-svg';
 import { DiseaseSvg } from '../icons/disease-svg';
 import { ChartSvg } from '../icons/chart-svg';
 import { BootSvg } from '../icons/boot-svg';
+import { Settings, User } from 'lucide-react';
 
 export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClose?: () => void }) => {
     const [activeLink, setActiveLink] = useState('/');
@@ -76,12 +77,41 @@ export const DashboardSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClos
         }
     ];
 
+    const BottomNavLinks = [
+        {
+            title: 'প্রোফাইল',
+            href: '/profile',
+            icon: (
+                <User
+                    className={cn(
+                        'w-5 h-5 mb-1',
+                        activeLink === '/profile' ? 'fill-primary' : 'text-gray-500'
+                    )}
+                />
+            )
+        },
+        {
+            title: 'সেটিংস',
+            href: '/settings',
+            icon: (
+                <>
+                    <Settings
+                        className={cn(
+                            'w-5 h-5 mb-1',
+                            activeLink === '/settings' ? 'fill-primary' : 'text-gray-500'
+                        )}
+                    />
+                </>
+            )
+        }
+    ];
+
     useEffect(() => {
         setActiveLink(pathName);
     }, [pathName]);
     return (
         <div>
-            <Sidebar activeLink={activeLink} TopNavLinks={TopNavLinks} isOpen={isOpen} onClose={onClose} />
+            <Sidebar activeLink={activeLink} TopNavLinks={TopNavLinks} BottomNavLinks={BottomNavLinks} isOpen={isOpen} onClose={onClose} />
         </div>
     )
 }
