@@ -14,6 +14,7 @@ import { WeatherCard } from '@/components/dashboard/weather-card';
 import { MarketPriceWidget } from '@/components/dashboard/market-price-widget';
 import { CropAdviceWidget } from '@/components/dashboard/crop-advice-widget';
 import { SummaryCard } from '@/components/dashboard/summary-card';
+import { Button } from '../ui/button';
 
 const CACHE_KEY_PREFIX = 'kb_weather_';
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes in milliseconds
@@ -235,57 +236,43 @@ export default function Overview() {
                 </motion.div>
 
                 {/* Dashboard Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div className=" w-full" >
                     {/* Market Prices */}
-                    <motion.div variants={itemVariants}>
+                    {/* <motion.div variants={itemVariants}>
                         <MarketPriceWidget />
-                    </motion.div>
+                    </motion.div> */}
 
                     {/* Crop Advice */}
-                    <motion.div variants={itemVariants}>
+                    {/* <motion.div variants={itemVariants}>
                         <CropAdviceWidget />
-                    </motion.div>
+                    </motion.div> */}
 
                     {/* Quick Access & AI Chatbot */}
-                    <motion.div variants={itemVariants} className="flex flex-col gap-8">
+                    <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
                         <SummaryCard
                             title="রোগ শনাক্তকরণ"
                             icon={ScanSearch}
                             iconColor="text-orange-500"
-                            bgColor="bg-orange-500/20 backdrop-blur-md"
                         >
                             <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
                                 AI প্রযুক্তির মাধ্যমে আপনার ফসলের রোগ দ্রুত শনাক্ত করুন এবং তাৎক্ষণিক সমাধান পান।
                             </p>
-                            <button
-                                onClick={() => route.push('/dashboard/disease-detection')}
-                                className="group/btn relative w-full py-4 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-2xl shadow-xl shadow-orange-600/30 transition-all active:scale-95 overflow-hidden"
-                            >
-                                <span className="relative z-10">ছবি আপলোড করুন</span>
-                                <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
-                            </button>
+                            <Button onClick={() => route.push('/disease-detection')} className='w-full py-4 bg-black h-14'>ছবি আপলোড করুন</Button>
                         </SummaryCard>
 
                         <SummaryCard
                             title="এআই চ্যাটবট"
                             icon={MessageSquare}
                             iconColor="text-purple-500"
-                            bgColor="bg-purple-500/20 backdrop-blur-md"
                         >
                             <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6 leading-relaxed">
                                 আপনার কৃষি জিজ্ঞাসার উত্তর পান ২৪/৭। আমাদের বট আপনাকে সাহায্য করতে সর্বদা প্রস্তুত।
                             </p>
-                            <button
-                                onClick={() => route.push('/dashboard/ai-chatbot')}
-                                className="group/btn relative w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-black rounded-2xl shadow-xl shadow-purple-600/30 transition-all active:scale-95 overflow-hidden"
-                            >
-                                <span className="relative z-10">চ্যাট শুরু করুন</span>
-                                <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
-                            </button>
+                            <Button onClick={() => route.push('/ai-chatbot')} className='w-full py-4 bg-black h-14 '>চ্যাট শুরু করুন</Button>
                         </SummaryCard>
                     </motion.div>
                 </div>
             </motion.div>
-        </DashboardContainer>
+        </DashboardContainer >
     );
 };
