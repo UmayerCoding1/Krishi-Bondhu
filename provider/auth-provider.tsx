@@ -13,7 +13,8 @@ export type User = {
     avatar: string
     role: 'admin' | 'user'
     isVerified: boolean
-    status: string
+    status: string,
+    createdAt: string
 }
 type AuthContextType = {
     user: User | null

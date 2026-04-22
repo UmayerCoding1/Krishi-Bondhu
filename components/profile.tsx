@@ -6,17 +6,25 @@ import { useAuth } from '@/hooks/useAuth'
 import Image from 'next/image'
 import handleTranslate from '@/lib/convertTextInBangla'
 import { cn } from '@/lib/utils'
-import { Camera, CloudDownload, Shield, X } from 'lucide-react'
+import { Calendar, Camera, CloudDownload, Shield, X } from 'lucide-react'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import { label } from 'motion/react-client'
 import { toast } from 'sonner'
+import { AppButton } from './app-button'
+import axios from 'axios'
 
 export const Profile = () => {
     const { user } = useAuth();
+    const [name, setName] = useState(user?.name);
+    const [email, setEmail] = useState(user?.email);
     console.log(user)
 
 
+    const handleUpdateProfile = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log('update profile')
+    }
 
     if (!user) {
         return <div>
@@ -24,16 +32,68 @@ export const Profile = () => {
         </div>
     }
     return (
-        <div className='max-w-5xl mx-auto h-[calc(100vh-4rem)]  px-4 py-4 border-l border-r'>
+        <div className='max-w-5xl mx-auto h-[calc(100vh-4rem)] flex flex-col py-4 border-l border-r'>
             <div className='w-full border-b pb-3'>
-                <Header className='my-0' >
+                <Header className='my-0 px-4' >
                     <HeaderTitle>আপনার <HeaderHilight type='success'>প্রোফাইল</HeaderHilight></HeaderTitle>
                     <HeaderDescription>আপনার ব্যক্তিগত তথ্য এবং অ্যাকাউন্ট পরিচয় পরিচালনা করুন।</HeaderDescription>
                 </Header>
             </div>
 
-            <div>
+            <div className='flex-1  flex flex-col'>
                 <ProfileDetails user={user} />
+                <div className='lg:flex  bg--50 flex-1'>
+                    <div className='lg:w-1/3 w-full border-b lg:border-b-0 lg:border-r p-4'>
+                        <div className='w-full  pb-3'>
+                            <div>
+                                <h3 className='text-xl font-bold'>পরিচয়</h3>
+                                <p className='text-sm text-neutral-500'>আপনার অনন্য অ্যাকাউন্ট রেফারেন্স।</p>
+                            </div>
+
+                            <div className='flex flex-col gap-4 mt-4 border-b pb-2'>
+                                <div>
+                                    <label htmlFor="ফার্মার আইডি" className='text-sm text-neutral-500'># ফার্মার আইডি</label> <br />
+                                    <input type="text" value={user._id} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800' />
+                                </div>
+                                <div>
+                                    <label htmlFor="স্লাগ" className='text-sm text-neutral-500'>স্লাগ</label> <br />
+                                    <input type="text" value={'@user_slug'} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-xs rounded-lg bg-neutral-50 dark:bg-neutral-800 font-medium' />
+                                </div>
+                            </div>
+                            <div className='flex items-center gap-2 mt-4'>
+                                <Calendar className='w-5 h-5 text-neutral-500' />
+                                <p className='text-sm text-neutral-500 mt-1'>{new Date(user.createdAt).getFullYear()} সাল থেকে সদস্য</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='flex-1 lg:border-r lg:h-full '>
+                        <div className='w-full lg:h-[calc(100%-5rem)]  p-3'>
+                            <div>
+                                <h2 className='text-3xl font-bold'>ব্যক্তিগত তথ্য</h2>
+                                <p className='text-sm text-neutral-500'>আপনার নাম এবং যোগাযোগের ইমেইল আপডেট করুন।</p>
+                            </div>
+
+                            <form onSubmit={handleUpdateProfile} className='flex flex-col justify-between gap-10 h-full   mt-7'>
+                                <div className='flex flex-col gap-5'>
+                                    <div>
+                                        <label htmlFor="পূর্ণ নাম" className='text-sm text-neutral-500'>পূর্ণ নাম</label> <br />
+                                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800' />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="ইমেইল" className='text-sm text-neutral-500'>ইমেইল</label> <br />
+                                        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800' />
+                                    </div>
+                                </div>
+
+                                <div className='flex items-center justify-end gap-5'>
+                                    <AppButton buttonType='outline' className='border border-neutral-200 dark:border-neutral-500'>বাতিল করুন</AppButton>
+                                    <AppButton buttonType='primary'>পরিবর্তন সংরক্ষণ করুন</AppButton>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -97,8 +157,8 @@ const ProfileDetails = ({ user }: { user: User }) => {
         }
     }
     return (
-        <div className='w-full h-56 rounded-2xl mt-4 bg-neutral-50 border dark:bg-neutral-900   border-neutral-200 dark:border-neutral-500  flex items-center  px-5 gap-4 '>
-            <div className='w-[200px] relative '>
+        <div className='w-full lg:h-56  mt-4 bg-neutral-50 border-t border-b dark:bg-neutral-900   border-neutral-200 dark:border-neutral-500  flex items-center justify-center   px-5 gap-4 '>
+            <div className='w-[350px] lg:w-[200px] relative  p-1'>
                 <Image
                     src={user.avatar || 'https://umayerhossain.vercel.app/umayer.jpeg'}
                     alt='profile'
@@ -106,7 +166,7 @@ const ProfileDetails = ({ user }: { user: User }) => {
                     height={230}
                     className='w-48 h-48 object-top rounded-full shadow-md shadow-neutral-500' />
 
-                <label htmlFor='avatar' className='absolute right-10 bottom-0 cursor-pointer'>
+                <label htmlFor='avatar' className='absolute lg:right-8 right-10 bottom-0 cursor-pointer'>
                     <Camera className='w-10 h-10 bg-green-500 rounded-full p-2 text-white' />
                     <input
                         onChange={handleNewProfileImage}
@@ -119,21 +179,21 @@ const ProfileDetails = ({ user }: { user: User }) => {
             </div>
 
             {
-                openProfileUpdate && <ProfileUpdate user={user} open={openProfileUpdate} setOpen={setOpenProfileUpdate} newProfileImageData={newProfileImageData} setNewProfileImageData={setNewProfileImageData} imageUploadError={imageUploadError} setImageUploadError={setImageUploadError} />
+                openProfileUpdate && <ProfileUpdate open={openProfileUpdate} setOpen={setOpenProfileUpdate} newProfileImageData={newProfileImageData} setNewProfileImageData={setNewProfileImageData} imageUploadError={imageUploadError} setImageUploadError={setImageUploadError} />
             }
 
-            <div className='w-full flex flex-col gap-5'>
+            <div className='lg:w-full flex flex-col gap-5 p-2'>
                 <div>
                     <h2 className='text-3xl font-black tracking-tight '>{user.name}</h2>
                 </div>
 
-                <div className='flex items-center justify-between  w-full gap-4'>
-                    <div>
-                        <p className='text-xl  font-semibold text-neutral-500'>ফার্মার আইডি</p>
-                        <p className='text-sm font-medium'>#{user._id}</p>
+                <div className='flex flex-wrap items-center justify-between  w-full gap-4'>
+                    <div >
+                        <p className='lg:text-xl text-sm  font-semibold text-neutral-500'>ফার্মার আইডি</p>
+                        <p className='lg:text-sm font-medium'>#{user._id}</p>
                     </div>
                     <div>
-                        <p className='text-xl  font-semibold text-neutral-500'>অ্যাকাউন্ট স্ট্যাটাস</p>
+                        <p className='lg:text-xl text-sm  font-semibold text-neutral-500'>অ্যাকাউন্ট স্ট্যাটাস</p>
                         <p className='text-sm font-medium flex items-center gap-2'>
                             <span
                                 className={cn(
@@ -147,7 +207,7 @@ const ProfileDetails = ({ user }: { user: User }) => {
                         </p>
                     </div>
                     <div>
-                        <p className='text-xl  font-semibold text-neutral-500'>অ্যাকাউন্ট স্ট্যাটাস</p>
+                        <p className='lg:text-xl text-sm  font-semibold text-neutral-500'>অ্যাকাউন্ট স্ট্যাটাস</p>
                         <p className='text-sm font-medium flex justify-center items-center gap-0.5  bg-green-500 px-2 py-1 rounded-full text-white  w-20  '>
                             <Shield size={10} />
                             {user.role}
@@ -162,8 +222,7 @@ const ProfileDetails = ({ user }: { user: User }) => {
 };
 
 
-const ProfileUpdate = ({ user, open, setOpen, newProfileImageData, setNewProfileImageData }: {
-    user: User,
+const ProfileUpdate = ({ open, setOpen, newProfileImageData, setNewProfileImageData }: {
     open: boolean,
     setOpen: (open: boolean) => void,
     newProfileImageData: { url: string, file: File | null, width: number, height: number },
@@ -173,7 +232,26 @@ const ProfileUpdate = ({ user, open, setOpen, newProfileImageData, setNewProfile
 }) => {
     const imageHeight = newProfileImageData.height;
 
-    console.log(newProfileImageData.file)
+    const handleUpdateProfile = async () => {
+        if (!newProfileImageData.file) {
+            toast.error('Please select an image');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('avatar', newProfileImageData.file);
+
+        try {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/me/avatar`, formData, { withCredentials: true });
+            console.log(response.data);
+            if (response.data.success) {
+                toast.success(response.data.message);
+                setOpen(false);
+                setNewProfileImageData({ url: '', file: null, width: 0, height: 0 });
+            }
+        } catch (error: any) {
+            toast.error(error.response.data.message || 'Something went wrong');
+        }
+    }
     return (
         <div>
             <Dialog open={open} onOpenChange={setOpen}>
@@ -222,7 +300,7 @@ const ProfileUpdate = ({ user, open, setOpen, newProfileImageData, setNewProfile
                         <DialogClose asChild>
                             <Button variant="outline" className='cursor-pointer'>Cancel</Button>
                         </DialogClose>
-                        <Button type="submit" className='cursor-pointer'>Save changes</Button>
+                        <Button onClick={handleUpdateProfile} className='cursor-pointer'>Save changes</Button>
                     </DialogFooter>
                 </DialogContent>
 
