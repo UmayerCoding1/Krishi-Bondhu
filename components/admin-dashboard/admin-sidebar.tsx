@@ -7,7 +7,7 @@ import { ChartSvg } from '../icons/chart-svg';
 import { BootSvg } from '../icons/boot-svg';
 import { cn } from '@/lib/utils';
 import { Sidebar } from '../sidebar';
-import { FolderCog, Users } from 'lucide-react';
+import { FolderCog, User, Users } from 'lucide-react';
 
 export const AdminSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClose?: () => void }) => {
     const [activeLink, setActiveLink] = useState('/');
@@ -76,12 +76,27 @@ export const AdminSidebar = ({ isOpen, onClose }: { isOpen?: boolean, onClose?: 
         }
     ];
 
+    const bottomNavLinks = [
+        {
+            title: 'Admin Profile',
+            href: '/profile',
+            icon: (
+                <User
+                    className={cn(
+                        'w-5 h-5',
+                        activeLink === '/profile' ? 'fill-primary' : 'text-gray-500'
+                    )}
+                />
+            )
+        }
+    ];
+
     useEffect(() => {
         setActiveLink(pathName);
     }, [pathName]);
     return (
         <div>
-            <Sidebar activeLink={activeLink} TopNavLinks={TopNavLinks} isOpen={isOpen} onClose={onClose} />
+            <Sidebar activeLink={activeLink} TopNavLinks={TopNavLinks} isOpen={isOpen} onClose={onClose} BottomNavLinks={bottomNavLinks} />
         </div>
     )
 }

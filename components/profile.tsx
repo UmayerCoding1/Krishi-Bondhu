@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth'
 import Image from 'next/image'
 import handleTranslate from '@/lib/convertTextInBangla'
 import { cn } from '@/lib/utils'
-import { Calendar, Camera, CloudDownload, Shield, X } from 'lucide-react'
+import { Calendar, Camera, CloudDownload, Shield, User as UserIcon, X } from 'lucide-react'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
 import { label } from 'motion/react-client'
@@ -15,7 +15,7 @@ import { AppButton } from './app-button'
 import axios from 'axios'
 
 export const Profile = () => {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const [name, setName] = useState(user?.name);
     const [email, setEmail] = useState(user?.email);
     console.log(user)
@@ -41,7 +41,7 @@ export const Profile = () => {
             </div>
 
             <div className='flex-1  flex flex-col'>
-                <ProfileDetails user={user} />
+                <ProfileDetails user={user} setUser={setUser} />
                 <div className='lg:flex  bg--50 flex-1'>
                     <div className='lg:w-1/3 w-full border-b lg:border-b-0 lg:border-r p-4'>
                         <div className='w-full  pb-3'>
@@ -82,7 +82,7 @@ export const Profile = () => {
                                     </div>
                                     <div>
                                         <label htmlFor="ইমেইল" className='text-sm text-neutral-500'>ইমেইল</label> <br />
-                                        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800' />
+                                        <input type="text" value={email} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800' />
                                     </div>
                                 </div>
 
@@ -100,7 +100,7 @@ export const Profile = () => {
 }
 
 
-const ProfileDetails = ({ user }: { user: User }) => {
+const ProfileDetails = ({ user, setUser }: { user: User, setUser: (user: User) => void }) => {
     const [status, setStatus] = useState('');
     const [openProfileUpdate, setOpenProfileUpdate] = useState(false);
     const [newProfileImageData, setNewProfileImageData] = useState({
@@ -159,12 +159,16 @@ const ProfileDetails = ({ user }: { user: User }) => {
     return (
         <div className='w-full lg:h-56  mt-4 bg-neutral-50 border-t border-b dark:bg-neutral-900   border-neutral-200 dark:border-neutral-500  flex items-center justify-center   px-5 gap-4 '>
             <div className='w-[350px] lg:w-[200px] relative  p-1'>
-                <Image
-                    src={user.avatar || 'https://umayerhossain.vercel.app/umayer.jpeg'}
+                {user.avatar ? <Image
+                    src={user.avatar}
                     alt='profile'
                     width={230}
                     height={230}
-                    className='w-48 h-48 object-top rounded-full shadow-md shadow-neutral-500' />
+                    className='w-48 h-48 object-top rounded-full shadow-md shadow-neutral-500' /> :
+                    <div className='w-48 h-48 bg-neutral-200 dark:bg-neutral-800 rounded-full shadow-md shadow-neutral-500 flex items-center justify-center'>
+                        <UserIcon className='w-24 h-24 text-neutral-500' />
+                    </div>
+                }
 
                 <label htmlFor='avatar' className='absolute lg:right-8 right-10 bottom-0 cursor-pointer'>
                     <Camera className='w-10 h-10 bg-green-500 rounded-full p-2 text-white' />
@@ -179,7 +183,7 @@ const ProfileDetails = ({ user }: { user: User }) => {
             </div>
 
             {
-                openProfileUpdate && <ProfileUpdate open={openProfileUpdate} setOpen={setOpenProfileUpdate} newProfileImageData={newProfileImageData} setNewProfileImageData={setNewProfileImageData} imageUploadError={imageUploadError} setImageUploadError={setImageUploadError} />
+                openProfileUpdate && <ProfileUpdate user={user} setUser={setUser} open={openProfileUpdate} setOpen={setOpenProfileUpdate} newProfileImageData={newProfileImageData} setNewProfileImageData={setNewProfileImageData} imageUploadError={imageUploadError} setImageUploadError={setImageUploadError} />
             }
 
             <div className='lg:w-full flex flex-col gap-5 p-2'>
@@ -222,13 +226,15 @@ const ProfileDetails = ({ user }: { user: User }) => {
 };
 
 
-const ProfileUpdate = ({ open, setOpen, newProfileImageData, setNewProfileImageData }: {
+const ProfileUpdate = ({ open, setOpen, newProfileImageData, setNewProfileImageData, setUser, user }: {
     open: boolean,
     setOpen: (open: boolean) => void,
     newProfileImageData: { url: string, file: File | null, width: number, height: number },
-    setNewProfileImageData: (newProfileImageData: { url: string, file: File | null, width: number, height: number }) => void
+    setNewProfileImageData: (newProfileImageData: { url: string, file: File | null, width: number, height: number }) => void,
     imageUploadError: string,
-    setImageUploadError: (imageUploadError: string) => void
+    setImageUploadError: (imageUploadError: string) => void,
+    setUser: (user: User) => void,
+    user: User
 }) => {
     const imageHeight = newProfileImageData.height;
 
@@ -241,17 +247,21 @@ const ProfileUpdate = ({ open, setOpen, newProfileImageData, setNewProfileImageD
         formData.append('avatar', newProfileImageData.file);
 
         try {
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/me/avatar`, formData, { withCredentials: true });
-            console.log(response.data);
-            if (response.data.success) {
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me/avatar`, formData, { withCredentials: true });
+
+            if (response.data.statusCode === 200) {
                 toast.success(response.data.message);
                 setOpen(false);
-                setNewProfileImageData({ url: '', file: null, width: 0, height: 0 });
+                setNewProfileImageData({ url: response.data.data.avatar, file: null, width: 0, height: 0 });
+                setUser({ ...user, avatar: response.data.data.avatar });
             }
         } catch (error: any) {
+            console.log(error)
             toast.error(error.response.data.message || 'Something went wrong');
         }
     }
+
+
     return (
         <div>
             <Dialog open={open} onOpenChange={setOpen}>

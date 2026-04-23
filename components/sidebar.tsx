@@ -11,7 +11,7 @@ import { DiseaseSvg } from './icons/disease-svg';
 import { ChartSvg } from './icons/chart-svg';
 import { BootSvg } from './icons/boot-svg';
 
-export const Sidebar = ({ isOpen, onClose, activeLink, TopNavLinks, BottomNavLinks }: { isOpen?: boolean, onClose?: () => void, activeLink: string, TopNavLinks: { title: string, href: string, icon: React.ReactNode }[], BottomNavLinks: { title: string, href: string, icon: React.ReactNode }[] }) => {
+export const Sidebar = ({ isOpen, onClose, activeLink, TopNavLinks, BottomNavLinks = [] }: { isOpen?: boolean, onClose?: () => void, activeLink: string, TopNavLinks: { title: string, href: string, icon: React.ReactNode }[], BottomNavLinks?: { title: string, href: string, icon: React.ReactNode }[] }) => {
 
 
 

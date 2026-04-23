@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
 
 type MyTokenPayload = {
+    _id: string;
     role: "user" | "admin";
 }
 
 export function proxy(req: NextRequest) {
     const token = req.cookies.get('accessToken')?.value;
-
+    let decode: MyTokenPayload | null = null;
+    if (token) {
+        decode = jwtDecode<MyTokenPayload>(token as string);
+    }
     const { pathname } = req.nextUrl;
 
 
@@ -16,7 +20,7 @@ export function proxy(req: NextRequest) {
     if (
         !token &&
         (
-            pathname.startsWith('/dashboard') ||
+            pathname.startsWith('/dashboard/admin') ||
             pathname.startsWith('/crop-advice') ||
             pathname.startsWith('/ai-chatbot') ||
             pathname.startsWith('/profile') ||
@@ -26,18 +30,16 @@ export function proxy(req: NextRequest) {
         return NextResponse.redirect(new URL('/', req.url));
     }
 
-    if (token && (pathname.startsWith('/auth') || pathname.startsWith('/verify'))) {
+    if (decode?._id && (pathname.startsWith('/auth') || pathname.startsWith('/verify'))) {
         return NextResponse.redirect(new URL('/', req.url))
     }
 
-    let decode: MyTokenPayload | null = null;
-    if (token) {
-        decode = jwtDecode<MyTokenPayload>(token as string);
-    }
+
     // role base access controll
     // admin route 
+    console.log(pathname, decode?.role)
     if (
-        pathname.startsWith('/dashboard/admin') && decode?.role === 'admin'
+        pathname.startsWith('/dashboard/admin') && decode?.role !== 'admin'
     ) {
         return NextResponse.redirect(new URL('/unauthorized', req.url));
     }
@@ -50,6 +52,7 @@ export function proxy(req: NextRequest) {
 }
 export const config = {
     matcher: [
+        '/dashboard/admin/:path*',
         '/dashboard/:path*',
         '/auth/:path*',
         '/verify/:path*',
