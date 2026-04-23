@@ -13,17 +13,26 @@ import { label } from 'motion/react-client'
 import { toast } from 'sonner'
 import { AppButton } from './app-button'
 import axios from 'axios'
+import { createSlug } from '@/lib/createSlug'
+
 
 export const Profile = () => {
     const { user, setUser } = useAuth();
     const [name, setName] = useState(user?.name);
-    const [email, setEmail] = useState(user?.email);
     console.log(user)
 
 
-    const handleUpdateProfile = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('update profile')
+        try {
+            const { data } = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me/profile`, { name }, { withCredentials: true })
+            console.log(data)
+            setUser(data.data);
+            toast.success(data.message)
+        } catch (error: any) {
+            console.log(error)
+            toast.error(error.response.data.message)
+        }
     }
 
     if (!user) {
@@ -53,11 +62,11 @@ export const Profile = () => {
                             <div className='flex flex-col gap-4 mt-4 border-b pb-2'>
                                 <div>
                                     <label htmlFor="ফার্মার আইডি" className='text-sm text-neutral-500'># ফার্মার আইডি</label> <br />
-                                    <input type="text" value={user._id} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800' />
+                                    <input type="text" value={user._id} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800 text-neutral-500 cursor-not-allowed ' />
                                 </div>
                                 <div>
                                     <label htmlFor="স্লাগ" className='text-sm text-neutral-500'>স্লাগ</label> <br />
-                                    <input type="text" value={'@user_slug'} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-xs rounded-lg bg-neutral-50 dark:bg-neutral-800 font-medium' />
+                                    <input type="text" value={`@${createSlug(user.name || 'user slug')}`} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-xs rounded-lg bg-neutral-50 dark:bg-neutral-800 font-medium text-neutral-500 cursor-not-allowed ' />
                                 </div>
                             </div>
                             <div className='flex items-center gap-2 mt-4'>
@@ -82,7 +91,7 @@ export const Profile = () => {
                                     </div>
                                     <div>
                                         <label htmlFor="ইমেইল" className='text-sm text-neutral-500'>ইমেইল</label> <br />
-                                        <input type="text" value={email} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800' />
+                                        <input type="text" value={user.email} readOnly className='w-full py-2 px-3 outline-none border border-neutral-200 dark:border-neutral-500 text-sm rounded-lg bg-neutral-50 dark:bg-neutral-800 text-neutral-500 cursor-not-allowed' />
                                     </div>
                                 </div>
 
@@ -219,8 +228,6 @@ const ProfileDetails = ({ user, setUser }: { user: User, setUser: (user: User) =
                     </div>
                 </div>
             </div>
-
-
         </div>
     )
 };
