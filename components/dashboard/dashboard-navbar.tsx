@@ -16,7 +16,6 @@ import RefrashBtn from './refrash-btn';
 export const DashboardNavbar = ({ onMenuClick }: { onMenuClick?: () => void }) => {
     const { user, logout } = useAuth();
     const [isFocused, setIsFocused] = useState(false);
-    const route = useRouter();
 
 
     return (
@@ -95,6 +94,7 @@ export const Profile = ({ user, logout }: { user: User, logout: () => void }) =>
     const [isOpen, setIsOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
     const { theme } = useTheme()
+    const router = useRouter()
 
     const hoverBg =
         theme === 'dark'
@@ -156,8 +156,8 @@ export const Profile = ({ user, logout }: { user: User, logout: () => void }) =>
                                 <p className='text-xs font-medium text-neutral-400 uppercase tracking-wider'>Account</p>
                             </div>
 
-                            <DropdownItem icon={<UserIcon size={16} />} label="Profile" />
-                            <DropdownItem icon={<Settings size={16} />} label="Settings" />
+                            <DropdownItem icon={<UserIcon size={16} />} label="Profile" onClick={() => { router.push('/profile'); setIsOpen(false); }} />
+                            <DropdownItem icon={<Settings size={16} />} label="Settings" onClick={() => { router.push('/settings'); setIsOpen(false); }} />
 
                             <div className='h-px bg-neutral-100 my-1' />
 

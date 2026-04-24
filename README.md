@@ -25,7 +25,8 @@
 - **🛡️ AI Disease Detection**: Upload photos of crop leaves to identify diseases instantly and get treatment advice.
 - **📊 Market Price Monitor**: Live tracking of crop prices (Potato, Rice, Onion, etc.) across different markets.
 - **🌱 Smart Crop Advice**: Personalized planting recommendations based on current Bengali seasons and soil types.
-- **🤖 Agri-Bot**: An intelligent AI chatbot that understands and responds to agricultural queries in Bengali.
+- **🤖 Agri-Bot**: An intelligent AI chatbot that responds to agricultural queries in Bengali.
+- **🔒 Secure 2FA**: Enhanced account security with Two-Factor Authentication and OTP verification.
 
 ### 🛠️ Technology Stack
 | Layer | Technology |
@@ -67,8 +68,9 @@
 - **🌡️ সরাসরি আবহাওয়াবার্তা**: আপনার এলাকার তাৎক্ষণিক আবহাওয়ার আপডেট এবং বিরূপ আবহাওয়ায় সতর্কতা বার্তা।
 - **🛡️ রোগ শনাক্তকরণ**: ফসলের পাতার ছবি তুলে এআই-এর মাধ্যমে রোগ শনাক্ত করুন এবং সঠিক প্রতিকার জানুন।
 - **📊 বাজার দর আপডেট**: আলু, পেঁয়াজ, ধানসহ বিভিন্ন নিত্যপণ্যের বর্তমান বাজার দর জানুন এক পলকে।
-- **🌱 স্মার্ট ফসল পরামর্শ**: মাটির ধরন এবং বাংলা ঋতু অনুযায়ী কোন ফসল চাষ করলে সবচেয়ে বেশি লাভ হবে তার সঠিক গাইড।
-- **🤖 এআই চ্যাটবট (Agri-Bot)**: বাংলা ভাষায় কথা বলা বুদ্ধিমান চ্যাটবট, যা আপনার কৃষি সংক্রান্ত সকল প্রশ্নের উত্তর দিবে।
+- **🌱 স্মার্ট ফসল পরামর্শ**: মাটির ধরন এবং বাংলা ঋতু অনুযায়ী সঠিক গাইড।
+- **🤖 এআই চ্যাটবট (Agri-Bot)**: বাংলা ভাষায় কথা বলা বুদ্ধিমান চ্যাটবট।
+- **🔒 টু-স্টেপ ভেরিফিকেশন (2FA)**: অ্যাকাউন্টের বাড়তি নিরাপত্তার জন্য ওটিপি ভেরিফিকেশন।
 
 ### 🛠️ টেকনোলজি স্ট্যাক
 - **বেস**: Next.js 16 (React 19) এবং TypeScript।
