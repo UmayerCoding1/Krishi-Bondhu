@@ -99,12 +99,18 @@ export const VerifyPage = () => {
 
             // Mock resend endpoint or the verification endpoint might handle it
             // For now, reset timer and focus
-            setTimer(60);
-            setIsResendActive(false);
-            setOtp(['', '', '', '']);
-            inputRefs[0].current?.focus();
-            toast.success('পিন কোডটি পুনরায় পাঠানো হয়েছে');
+
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/resend-otp`, { email });
+            console.log(data)
+            if (data.statusCode === 200) {
+                setTimer(60);
+                setIsResendActive(false);
+                setOtp(['', '', '', '']);
+                inputRefs[0].current?.focus();
+                toast.success('পিন কোডটি পুনরায় পাঠানো হয়েছে');
+            }
         } catch (error) {
+            console.log(error)
             toast.error('পুনরায় পাঠাতে ব্যর্থ হয়েছে');
         }
     };
