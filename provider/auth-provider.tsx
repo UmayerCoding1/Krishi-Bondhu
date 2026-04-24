@@ -15,7 +15,14 @@ export type User = {
     isTwoFactorEnabled: boolean
     isVerified: boolean
     status: string,
-    createdAt: string
+    createdAt: string,
+    system_config: {
+        notification: {
+            email: boolean,
+            system_notification: boolean,
+            safety_alert: boolean,
+        }
+    }
 }
 type AuthContextType = {
     user: User | null
