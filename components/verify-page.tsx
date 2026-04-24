@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { AppButton } from './app-button'
 import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import axios from 'axios'
 
@@ -20,6 +20,9 @@ export const VerifyPage = () => {
         useRef<HTMLInputElement>(null)
     ];
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const vt = searchParams.get('vt');
+    const is2FA = vt === '2fa';
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -66,6 +69,9 @@ export const VerifyPage = () => {
                 toast.error('ইমেল পাওয়া যায়নি। অনুগ্রহ করে আবার রেজিস্টার করুন।');
                 return;
             }
+
+
+
 
             const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify`, {
                 email,
@@ -123,8 +129,14 @@ export const VerifyPage = () => {
                 className="w-full max-w-md p-8 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-100 dark:border-zinc-800"
             >
                 <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold font-heading text-primary mb-2">একাউন্ট ভেরিফিকেশন</h2>
-                    <p className="text-zinc-500 dark:text-zinc-400">আপনার ইমেলে পাঠানো ৪ ডিজিটের পিন কোডটি এখানে লিখুন</p>
+                    <h2 className="text-2xl font-bold font-heading text-primary mb-2">
+                        {is2FA ? 'টু-স্টেপ ভেরিফিকেশন' : 'একাউন্ট ভেরিফিকেশন'}
+                    </h2>
+                    <p className="text-zinc-500 dark:text-zinc-400">
+                        {is2FA
+                            ? 'আপনার একাউন্টের নিরাপত্তা নিশ্চিত করতে পিন কোডটি লিখুন'
+                            : 'আপনার ইমেলে পাঠানো ৪ ডিজিটের পিন কোডটি এখানে লিখুন'}
+                    </p>
                 </div>
 
                 <div className="flex justify-center gap-4 mb-8">

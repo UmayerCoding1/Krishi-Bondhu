@@ -27,6 +27,12 @@ export const LoginForm = () => {
             );
             console.log(response.data);
             if (response.data.data) {
+                localStorage.setItem('verify_email', loginData.email);
+                if (response.data.data.enabled2FA) {
+                    route.push('/verify?vt=2fa');
+                    toast.success(response.data.message, { duration: 1500 })
+                    return;
+                }
                 loginUser(response.data.data);
                 localStorage.setItem('page_reload', JSON.stringify(true));
                 route.push('/');
