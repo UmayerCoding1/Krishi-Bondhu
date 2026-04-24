@@ -6,9 +6,10 @@ import { motion } from "motion/react"
 import axios from "axios";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const AccountSetting = () => {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -21,6 +22,21 @@ export const AccountSetting = () => {
         status: ""
     });
     const [loading, setLoading] = useState(false);
+    const [twoFactorEnabled, setTwoFactorEnabled] = useState(user?.isTwoFactorEnabled || false);
+    const handleTwoFactorChange = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/toggle-two-factor`, {}, { withCredentials: true });
+            if (response.status === 200) {
+                setTwoFactorEnabled(!twoFactorEnabled);
+                toast.success(response.data.message);
+            }
+        } catch (error: any) {
+            toast.error(error.response.data.message);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const handleChangePassword = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -86,6 +102,11 @@ export const AccountSetting = () => {
         }
 
     }
+
+    console.log(user)
+    if (!user) {
+        return <div>loading.....</div>
+    }
     return (
         <>
             <div className='bg-neutral-100 dark:bg-neutral-800 px-4 py-2 mt-2 rounded-2xl relative overflow-hidden'>
@@ -146,7 +167,7 @@ export const AccountSetting = () => {
                     </div>
 
                     <div>
-                        <Switch id="airplane-mode" />
+                        <Switch checked={twoFactorEnabled} onCheckedChange={handleTwoFactorChange} id="airplane-mode" />
                     </div>
                 </div>
             </div>

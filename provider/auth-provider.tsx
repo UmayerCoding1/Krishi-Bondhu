@@ -12,6 +12,7 @@ export type User = {
     email: string
     avatar: string
     role: 'admin' | 'user'
+    isTwoFactorEnabled: boolean
     isVerified: boolean
     status: string,
     createdAt: string
