@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const logout = async () => {
         console.log("logout");
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/logout`, {}, { withCredentials: true })
+            const response = await axios.post(`/api/v1/auth/logout`, {}, { withCredentials: true })
             console.log(response.data);
             if (response.data.statusCode === 200) {
                 setUser(null)
