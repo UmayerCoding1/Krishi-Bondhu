@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         hostname: '**', // allows all hostnames
       },
     ],
-  },
+  }
 };
 
 export default nextConfig;
