@@ -21,7 +21,7 @@ export const LoginForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
+                `${process.env.NEXT_PUBLIC_AUTH_URL}/auth/login`,
                 loginData,
                 { withCredentials: true }
             );

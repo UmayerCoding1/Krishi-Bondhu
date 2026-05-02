@@ -26,7 +26,7 @@ export const AccountSetting = () => {
     const handleTwoFactorChange = async () => {
         try {
             setLoading(true);
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/toggle-two-factor`, {}, { withCredentials: true });
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/toggle-two-factor`, {}, { withCredentials: true });
             if (response.status === 200) {
                 setTwoFactorEnabled(!twoFactorEnabled);
                 toast.success(response.data.message);
@@ -74,7 +74,7 @@ export const AccountSetting = () => {
                 return;
             }
 
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/change-password`, formData, { withCredentials: true });
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/change-password`, formData, { withCredentials: true });
 
             if (response.status === 200) {
                 setPasswordMatcStatus({

@@ -65,9 +65,15 @@ export const CropAdvicePage = () => {
                 setSendRequest(false);
                 toast.success('Crop advice form submitted successfully', { position: 'top-right' });
             }
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
-            setLoading(false);
+            if (error.response.status === 400) {
+                toast.error(error.response.data.message, { position: 'top-right' });
+                setStoreCropData({ bestCrop: null, cropsWithImages: [] });
+                setBestCrop(null);
+                setCropAdvice(null);
+            }
+            setStoreLoading(false);
             setSendRequest(false);
             toast.error('Something went wrong');
         }

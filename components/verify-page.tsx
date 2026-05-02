@@ -73,7 +73,7 @@ export const VerifyPage = () => {
 
 
 
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify`, {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/verify`, {
                 email,
                 otp: Number(otpValue),
             }, { withCredentials: true })
@@ -106,7 +106,7 @@ export const VerifyPage = () => {
             // Mock resend endpoint or the verification endpoint might handle it
             // For now, reset timer and focus
 
-            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/resend-otp`, { email });
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/resend-otp`, { email });
             console.log(data)
             if (data.statusCode === 200) {
                 setTimer(60);
