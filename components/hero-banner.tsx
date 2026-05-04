@@ -26,6 +26,7 @@ export const HeroBanner = ({ imageUrl, title, titleHilight, badge, description, 
                     alt='hero-banner'
                     width={1920}
                     height={1080}
+                    priority
                     className='w-full h-[500px] object-cover'
                 />
             </motion.div>

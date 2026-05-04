@@ -51,16 +51,18 @@ export const Hero = () => {
                     </p>
 
                     <div className='flex flex-wrap items-center gap-3 mt-4'>
-                        <AppButton onClick={() => route.push('/auth')} className='text-lg flex items-center gap-2'>
-                            শুরু করুন <ArrowRight size={18} />
-                        </AppButton>
                         <AppButton
-                            buttonType="secondary"
-                            className='flex items-center gap-2 bg-linear-to-r from-neutral-500 to-neutral-900 pt-1 text-sm md:text-base text-white'
+                            onClick={() => route.push('/auth')}
+                            className="h-14 px-8 text-lg rounded-full shadow-xl shadow-green-500/25"
                         >
-                            <Play size={16} className='mb-0.5' />
-                            ভিডিও দেখুন
+                            শুরু করুন <ArrowRight className="ml-2 w-5 h-5" />
                         </AppButton>
+                        <button className="flex items-center gap-3 px-6 h-14 rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all group">
+                            <div className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Play className="w-4 h-4 fill-zinc-900 dark:fill-white" />
+                            </div>
+                            <span className="font-semibold">ভিডিও দেখুন</span>
+                        </button>
                     </div>
                 </div>
             </div>

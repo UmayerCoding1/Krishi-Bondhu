@@ -51,15 +51,63 @@ export const HomePage = () => {
                     {user?.role === 'admin' ? <AdminOverview /> : <Overview />}
                 </>
             ) : (
-                <>
+                <div className="space-y-24 md:space-y-32 pb-24">
                     <Hero />
-                    <ProblemSection />
-                    <SolutionSection />
-                    <Servies />
-                    <WorksSection />
-                    <BenefitsSection />
-                    <PricingSection />
-                </>
+                    
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <ProblemSection />
+                    </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <SolutionSection />
+                    </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <Servies />
+                    </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <WorksSection />
+                    </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <BenefitsSection />
+                    </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <PricingSection />
+                    </motion.section>
+                </div>
             )}
         </div>
     )

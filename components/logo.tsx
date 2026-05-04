@@ -14,6 +14,7 @@ export const Logo = ({ className }: { className?: string }) => {
                 src={theme === 'dark' ? "/assets/dark-logo.png" : "/assets/light-logo.png"}
                 alt="Logo"
                 fill
+                priority
                 className="object-contain"
             />
         </div>
