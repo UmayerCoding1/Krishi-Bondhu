@@ -73,7 +73,7 @@ export const VerifyPage = () => {
 
 
 
-            const res = await axios.post(`/auth/verify`, {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/verify`, {
                 email,
                 otp: Number(otpValue),
             }, { withCredentials: true })

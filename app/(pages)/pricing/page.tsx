@@ -1,6 +1,6 @@
-import type { Metadata } from 'next';
 import { PricingContent } from '@/components/pricing-content';
-
+import { Metadata } from 'next';
+import React from 'react';
 export const metadata: Metadata = {
     title: 'মূল্য তালিকা | কৃষি বন্ধু',
     description:
@@ -9,14 +9,14 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'মূল্য তালিকা | কৃষি বন্ধু',
         description: 'বেসিক থেকে এন্টারপ্রাইজ—আপনার খামারের প্রয়োজন অনুযায়ী পরিকল্পনা বেছে নিন।',
-        url: 'https://krishibondhu.com/pricing',
+        url: 'https://krishi-bondhu-bd.vercel.app/pricing',
     },
 };
 
-export default function PricingPage() {
+export default function page() {
     return (
         <>
             <PricingContent />
         </>
-    );
+    )
 }
