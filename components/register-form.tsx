@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { AppButton } from './app-button';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import axios from 'axios';
 export const RegisterForm = () => {
     const [registerData, setRegisterData] = useState({
         name: '',
@@ -25,21 +26,21 @@ export const RegisterForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await fetch(`/api/v1/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(registerData),
-            });
-            const data = await res.json();
-            if (data.statusCode === 201) {
+            console.log('api call..........')
+            const { data } = await axios.post(`/api/v1/auth/register`, registerData);
+
+            if (data.success) {
                 toast.success(data.message);
                 localStorage.setItem('verify_email', registerData.email);
                 route.push('/verify');
             }
         } catch (error) {
             console.log(error);
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data.message || "Something went wrong");
+            } else {
+                toast.error("Something went wrong");
+            }
         }
     }
     return (
