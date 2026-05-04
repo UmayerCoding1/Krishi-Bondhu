@@ -3,9 +3,9 @@
 import { cn } from "@/lib/utils";
 
 
-const GlassCard = ({ className, children, textColor = 'primary', gradient = true }: { 
-    className?: string, 
-    children: React.ReactNode, 
+const GlassCard = ({ className, children, textColor = 'primary', gradient = true }: {
+    className?: string,
+    children: React.ReactNode,
     textColor?: 'primary' | 'secondary',
     gradient?: boolean
 }) => {
@@ -19,7 +19,7 @@ const GlassCard = ({ className, children, textColor = 'primary', gradient = true
             className
         )}>
             {gradient && (
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-br from-white/10 to-transparent pointer-events-none" />
             )}
             <div className="relative z-10">
                 {children}

@@ -25,7 +25,7 @@ export const RegisterForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/register`, {
+            const res = await fetch(`/api/v1/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
