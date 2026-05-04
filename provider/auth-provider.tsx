@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const getCurrentUser = async () => {
         try {
-            const response = await axios.get(`/api/v1/auth/me`, { withCredentials: true })
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/me`, { withCredentials: true })
             setUser(response.data.data)
             setIsAuthenticated(true)
         } catch (error) {

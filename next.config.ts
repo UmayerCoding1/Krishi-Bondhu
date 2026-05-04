@@ -9,14 +9,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://ks-auth-server.vercel.app/api/:path*',
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/api/:path*',
+  //       // destination: 'https://ks-auth-server.vercel.app/api/:path*', //production
+  //       destination: 'http://localhost:5000/api/:path*', //development
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;
