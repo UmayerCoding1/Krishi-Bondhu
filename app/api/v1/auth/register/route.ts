@@ -4,7 +4,7 @@ import { User } from "@/models/user.model";
 import { sendEmail } from "@/services/sendEmail";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
         await connectToDB();
         const { name, email, password } = await req.json();
