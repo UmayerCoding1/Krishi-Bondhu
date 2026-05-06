@@ -29,9 +29,7 @@ export async function POST(req: NextRequest) {
         }
         const user = await User.create({ name, email, password, otp: otpData });
 
-        sendEmail(email, "Verify your email", otp).catch((error) => {
-            console.log("Email sent failed", error);
-        });
+        sendEmail(email, "Verify your email", otp)
 
         return NextResponse.json({ message: "User registered successfully", success: true }, { status: 201 });
 
@@ -40,3 +38,5 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: "error", success: false }, { status: 500 })
     }
 }
+
+

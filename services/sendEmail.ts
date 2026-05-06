@@ -2,32 +2,31 @@
 import nodemailer from 'nodemailer';
 
 if (!process.env.NODEMAILER_USER || !process.env.NODEMAILER_PASS) {
-    throw new Error("Email credentials missing in .env");
+  throw new Error("Email credentials missing in .env");
 }
 
 
 const transporter = nodemailer.createTransport({
-    secure: true,
-    host: "smtp.gmail.com",
-    port: 465,
-    pool: true,
-    auth: {
-        user: process.env.NODEMAILER_USER!,
-        pass: process.env.NODEMAILER_PASS!
-    }
+  secure: true,
+  host: "smtp.gmail.com",
+  port: 465,
+  auth: {
+    user: process.env.NODEMAILER_USER!,
+    pass: process.env.NODEMAILER_PASS!
+  }
 });
 
 
 export const sendEmail = async (
-    to: string,
-    sub: string,
-    otp: string
+  to: string,
+  sub: string,
+  otp: string
 ) => {
-    await transporter.sendMail({
-        from: `"কৃষি বন্ধু " <${process.env.NODEMAILER_USER}>`,
-        to,
-        subject: sub,
-        html: `
+  await transporter.sendMail({
+    from: `"কৃষি বন্ধু " <${process.env.NODEMAILER_USER}>`,
+    to,
+    subject: sub,
+    html: `
       <div style="font-family: Arial, sans-serif; background-color: #f4f6f8; padding: 40px 0;">
         <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
           
@@ -72,8 +71,8 @@ export const sendEmail = async (
         </div>
       </div>
     `,
-    });
+  });
 
-    console.log("Email sent successfully");
-    return { success: true };
+  console.log("Email sent successfully");
+  return { success: true };
 };
