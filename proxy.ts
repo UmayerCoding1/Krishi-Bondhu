@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
+import { MyTokenPayload } from './type';
 
-type MyTokenPayload = {
-    _id: string;
-    role: "user" | "admin";
-}
+
 
 export function proxy(req: NextRequest) {
     const token = req.cookies.get('accessToken')?.value;

@@ -10,7 +10,9 @@ import { AppButton } from './app-button';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import axios from 'axios';
+import { useAuth } from '@/hooks/useAuth';
 export const RegisterForm = () => {
+    const { setUser } = useAuth();
     const [registerData, setRegisterData] = useState({
         name: '',
         email: '',
@@ -31,8 +33,8 @@ export const RegisterForm = () => {
 
             if (data.success) {
                 toast.success(data.message);
-                localStorage.setItem('verify_email', registerData.email);
-                route.push('/verify');
+                setUser(data.data);
+                route.push('/');
             }
         } catch (error) {
             console.log(error);

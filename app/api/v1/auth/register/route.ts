@@ -2,6 +2,7 @@ import { connectToDB } from "@/config/db";
 import { createHashPassword } from "@/lib/crypto-hash";
 import { User } from "@/models/user.model";
 import { sendEmail } from "@/services/sendEmail";
+import { generateAccessToken, generateRefreshToken } from "@/utils/token";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -9,29 +10,41 @@ export async function POST(req: NextRequest) {
         await connectToDB();
         const { name, email, password } = await req.json();
         const existingUser = await User.findOne({ email });
+
         if (existingUser) {
-            if (existingUser.isVerified) {
-                return NextResponse.json({ message: "User already verified", success: false }, { status: 400 });
-            }
-            else {
-                return NextResponse.json({ message: "User already exists", success: false }, { status: 400 });
-            }
-
+            return NextResponse.json({ message: "User already exists", success: false }, { status: 400 });
         }
 
-        const otp = Math.floor(1000 + Math.random() * 9000).toString();
-        const { slug, hash } = createHashPassword(otp);
-        const otpData = {
-            code: hash,
-            expiresAt: new Date(Date.now() + 5 * 60 * 1000),
-            slug: slug
+        const user = await User.create({ name, email, password });
 
-        }
-        const user = await User.create({ name, email, password, otp: otpData });
 
-        sendEmail(email, "Verify your email", otp)
+        const accessToken = await generateAccessToken({ _id: user._id, role: user.role });
+        const refreshToken = await generateRefreshToken({ _id: user._id, role: user.role });
 
-        return NextResponse.json({ message: "User registered successfully", success: true }, { status: 201 });
+
+
+        const response = NextResponse.json(
+            { message: "Registration successful", success: true, data: user },
+            { status: 201 }
+        );
+
+        response.cookies.set("accessToken", accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24, // 1 day in sec
+            path: "/",
+        });
+
+        response.cookies.set("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60,
+            path: "/",
+        });
+
+        return response;
 
     } catch (error) {
         console.log(error)

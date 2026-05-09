@@ -89,27 +89,27 @@ const userSchema = new Schema<IUSer>({
         enum: ROLE,
         default: ROLE.USER
     },
-    otp: {
-        code: {
-            type: String,
-            max: 4,
-            min: 4
-        },
-        expiresAt: {
-            type: Date,
-        },
-        slug: {
-            type: String,
-        }
-    },
-    isTwoFactorEnabled: {
-        type: Boolean,
-        default: false
-    },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
+    // otp: {
+    //     code: {
+    //         type: String,
+    //         max: 4,
+    //         min: 4
+    //     },
+    //     expiresAt: {
+    //         type: Date,
+    //     },
+    //     slug: {
+    //         type: String,
+    //     }
+    // },
+    // isTwoFactorEnabled: {
+    //     type: Boolean,
+    //     default: false
+    // },
+    // isVerified: {
+    //     type: Boolean,
+    //     default: false
+    // },
     fermaerId: {
         type: String,
         unique: true,

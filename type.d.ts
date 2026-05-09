@@ -10,3 +10,9 @@ declare global {
 }
 
 export { };
+
+
+export type MyTokenPayload = {
+    _id: string;
+    role: "user" | "admin";
+}
