@@ -23,20 +23,22 @@ export const AccountSetting = () => {
     });
     const [loading, setLoading] = useState(false);
     const [twoFactorEnabled, setTwoFactorEnabled] = useState(user?.isTwoFactorEnabled || false);
-    const handleTwoFactorChange = async () => {
-        try {
-            setLoading(true);
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/toggle-two-factor`, {}, { withCredentials: true });
-            if (response.status === 200) {
-                setTwoFactorEnabled(!twoFactorEnabled);
-                toast.success(response.data.message);
-            }
-        } catch (error: any) {
-            toast.error(error.response.data.message);
-        } finally {
-            setLoading(false);
-        }
-    }
+
+
+    // const handleTwoFactorChange = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const response = await axios.patch(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/toggle-two-factor`, {}, { withCredentials: true });
+    //         if (response.status === 200) {
+    //             setTwoFactorEnabled(!twoFactorEnabled);
+    //             toast.success(response.data.message);
+    //         }
+    //     } catch (error: any) {
+    //         toast.error(error.response.data.message);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
 
     const handleChangePassword = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
@@ -151,7 +153,7 @@ export const AccountSetting = () => {
                 </form>
             </div>
 
-            <div className='bg-neutral-100 dark:bg-neutral-800 px-4 py-2 mt-5 rounded-2xl'>
+            {/* <div className='bg-neutral-100 dark:bg-neutral-800 px-4 py-2 mt-5 rounded-2xl'>
                 <div className='mt-3'>
                     <h2 className='flex items-center gap-2'>
                         <ShieldAlert className='text-primary' />
@@ -170,7 +172,7 @@ export const AccountSetting = () => {
                         <Switch checked={twoFactorEnabled} onCheckedChange={handleTwoFactorChange} id="airplane-mode" />
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

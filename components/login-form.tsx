@@ -21,20 +21,14 @@ export const LoginForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_AUTH_URL}/auth/login`,
+                `/api/v1/auth/login`,
                 loginData,
                 { withCredentials: true }
             );
             console.log(response.data);
             if (response.data.data) {
-                localStorage.setItem('verify_email', loginData.email);
-                if (response.data.data.enabled2FA) {
-                    route.push('/verify?vt=2fa');
-                    toast.success(response.data.message, { duration: 1500 })
-                    return;
-                }
                 loginUser(response.data.data);
-                localStorage.setItem('page_reload', JSON.stringify(true));
+                // localStorage.setItem('page_reload', JSON.stringify(true));
                 route.push('/');
                 toast.success(response.data.message, { duration: 1500 })
             }
