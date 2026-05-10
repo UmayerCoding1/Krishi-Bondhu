@@ -33,7 +33,7 @@ export const NotificationSetting = () => {
             <div className='mt-3'>
                 <h2 className='flex items-center gap-2'>
                     <Bell className='text-primary' />
-                    <h2 className='text-xl font-semibold'>নোটিফিকেশন পছন্দসমূহ    </h2>
+                    <p className='text-xl font-semibold'>নোটিফিকেশন পছন্দসমূহ    </p>
                 </h2>
                 <p className='text-sm text-neutral-500'>আপনি কোন ধরনের নোটিফিকেশন পেতে চান তা নির্বাচন করুন।</p>
             </div>

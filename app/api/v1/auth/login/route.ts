@@ -1,3 +1,4 @@
+import { connectToDB } from "@/config/db";
 import { verifyHashPassword } from "@/lib/crypto-hash";
 import { STATUS, User } from "@/models/user.model";
 import { generateAccessToken, generateRefreshToken } from "@/utils/token";
@@ -5,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     try {
-
+        await connectToDB();
         const { email, password } = await req.json();
         const user = await User.findOne({ email });
         if (!user) {
