@@ -51,12 +51,11 @@ export const CropAdvicePage = () => {
         const { setStoreCropData, setStoreLoading } = useCropStore.getState();
         setStoreLoading(true);
         setSendRequest(true);
-        console.log('crop advice form submitted', { location, season, soilType });
+
 
         try {
 
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/crop`, { location, season, soil: soilType }, { withCredentials: true });
-            console.log(response.data);
             if (response.data.success) {
                 setStoreCropData(response.data.data);
                 setBestCrop(response.data.data.bestCrop);
@@ -80,7 +79,6 @@ export const CropAdvicePage = () => {
     }
 
 
-    console.log('letter show', isShowSiteInfo)
     return (
 
         <DashboardContainer className='bg-secondary/3 min-h-(--dashboard-height) overflow-x-visible font-display'>
@@ -224,7 +222,7 @@ const CropDetails = ({ bestCrop, cropAdvice, loading }: { bestCrop: any, cropAdv
     if (!bestCrop) {
         return null
     }
-    console.log('bestCrop', bestCrop)
+
     return (
         <div className='w-full  h-full'>
             <div className='flex items-center gap-2 relative'>

@@ -172,7 +172,7 @@ export default function Overview() {
         }
     };
 
-    // console.log(we)
+
     return (
         <DashboardContainer>
             <motion.div

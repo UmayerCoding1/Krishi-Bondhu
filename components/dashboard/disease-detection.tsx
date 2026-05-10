@@ -101,7 +101,7 @@ export const DiseaseDetectionPage = () => {
         }
     };
 
-    console.log(diseaseResult)
+
     return (
         <div className='w-full h-full flex flex-col gap-5'>
             <div className='flex items-center justify-between'>

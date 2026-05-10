@@ -19,18 +19,17 @@ import { createSlug } from '@/lib/createSlug'
 export const Profile = () => {
     const { user, setUser } = useAuth();
     const [name, setName] = useState(user?.name);
-    console.log(user)
+
 
 
     const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const { data } = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me/profile`, { name }, { withCredentials: true })
-            console.log(data)
+            const { data } = await axios.patch(`api/v1/users/me/profile`, { name }, { withCredentials: true })
+
             setUser(data.data);
             toast.success(data.message)
         } catch (error: any) {
-            console.log(error)
             toast.error(error.response.data.message)
         }
     }
@@ -254,13 +253,12 @@ const ProfileUpdate = ({ open, setOpen, newProfileImageData, setNewProfileImageD
         formData.append('avatar', newProfileImageData.file);
 
         try {
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/me/avatar`, formData, { withCredentials: true });
-
-            if (response.data.statusCode === 200) {
-                toast.success(response.data.message);
+            const { data } = await axios.patch(`/api/v1/users/me/avatar`, formData, { withCredentials: true });
+            if (data.success) {
+                toast.success(data.message);
                 setOpen(false);
-                setNewProfileImageData({ url: response.data.data.avatar, file: null, width: 0, height: 0 });
-                setUser({ ...user, avatar: response.data.data.avatar });
+                setNewProfileImageData({ url: data.avatar, file: null, width: 0, height: 0 });
+                setUser({ ...user, avatar: data.avatar });
             }
         } catch (error: any) {
             console.log(error)

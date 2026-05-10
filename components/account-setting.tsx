@@ -105,7 +105,7 @@ export const AccountSetting = () => {
 
     }
 
-    console.log(user)
+
     if (!user) {
         return <div>loading.....</div>
     }

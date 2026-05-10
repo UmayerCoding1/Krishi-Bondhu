@@ -14,7 +14,7 @@ export function proxy(req: NextRequest) {
 
 
 
-    // শুধু private route protect
+    //  private route protect
     if (
         !token &&
         (
@@ -35,7 +35,7 @@ export function proxy(req: NextRequest) {
 
     // role base access controll
     // admin route 
-    console.log(pathname, decode?.role)
+
     if (
         pathname.startsWith('/dashboard/admin') && decode?.role !== 'admin'
     ) {

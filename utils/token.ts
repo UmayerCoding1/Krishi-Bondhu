@@ -10,7 +10,7 @@ export const generateToken = async (payload: { _id: string, role: string }) => {
 };
 
 export const generateAccessToken = async (payload: { _id: string, role: string }) => {
-    return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "1h" });
+    return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "1d" });
 };
 
 

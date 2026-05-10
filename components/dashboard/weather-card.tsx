@@ -65,7 +65,6 @@ export const WeatherCard = ({ weatherData, fullWeekWeatherData, locationName, se
 
     useEffect(() => {
         if (!weatherData) return;
-        console.log('wwwww', weatherData.rain)
         const translate = async () => {
             const translated = await handleTranslate(weatherData.rain || '');
             console.log(translated)

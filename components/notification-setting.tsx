@@ -14,7 +14,7 @@ export const NotificationSetting = () => {
         try {
             setLoading(true);
             const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/notification`, { type, value }, { withCredentials: true });
-            console.log(response.data, 'response data')
+
             if (response.status === 200) {
                 setSelectedNotification({ ...selectedNotification, [type]: value });
                 toast.success(response.data.message);
@@ -26,8 +26,6 @@ export const NotificationSetting = () => {
         }
     }
 
-    console.log(user)
-    console.log(selectedNotification)
     return (
         <div>
             <div className='mt-3'>

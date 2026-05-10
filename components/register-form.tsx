@@ -28,7 +28,7 @@ export const RegisterForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            console.log('api call..........')
+
             const { data } = await axios.post(`/api/v1/auth/register`, registerData);
 
             if (data.success) {

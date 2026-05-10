@@ -78,7 +78,6 @@ export const VerifyPage = () => {
                 otp: Number(otpValue),
             }, { withCredentials: true })
 
-            console.log(res.data)
             if (true) {
                 toast.success('ভেরিফিকেশন সফল হয়েছে!');
                 localStorage.removeItem('verify_email');
@@ -107,7 +106,6 @@ export const VerifyPage = () => {
             // For now, reset timer and focus
 
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/resend-otp`, { email });
-            console.log(data)
             if (data.statusCode === 200) {
                 setTimer(60);
                 setIsResendActive(false);

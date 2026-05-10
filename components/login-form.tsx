@@ -25,7 +25,7 @@ export const LoginForm = () => {
                 loginData,
                 { withCredentials: true }
             );
-            console.log(response.data);
+
             if (response.data.data) {
                 loginUser(response.data.data);
                 // localStorage.setItem('page_reload', JSON.stringify(true));

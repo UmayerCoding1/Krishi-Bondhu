@@ -170,7 +170,7 @@ export default function Page() {
         }
     };
 
-    // console.log(we)
+
     return (
         <DashboardContainer>
             <motion.div
