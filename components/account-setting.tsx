@@ -76,7 +76,7 @@ export const AccountSetting = () => {
                 return;
             }
 
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/change-password`, formData, { withCredentials: true });
+            const response = await axios.patch(`/api/v1/auth/change-password`, formData, { withCredentials: true });
 
             if (response.status === 200) {
                 setPasswordMatcStatus({
