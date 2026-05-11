@@ -25,9 +25,9 @@ export const Profile = () => {
     const handleUpdateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const { data } = await axios.patch(`api/v1/users/me/profile`, { name }, { withCredentials: true })
+            const { data } = await axios.patch(`api/v1/users/me/profile`, { name }, { withCredentials: true });
 
-            setUser(data.data);
+            setUser(data.user);
             toast.success(data.message)
         } catch (error: any) {
             toast.error(error.response.data.message)

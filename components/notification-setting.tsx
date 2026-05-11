@@ -13,7 +13,7 @@ export const NotificationSetting = () => {
     const handleNotificationChange = async (type: string, value: boolean) => {
         try {
             setLoading(true);
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/notification`, { type, value }, { withCredentials: true });
+            const response = await axios.patch(`/api/v1/users/notification`, { type, value }, { withCredentials: true });
 
             if (response.status === 200) {
                 setSelectedNotification({ ...selectedNotification, [type]: value });
