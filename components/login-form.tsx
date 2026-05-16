@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
+import axiosInstance from '@/lib/axios';
 
 export const LoginForm = () => {
     const [loginData, setLoginData] = useState({
@@ -20,15 +21,14 @@ export const LoginForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post(
-                `/api/v1/auth/login`,
+            const response = await axiosInstance.post(
+                `/auth/login`,
                 loginData,
-                { withCredentials: true }
             );
 
             if (response.data.data) {
                 loginUser(response.data.data);
-                // localStorage.setItem('page_reload', JSON.stringify(true));
+                localStorage.setItem('page_reload', JSON.stringify(true));
                 route.push('/');
                 toast.success(response.data.message, { duration: 1500 })
             }

@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useAuth } from '@/hooks/useAuth';
+import axiosInstance from '@/lib/axios';
 export const RegisterForm = () => {
     const { setUser } = useAuth();
     const [registerData, setRegisterData] = useState({
@@ -29,10 +30,11 @@ export const RegisterForm = () => {
         e.preventDefault();
         try {
 
-            const { data } = await axios.post(`/api/v1/auth/register`, registerData);
+            const { data } = await axiosInstance.post(`/auth/register`, registerData);
 
             if (data.success) {
                 toast.success(data.message);
+                localStorage.setItem('page_reload', JSON.stringify(true));
                 setUser(data.data);
                 route.push('/');
             }

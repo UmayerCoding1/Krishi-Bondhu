@@ -19,6 +19,7 @@ import { div } from 'motion/react-client';
 import Image from 'next/image';
 import { useCropStore } from '@/store/useCropStore';
 import { AiAlert } from './ai-alert';
+import axiosInstance from '@/lib/axios';
 
 export const CropAdvicePage = () => {
     const soilTypesBangladesh = [
@@ -55,12 +56,14 @@ export const CropAdvicePage = () => {
 
         try {
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/crop`, { location, season, soil: soilType }, { withCredentials: true });
+            const response = await axiosInstance.post(`/crop`, { location, season, soil: soilType }, { withCredentials: true });
+            console.log(response.data)
             if (response.data.success) {
                 setStoreCropData(response.data.data);
                 setBestCrop(response.data.data.bestCrop);
                 setCropAdvice(response.data.data.cropsWithImages);
                 setStoreLoading(false);
+                setLoading(false);
                 setSendRequest(false);
                 toast.success('Crop advice form submitted successfully', { position: 'top-right' });
             }
@@ -77,7 +80,6 @@ export const CropAdvicePage = () => {
             toast.error('Something went wrong');
         }
     }
-
 
     return (
 

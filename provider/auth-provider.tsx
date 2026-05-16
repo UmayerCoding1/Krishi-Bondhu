@@ -1,5 +1,6 @@
 'use client'
 
+import axiosInstance from "@/lib/axios"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { createContext, useEffect, useState } from "react"
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const getCurrentUser = async () => {
         try {
-            const response = await axios.get(`/api/v1/auth/me`, { withCredentials: true })
+            const response = await axiosInstance.get(`/auth/me`);
             setUser(response.data.data)
             setIsAuthenticated(true)
         } catch (error) {
@@ -72,7 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const logout = async () => {
         try {
-            const { data } = await axios.post(`/api/v1/auth/logout`, {}, { withCredentials: true })
+            const { data } = await axiosInstance.post(`/auth/logout`, {});
             if (data.success) {
                 setUser(null)
                 setIsAuthenticated(false)
