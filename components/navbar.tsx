@@ -42,8 +42,9 @@ export const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
-                'fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500',
-                isScrolled ? 'pt-4' : 'pt-0'
+                ' w-full transition-all duration-500',
+                'transition-all duration-300 sticky top-0 z-100'
+                // isScrolled ? 'pt-4 sticky top-0 left-0 right-0 z-50' : 'pt-0'
             )}
         >
             <div
@@ -56,8 +57,8 @@ export const Navbar = () => {
             >
                 <div className={cn(
                     "px-4 md:px-8 transition-all duration-500 flex items-center justify-between h-16",
-                    isScrolled 
-                        ? "glass rounded-full border-white/20 dark:border-white/10 shadow-premium dark:shadow-premium-dark" 
+                    isScrolled
+                        ? "bg-white rounded-full border-white/20 dark:border-white/10 shadow-premium dark:shadow-premium-dark"
                         : "bg-background/0 border-b border-transparent"
                 )}>
                     <motion.div
@@ -88,15 +89,15 @@ export const Navbar = () => {
                                                 href={item.href}
                                                 className={cn(
                                                     'text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 relative group font-display',
-                                                    isActive 
-                                                        ? 'text-primary bg-primary/5' 
+                                                    isActive
+                                                        ? 'text-primary bg-primary/5'
                                                         : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                                                 )}
                                             >
                                                 {item.title}
                                                 <AnimatePresence>
                                                     {isActive && (
-                                                        <motion.span 
+                                                        <motion.span
                                                             layoutId="nav-underline"
                                                             initial={{ opacity: 0 }}
                                                             animate={{ opacity: 1 }}
@@ -111,20 +112,20 @@ export const Navbar = () => {
                                 })}
                             </ul>
                         </nav>
-                        
+
                         <div className='flex items-center gap-3 pl-4 border-l border-zinc-200 dark:border-zinc-800'>
                             <ModeToggle />
                             {user ? (
-                                <AppButton 
-                                    className='rounded-full shadow-lg shadow-green-500/20 px-6' 
+                                <AppButton
+                                    className='rounded-full shadow-lg shadow-green-500/20 px-6'
                                     onClick={() => route.push('/dashboard/user')}
                                 >
                                     <LayoutDashboard className="w-4 h-4 mr-2" />
                                     ড্যাশবোর্ড
                                 </AppButton>
                             ) : (
-                                <AppButton 
-                                    className='rounded-full shadow-lg shadow-green-500/20 px-6' 
+                                <AppButton
+                                    className='rounded-full shadow-lg shadow-green-500/20 px-6'
                                     onClick={() => route.push('/auth')}
                                 >
                                     <LogIn className="w-4 h-4 mr-2" />
