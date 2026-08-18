@@ -58,8 +58,8 @@ export const Navbar = () => {
                 <div className={cn(
                     "px-4 md:px-8 transition-all duration-500 flex items-center justify-between h-16",
                     isScrolled
-                        ? "bg-white rounded-full border-white/20 dark:border-white/10 shadow-premium dark:shadow-premium-dark"
-                        : "bg-background/0 border-b border-transparent"
+                        ? "bg-white dark:bg-neutral-900 rounded-full border dark:border-neutral-200 shadow-premium dark:shadow-premium-dark"
+                        : "bg-background/0 border-b border dark:border-white"
                 )}>
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
