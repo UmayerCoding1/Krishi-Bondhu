@@ -53,7 +53,7 @@ export const HomePage = () => {
             ) : (
                 <div className="space-y-24 md:space-y-32 pb-24">
                     <Hero />
-                    
+
                     <motion.section
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
