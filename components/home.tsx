@@ -8,6 +8,7 @@ import { ProblemSection } from './problem-section';
 import { Servies } from './servies';
 import { SolutionSection } from './solution-section';
 import { WorksSection } from './works-section';
+import { TestimonialSection } from './testimonial-section';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
@@ -97,6 +98,15 @@ export const HomePage = () => {
                         transition={{ duration: 0.8 }}
                     >
                         <BenefitsSection />
+                    </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <TestimonialSection />
                     </motion.section>
 
                     <motion.section
