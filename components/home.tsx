@@ -6,6 +6,7 @@ import { Hero } from './hero';
 import PricingSection from './pricing-section';
 import { ProblemSection } from './problem-section';
 import { Servies } from './servies';
+import { DiseaseDetectionShowcase } from './disease-detection-showcase';
 import { SolutionSection } from './solution-section';
 import { WorksSection } from './works-section';
 import { TestimonialSection } from './testimonial-section';
@@ -80,6 +81,15 @@ export const HomePage = () => {
                         transition={{ duration: 0.8 }}
                     >
                         <Servies />
+                    </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <DiseaseDetectionShowcase />
                     </motion.section>
 
                     <motion.section
