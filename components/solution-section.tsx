@@ -60,7 +60,7 @@ export const SolutionSection = () => {
             {/* Subtle green-toned background blobs */}
             <div
                 aria-hidden
-                className="pointer-events-none absolute top-1/4 -left-32 w-[28rem] h-[28rem] rounded-full bg-emerald-500/5 blur-3xl dark:bg-emerald-500/8"
+                className="pointer-events-none absolute top-1/4 -left-32 w-md h-112 rounded-full bg-emerald-500/5 blur-3xl dark:bg-emerald-500/8"
             />
             <div
                 aria-hidden
@@ -81,7 +81,7 @@ export const SolutionSection = () => {
                         {/* Decorative ring */}
                         <div className="absolute inset-4 rounded-[2rem] border-2 border-dashed border-emerald-200 dark:border-emerald-900/40 pointer-events-none" />
 
-                        <div className="relative w-full max-w-[440px]">
+                        <div className="relative w-full max-w-110">
                             <Image
                                 src="/assets/happy-farmar.avif"
                                 alt="একজন সুখী কৃষক"
@@ -226,7 +226,7 @@ export const SolutionSection = () => {
 
                                     {/* Bottom accent line */}
                                     <div className={cn(
-                                        'absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl',
+                                        'absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl',
                                         solution.color.replace('text-', 'bg-')
                                     )} />
                                 </motion.div>

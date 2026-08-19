@@ -190,9 +190,9 @@ export default function Overview() {
     const hour = now.getHours();
     const greeting =
         hour >= 5 && hour < 12 ? 'শুভ সকাল' :
-        hour >= 12 && hour < 15 ? 'শুভ দুপুর' :
-        hour >= 15 && hour < 18 ? 'শুভ বিকাল' :
-        hour >= 18 && hour < 20 ? 'শুভ সন্ধ্যা' : 'শুভ রাত';
+            hour >= 12 && hour < 15 ? 'শুভ দুপুর' :
+                hour >= 15 && hour < 18 ? 'শুভ বিকাল' :
+                    hour >= 18 && hour < 20 ? 'শুভ সন্ধ্যা' : 'শুভ রাত';
 
     const marketPrices = [
         { name: 'সরু চাল', price: '৭৫', unit: 'কেজি', status: 'up' as const },
@@ -242,13 +242,11 @@ export default function Overview() {
                     )}
                 </AnimatePresence>
 
-                {/* ══════════════════════════════════════
-                    TOP SECTION — Weather Hero + Quick Stats
-                ══════════════════════════════════════ */}
+
                 <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-                    {/* ── Large Weather Panel (spans 2 cols on desktop) ── */}
-                    <div className="lg:col-span-2 relative rounded-[2rem] overflow-hidden min-h-[420px] md:min-h-[480px] shadow-2xl border border-white/10 bg-neutral-900 group">
+
+                    <div className="lg:col-span-2 relative rounded-[2rem] overflow-hidden min-h-105 md:min-h-140 shadow-2xl border border-white/10 bg-neutral-900 group">
                         {/* Background image */}
                         <Image
                             src={handleWeatherStatusMatchImage(weatherStatus.toLowerCase())}
@@ -337,7 +335,7 @@ export default function Overview() {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.7 + idx * 0.05 }}
                                             className={cn(
-                                                "shrink-0 rounded-2xl p-3 border text-center flex flex-col items-center gap-2 transition-all duration-300 cursor-default min-w-[76px]",
+                                                "shrink-0 rounded-2xl p-3 border text-center flex flex-col items-center gap-2 transition-all duration-300 cursor-default min-w-19",
                                                 item.day === day
                                                     ? "bg-white/30 border-white/40 shadow-lg"
                                                     : "bg-white/8 border-white/10 hover:bg-white/15 hover:border-white/25"
@@ -349,7 +347,7 @@ export default function Overview() {
                                         </motion.div>
                                     ))}
                                     {!fullWeekWeatherData && Array.from({ length: 7 }, (_, i) => (
-                                        <div key={i} className="shrink-0 w-[76px] h-28 bg-white/5 rounded-2xl animate-pulse" />
+                                        <div key={i} className="shrink-0 w-19 h-28 bg-white/5 rounded-2xl animate-pulse" />
                                     ))}
                                 </div>
                             </div>
@@ -440,9 +438,7 @@ export default function Overview() {
                     </div>
                 </motion.div>
 
-                {/* ══════════════════════════════════════
-                    BOTTOM SECTION — Quick Actions + Market
-                ══════════════════════════════════════ */}
+
                 <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
                     {/* ── Disease Detection Card ── */}
@@ -546,8 +542,8 @@ export default function Overview() {
                                         <div className={cn(
                                             "p-1.5 rounded-lg text-xs",
                                             item.status === 'up' ? "bg-red-500/10 text-red-500" :
-                                            item.status === 'down' ? "bg-green-500/10 text-green-500" :
-                                            "bg-neutral-500/10 text-neutral-500"
+                                                item.status === 'down' ? "bg-green-500/10 text-green-500" :
+                                                    "bg-neutral-500/10 text-neutral-500"
                                         )}>
                                             {item.status === 'up' && <TrendingUp size={13} />}
                                             {item.status === 'down' && <TrendingDown size={13} />}

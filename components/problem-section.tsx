@@ -60,7 +60,7 @@ export const ProblemSection = () => {
             {/* Subtle red-toned background blob */}
             <div
                 aria-hidden
-                className="pointer-events-none absolute top-1/4 -right-32 w-[28rem] h-[28rem] rounded-full bg-rose-500/5 blur-3xl dark:bg-rose-500/8"
+                className="pointer-events-none absolute top-1/4 -right-32 w-md h-112 rounded-full bg-rose-500/5 blur-3xl dark:bg-rose-500/8"
             />
             <div
                 aria-hidden
@@ -158,7 +158,7 @@ export const ProblemSection = () => {
 
                                     {/* Bottom accent line */}
                                     <div className={cn(
-                                        'absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl',
+                                        'absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl',
                                         problem.color.replace('text-', 'bg-')
                                     )} />
                                 </motion.div>
@@ -177,7 +177,7 @@ export const ProblemSection = () => {
                         {/* Decorative ring */}
                         <div className="absolute inset-4 rounded-[2rem] border-2 border-dashed border-rose-200 dark:border-rose-900/40 pointer-events-none" />
 
-                        <div className="relative w-full max-w-[440px]">
+                        <div className="relative w-full max-w-110">
                             <Image
                                 src="/assets/confused-farmer.avif"
                                 alt="একজন চিন্তিত কৃষক"
@@ -221,7 +221,7 @@ export const ProblemSection = () => {
                             </motion.div>
 
                             {/* Animated dots decoration */}
-                            <div className="absolute top-1/2 -right-8 -translate-y-1/2 flex flex-col gap-2 hidden lg:flex">
+                            <div className="absolute top-1/2 -right-8 -translate-y-1/2 flex flex-col gap-2  lg:flex">
                                 {[0, 1, 2, 3, 4].map(i => (
                                     <motion.div
                                         key={i}

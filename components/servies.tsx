@@ -82,7 +82,7 @@ export const Servies = () => {
             {/* Ambient background blobs */}
             <div
                 aria-hidden
-                className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[40rem] h-[20rem] rounded-full bg-emerald-500/5 blur-3xl"
+                className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-160 h-80 rounded-full bg-emerald-500/5 blur-3xl"
             />
             <div
                 aria-hidden

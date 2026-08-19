@@ -58,7 +58,6 @@ export const Hero = () => {
     return (
         <section className="relative h-[88vh] md:h-[calc(100vh-4px)] overflow-hidden">
 
-            {/* ── Background image ── */}
             <Image
                 src="/assets/hero-banner.png"
                 alt="একজন কৃষক মাঠে দাঁড়িয়ে স্মার্টফোন ব্যবহার করছেন"
@@ -67,18 +66,14 @@ export const Hero = () => {
                 className="object-cover object-center"
             />
 
-            {/* ── Layered gradient overlays ── */}
             <div className="absolute inset-0 bg-linear-to-r from-white/97 via-white/78 to-white/5 dark:from-slate-950/98 dark:via-slate-950/78 dark:to-transparent" />
-            {/* bottom page-transition fade */}
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent" />
 
-            {/* ── Decorative green radial glow behind content ── */}
             <div
                 aria-hidden
-                className="pointer-events-none absolute -left-20 top-1/3 h-[28rem] w-[28rem] rounded-full bg-primary/12 blur-3xl dark:bg-primary/8"
+                className="pointer-events-none absolute -left-20 top-1/3 h-112 w-md rounded-full bg-primary/12 blur-3xl dark:bg-primary/8"
             />
 
-            {/* ── Floating stat badges (desktop only) ── */}
             <StatBadge
                 value="১০,০০০+"
                 label="নিবন্ধিত কৃষক"
@@ -92,10 +87,8 @@ export const Hero = () => {
                 className="right-[34%] bottom-36"
             />
 
-            {/* ── Main content column ── */}
             <div className="relative h-full flex flex-col justify-center px-6 md:px-14 lg:px-20 max-w-3xl">
 
-                {/* Tag pill */}
                 <motion.div
                     initial={{ opacity: 0, y: -16 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -108,7 +101,6 @@ export const Hero = () => {
                     </span>
                 </motion.div>
 
-                {/* Desktop heading */}
                 <motion.h1
                     initial={{ opacity: 0, y: 28 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -119,18 +111,16 @@ export const Hero = () => {
                     <br />
                     <span className="relative inline-block">
                         <span className="text-gradient">সহজ ও লাভজনক</span>
-                        {/* animated underline */}
                         <motion.span
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: 1 }}
                             transition={{ delay: 0.9, duration: 0.55, ease: 'easeOut' }}
                             style={{ originX: 0 }}
-                            className="absolute -bottom-2 left-0 right-0 h-[3px] rounded-full bg-linear-to-r from-primary to-secondary"
+                            className="absolute -bottom-2 left-0 right-0 h-0.75 rounded-full bg-linear-to-r from-primary to-secondary"
                         />
                     </span>
                 </motion.h1>
 
-                {/* Mobile heading */}
                 <motion.h1
                     initial={{ opacity: 0, y: 28 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -142,7 +132,6 @@ export const Hero = () => {
                     এখন আরও সহজ
                 </motion.h1>
 
-                {/* Sub-copy */}
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -153,7 +142,6 @@ export const Hero = () => {
                     সবই এক প্ল্যাটফর্মে। আপনার কৃষি জীবনের বিশ্বস্ত সহযোগী।
                 </motion.p>
 
-                {/* CTA row */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -175,7 +163,6 @@ export const Hero = () => {
                     </button>
                 </motion.div>
 
-                {/* Feature pills */}
                 <div className="mt-7 flex flex-wrap gap-2">
                     <FeaturePill icon={<Sun className="w-3.5 h-3.5 text-yellow-500" />} label="আবহাওয়া তথ্য" delay={0.65} />
                     <FeaturePill icon={<Leaf className="w-3.5 h-3.5 text-primary" />} label="ফসলের পরামর্শ" delay={0.75} />
@@ -184,7 +171,6 @@ export const Hero = () => {
                 </div>
             </div>
 
-            {/* ── Scroll indicator ── */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

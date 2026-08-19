@@ -66,7 +66,7 @@ export const WorksSection = () => {
             {/* Ambient blobs */}
             <div
                 aria-hidden
-                className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[50rem] h-48 rounded-full bg-violet-500/5 blur-3xl"
+                className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-200 h-48 rounded-full bg-violet-500/5 blur-3xl"
             />
             <div
                 aria-hidden
@@ -119,11 +119,11 @@ export const WorksSection = () => {
                 <div className="relative flex flex-col md:flex-row items-stretch gap-6 md:gap-4">
 
                     {/* Dashed connector line (desktop) */}
-                    <div className="hidden md:block absolute top-[4.5rem] left-[calc(16.66%+2rem)] right-[calc(16.66%+2rem)] h-px border-t-2 border-dashed border-border z-0" />
+                    <div className="hidden md:block absolute top-18 left-[calc(16.66%+2rem)] right-[calc(16.66%+2rem)] h-px border-t-2 border-dashed border-border z-0" />
 
                     {/* Animated travelling dot */}
                     <motion.div
-                        className="hidden md:block absolute top-[calc(4.5rem-3px)] w-3 h-3 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50 z-10"
+                        className="hidden md:block absolute top-17.25 w-3 h-3 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50 z-10"
                         animate={{ left: ['16.66%', '83.33%'] }}
                         transition={{ duration: 3, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
                     />
@@ -170,7 +170,7 @@ export const WorksSection = () => {
                                 )}
                             >
                                 {/* Gradient backdrop */}
-                                <div className={cn('absolute inset-0 rounded-2xl bg-gradient-to-br opacity-20', step.accentFrom, step.accentTo)} />
+                                <div className={cn('absolute inset-0 rounded-2xl bg-linear-to-br opacity-20', step.accentFrom, step.accentTo)} />
                                 <step.Icon className={cn('w-7 h-7 relative z-10', step.color)} />
 
                                 {/* Step index badge */}
@@ -206,14 +206,14 @@ export const WorksSection = () => {
 
                             {/* Arrow on non-last steps (desktop) */}
                             {index < steps.length - 1 && (
-                                <div className="hidden md:flex absolute -right-2 top-[4rem] z-20 items-center justify-center w-4 h-4">
+                                <div className="hidden md:flex absolute -right-2 top-16 z-20 items-center justify-center w-4 h-4">
                                     <ArrowRight className={cn('w-4 h-4', step.color)} />
                                 </div>
                             )}
 
                             {/* Bottom gradient accent line */}
                             <div className={cn(
-                                'absolute bottom-0 left-0 h-[2.5px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl bg-gradient-to-r',
+                                'absolute bottom-0 left-0 h-[2.5px] w-0 group-hover:w-full transition-all duration-500 rounded-b-2xl bg-linear-to-r',
                                 step.accentFrom,
                                 step.accentTo
                             )} />
